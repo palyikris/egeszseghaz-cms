@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { useQuery } from "@tanstack/react-query";
 
 import { PageDoc } from "@/types/firebase";

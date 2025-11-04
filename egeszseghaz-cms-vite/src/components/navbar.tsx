@@ -1,144 +1,78 @@
+/* eslint-disable prettier/prettier */
+import { useEffect, useState } from "react";
 import { Button } from "@heroui/button";
-import { Kbd } from "@heroui/kbd";
+import { motion } from "framer-motion";
 import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
-import {
-  Navbar as HeroUINavbar,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-} from "@heroui/navbar";
-import { link as linkStyles } from "@heroui/theme";
-import clsx from "clsx";
 
-import { siteConfig } from "@/config/site";
-import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  TwitterIcon,
-  GithubIcon,
-  DiscordIcon,
-  HeartFilledIcon,
-  SearchIcon,
-} from "@/components/icons";
-import { Logo } from "@/components/icons";
+const links = [
+  { href: "/", label: "Kezdőlap" },
+  { href: "/#about", label: "Rólunk" },
+  { href: "/#services", label: "Szolgáltatások" },
+  { href: "/#contact", label: "Kapcsolat" },
+];
 
-export const Navbar = () => {
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        inputWrapper: "bg-default-100",
-        input: "text-sm",
-      }}
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      labelPlacement="outside"
-      placeholder="Search..."
-      startContent={
-        <SearchIcon className="text-base text-default-400 pointer-events-none flex-shrink-0" />
-      }
-      type="search"
-    />
-  );
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
-      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
-        <NavbarBrand className="gap-3 max-w-fit">
-          <Link
-            className="flex justify-start items-center gap-1"
-            color="foreground"
-            href="/"
-          >
-            <Logo />
-            <p className="font-bold text-inherit">ACME</p>
-          </Link>
-        </NavbarBrand>
-        <div className="hidden lg:flex gap-4 justify-start ml-2">
-          {siteConfig.navItems.map((item) => (
-            <NavbarItem key={item.href}>
-              <Link
-                className={clsx(
-                  linkStyles({ color: "foreground" }),
-                  "data-[active=true]:text-primary data-[active=true]:font-medium",
-                )}
-                color="foreground"
-                href={item.href}
-              >
-                {item.label}
-              </Link>
-            </NavbarItem>
-          ))}
-        </div>
-      </NavbarContent>
-
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-2">
-          <Link isExternal href={siteConfig.links.twitter} title="Twitter">
-            <TwitterIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.discord} title="Discord">
-            <DiscordIcon className="text-default-500" />
-          </Link>
-          <Link isExternal href={siteConfig.links.github} title="GitHub">
-            <GithubIcon className="text-default-500" />
-          </Link>
-          <ThemeSwitch />
-        </NavbarItem>
-        <NavbarItem className="hidden lg:flex">{searchInput}</NavbarItem>
-        <NavbarItem className="hidden md:flex">
-          <Button
-            isExternal
-            as={Link}
-            className="text-sm font-normal text-default-600 bg-default-100"
-            href={siteConfig.links.sponsor}
-            startContent={<HeartFilledIcon className="text-danger" />}
-            variant="flat"
-          >
-            Sponsor
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
-
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
-        <Link isExternal href={siteConfig.links.github}>
-          <GithubIcon className="text-default-500" />
+    <nav
+      className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+        scrolled
+          ? "bg-primary/90 shadow-md backdrop-blur-lg border-b border-primary-dark/30"
+          : "bg-transparent border-b border-primary-dark/20"
+      }`}
+      id="nav"
+    >
+      <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
+        {/* Logo */}
+        <Link
+          href="/"
+          className="text-2xl font-bold tracking-tight text-primary-dark hover:text-primary transition-colors"
+        >
+          Egészségház
         </Link>
-        <ThemeSwitch />
-        <NavbarMenuToggle />
-      </NavbarContent>
 
-      <NavbarMenu>
-        {searchInput}
-        <div className="mx-4 mt-2 flex flex-col gap-2">
-          {siteConfig.navMenuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
+        {/* Desktop links */}
+        <div className="hidden md:flex gap-8 items-center">
+          {links.map((link) => (
+            <motion.div key={link.href} whileHover={{ y: -1 }}>
               <Link
-                color={
-                  index === 2
-                    ? "primary"
-                    : index === siteConfig.navMenuItems.length - 1
-                      ? "danger"
-                      : "foreground"
-                }
-                href="#"
-                size="lg"
+                href={link.href}
+                className="relative text-text-primary font-medium transition-colors hover:text-primary-dark"
               >
-                {item.label}
+                {link.label}
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full"></span>
               </Link>
-            </NavbarMenuItem>
+            </motion.div>
           ))}
+          {/* <Button
+            variant="flat"
+            color="secondary"
+            size="sm"
+            className="font-semibold text-sm shadow-sm"
+          >
+            Bejelentkezés
+          </Button> */}
         </div>
-      </NavbarMenu>
-    </HeroUINavbar>
+
+        {/* Mobile placeholder */}
+        <div className="md:hidden">
+          <Button
+            variant="light"
+            color="primary"
+            className="rounded-xl"
+            aria-label="Menu"
+          >
+            ☰
+          </Button>
+        </div>
+      </div>
+    </nav>
   );
-};
+}
