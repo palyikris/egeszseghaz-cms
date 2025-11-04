@@ -5,7 +5,6 @@ import { SpinningText } from "@/components/ui/spinning-text";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Review } from "@/types/reviews";
 import { Card } from "@heroui/card";
-import { Divider } from '@heroui/divider';
 
 const reviews: Review[] = [
   {
