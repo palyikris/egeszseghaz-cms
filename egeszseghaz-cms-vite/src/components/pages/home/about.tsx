@@ -99,14 +99,23 @@ export default function AboutSection() {
           </div>
           <Divider />
           <div className="flex items-center gap-4">
-            <Button color="secondary" className="font-bold" onPress={() => {
-              navigate("#services")
-            }}>
+            <Button
+              color="secondary"
+              className="font-bold"
+              onPress={() => {
+                navigate("#services");
+              }}
+            >
               Tovább
             </Button>
-            <Button color="primary" variant="ghost" className="font-bold" onPress={() => {
-              navigate("#reviews")
-            }}>
+            <Button
+              color="primary"
+              variant="ghost"
+              className="font-bold"
+              onPress={() => {
+                navigate("#reviews");
+              }}
+            >
               Értékelések
             </Button>
           </div>
@@ -117,11 +126,7 @@ export default function AboutSection() {
           className="flex justify-center relative"
           direction="left"
         >
-          <img
-            alt="Küldetésünk"
-            className="rounded-2xl"
-            src="/logo.png"
-          />
+          <img alt="Küldetésünk" className="rounded-2xl" src="/logo.png" />
           <div className="w-full h-full bg-primary/80 blur-lg absolute transform -z-1" />
         </BlurFade>
       </div>

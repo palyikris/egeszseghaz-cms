@@ -23,7 +23,7 @@ export default function HeroSection() {
     >
       <div className="z-10">
         <TypingAnimation
-          className="text-6xl font-bold text-primary-dark mb-16 leading-tight"
+          className="2xl:text-6xl text-4xl font-bold text-primary-dark mb-16 leading-tight"
           duration={80}
         >
           Egészségben, harmóniában.
@@ -37,7 +37,9 @@ export default function HeroSection() {
           szolgáltatásaink között minden korosztály megtalálja a számára
           megfelelőt.
         </BlurFade>
-        <Divider />
+        <div className="w-2/3 overflow-hidden">
+          <Divider />
+        </div>
         <div className="flex gap-4 mt-8">
           <BlurFade direction="up" delay={0.2}>
             <Button
