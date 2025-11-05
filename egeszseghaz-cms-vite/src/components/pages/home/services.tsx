@@ -16,7 +16,7 @@ interface ServicesSectionProps {
 export default function ServicesSection({ services }: ServicesSectionProps) {
   return (
     <section
-      className="py-24 px-16 bg-gradient-to-tl from-primary-light via-primary-light/90 to-secondary-light my-12"
+      className="py-24 px-16 bg-gradient-to-tl from-primary-light via-primary-light/90 to-secondary-light my-12 rounded-[10%] relative"
       id="services"
     >
       <h1 className="text-5xl font-semibold text-center text-primary-dark mb-12">
