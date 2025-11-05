@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
+import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { Service } from "@/types/services";

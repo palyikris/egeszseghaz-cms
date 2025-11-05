@@ -1,9 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import Navbar from "@/components/navbar";
-import { Button } from "@heroui/button";
 import Footer from "@/components/footer";
 
 export default function DefaultLayout({
@@ -12,7 +11,6 @@ export default function DefaultLayout({
   children: React.ReactNode;
 }) {
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     const scrollToHash = (hash: string | null) => {

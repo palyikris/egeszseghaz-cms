@@ -1,12 +1,8 @@
 /* eslint-disable prettier/prettier */
-import { Card, CardHeader, CardBody, CardFooter } from "@heroui/card";
-import { Button } from "@heroui/button";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-
 
 import { Service } from "@/types/services";
 import { TypingAnimation } from "@/components/ui/typing-animation";
-import { BlurFade } from "@/components/ui/blur-fade";
 import ServiceCard from "./service_card";
 
 interface ServicesSectionProps {

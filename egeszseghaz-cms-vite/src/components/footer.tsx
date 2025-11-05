@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { Button } from "@heroui/button";
 import { Link } from "@heroui/link";
 import { motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
