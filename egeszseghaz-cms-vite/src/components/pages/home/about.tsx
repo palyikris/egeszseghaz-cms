@@ -128,6 +128,10 @@ export default function AboutSection() {
         >
           <img alt="Küldetésünk" className="rounded-2xl" src="/logo.png" />
           <div className="w-full h-full bg-primary/80 blur-lg absolute transform -z-1" />
+          <div className="w-full h-full absolute overflow-hidden top-0 left-0 rounded-2xl">
+            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute top-0 left-0 bg-secondary-light blur-3xl transform -translate-x-2/3 -translate-y-2/3"></span>
+            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute bottom-0 right-0 bg-secondary-light blur-3xl transform translate-x-2/3 translate-y-2/3"></span>
+          </div>
         </BlurFade>
       </div>
     </section>

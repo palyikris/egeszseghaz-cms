@@ -13,14 +13,14 @@ export default function ServiceCard({
   i: number;
 }) {
   return (
-    <BlurFade inView delay={0.1 * i} key={i}>
+    <BlurFade inView delay={0.2} key={i}>
       <motion.div
         whileHover={{ y: -6 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
       >
         <Card
           key={service.id || i}
-          className="relative group max-w-sm bg-surface border border-border rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-accent/60"
+          className="relative group max-w-sm bg-surface border border-primary-dark rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-accent/60"
         >
           {/* Header / Image */}
           <div className="relative h-48 overflow-hidden">
@@ -53,11 +53,21 @@ export default function ServiceCard({
                 (service.id.length > 20 ? "..." : "")}
             </h3>
 
-            {service.desc && service.desc.length > 10 ? (
-              <p className="text-text-secondary text-sm leading-relaxed">
-                {service.desc.length > 120
-                  ? service.desc.slice(0, 120) + "..."
-                  : service.desc}
+            {service.desc &&
+            service.desc.length > 10 &&
+            service.desc.split(" ").length > 1 ? (
+              <p
+                className="text-text-secondary text-sm leading-relaxed"
+                style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+                title={service.desc}
+              >
+                {service.desc}
               </p>
             ) : (
               <p className="text-text-secondary italic text-sm opacity-70">
