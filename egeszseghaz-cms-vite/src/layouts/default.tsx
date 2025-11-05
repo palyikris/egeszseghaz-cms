@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 import Navbar from "@/components/navbar";
 import { Button } from "@heroui/button";
+import Footer from "@/components/footer";
 
 export default function DefaultLayout({
   children,
@@ -53,25 +54,7 @@ export default function DefaultLayout({
     <div className="relative flex flex-col h-screen">
       <Navbar />
       {children}
-      <footer className="bg-primary-dark text-background-light py-12 text-center">
-        <h4 className="text-xl font-semibold mb-2">
-          Pesterzsébeti Egészségház
-        </h4>
-        <p className="text-sm opacity-80">
-          Átlós utca 17–19, Budapest | Telefon: +36 1 234 5678 | Email:
-          info@erzsebetiegeszseghaz.hu
-        </p>
-        <p className="text-xs mt-4 opacity-60">
-          © {new Date().getFullYear()} Minden jog fenntartva
-        </p>
-        <Button
-          onPress={() => {
-            navigate("#hero");
-          }}
-        >
-          Fel
-        </Button>
-      </footer>
+      <Footer />
     </div>
   );
 }
