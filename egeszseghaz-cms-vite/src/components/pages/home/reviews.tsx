@@ -6,6 +6,9 @@ import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Review } from "@/types/reviews";
 import { Card } from "@heroui/card";
 
+import { HomeTemplate } from "@/templates/home/home_template";
+import { resolveColor, cn } from "@/lib/utils";
+
 const reviews: Review[] = [
   {
     name: "Kovács János",
@@ -25,20 +28,32 @@ const reviews: Review[] = [
 ];
 
 export default function ReviewsSection() {
+  const cfg = HomeTemplate.page.reviews;
+  const headingResolved = resolveColor(cfg.heading?.color, "text");
+
   return (
     <section
       className="py-24 px-6 sm:px-16 pt-4 lg:pt-24 text-center relative"
       id="reviews"
     >
-      <h1 className="text-4xl font-semibold text-primary-dark mb-20 py-20 pt-4 lg:pt-20">
-        <TypingAnimation>Mit mondtok rólunk?</TypingAnimation>
+      <h1
+        className={cn(
+          "text-4xl font-semibold mb-20 py-20 pt-4 lg:pt-20",
+          headingResolved.className
+        )}
+        style={headingResolved.style}
+      >
+        <TypingAnimation>
+          {cfg.heading?.text || "Mit mondtok rólunk?"}
+        </TypingAnimation>
       </h1>
       <SpinningText
-        radius={15}
-        duration={40}
+        radius={cfg.spinningText?.radius || 15}
+        duration={cfg.spinningText?.duration || 40}
         className="right-1/6 top-1/4 absolute hidden lg:block"
       >
-        Pácienseink mondták - Nem mi találjuk ki - Gyere próbáld ki te is -{" "}
+        {cfg.spinningText?.text ||
+          "Pácienseink mondták - Nem mi találjuk ki - Gyere próbáld ki te is - "}
       </SpinningText>
 
       <Marquee

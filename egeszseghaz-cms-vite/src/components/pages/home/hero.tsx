@@ -1,39 +1,64 @@
 /* eslint-disable prettier/prettier */
-import { BlurFade } from "@/components/ui/blur-fade";
-import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Button } from "@heroui/button";
 import { Divider } from "@heroui/divider";
 import { Link } from "@heroui/link";
 import { useNavigate } from "react-router-dom";
-
 import { SocialIcon } from "react-social-icons";
 
+import { BlurFade } from "@/components/ui/blur-fade";
+import { HomeTemplate } from "@/templates/home/home_template";
+import { resolveColor, cn } from "@/lib/utils";
+import { TypingAnimation } from "@/components/ui/typing-animation";
 
 export default function HeroSection() {
-
   const navigate = useNavigate();
+
+  const hero = HomeTemplate.page.hero;
+  const headingColor = hero.heading?.color;
+  const subheadingColor = hero.subheading?.color;
+  const headingResolved = resolveColor(headingColor, "text");
+  const subheadingResolved = resolveColor(subheadingColor, "text");
+  const bgColor = hero.bgColor;
+
+  const primaryButton = hero.primaryButton;
+  const secondaryButton = hero.secondaryButton;
+
+  const makeButtonProps = (color?: string | null) => {
+    if (!color) return {} as any;
+    const isRaw = /^#|^rgb|^hsl/i.test(color);
+
+    if (isRaw) return { style: { backgroundColor: color } };
+
+    return { color } as any;
+  };
 
   return (
     <section
-      className="relative min-h-screen flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 bg-gradient-to-r from-primary-light via-primary-light/90 to-secondary-light rounded-none sm:rounded-bl-[10%] sm:rounded-br-[10%] mb-25"
+      className={`relative min-h-screen flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 bg-gradient-${bgColor.direction} from-${bgColor.from} via-${bgColor.via} to-${bgColor.to} rounded-none sm:rounded-bl-[10%] sm:rounded-br-[10%] mb-25`}
       id="hero"
     >
       {/* Content */}
-      <div className="z-10 w-full md:w-1/2 max-w-2xl">
+      <div className="z-10 w-full md:w-1/2 max-w-2xl lg:max-w-full">
         <TypingAnimation
-          className="2xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-bold text-primary-dark mb-8 md:mb-16 leading-tight"
+          className={cn(
+            "2xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-bold mb-8 md:mb-16 leading-tight",
+            headingResolved.className
+          )}
+          style={headingResolved.style}
           duration={80}
         >
-          Egészségben, harmóniában.
+          {hero.heading?.text}
         </TypingAnimation>
         <BlurFade
-          className="text-base md:text-lg text-text-secondary mb-6 mt-6 md:mt-10 md:max-w-xl"
+          className={cn(
+            "text-base md:text-lg mb-6 mt-6 md:mt-10 md:max-w-2xl",
+            subheadingResolved.className
+          )}
+          style={subheadingResolved.style}
           delay={0.1}
           direction="right"
         >
-          A Pesterzsébeti Egészségház a testi és lelki egészség otthona —
-          szolgáltatásaink között minden korosztály megtalálja a számára
-          megfelelőt.
+          {hero.subheading?.text}
         </BlurFade>
         <div className="w-full md:w-2/3 overflow-hidden">
           <Divider />
@@ -41,24 +66,24 @@ export default function HeroSection() {
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
           <BlurFade delay={0.2} direction="up">
             <Button
-              color="primary"
+              {...makeButtonProps(primaryButton?.color)}
               onPress={() => {
-                navigate("#services");
+                navigate(primaryButton?.href || "#services");
               }}
             >
-              Szolgáltatásaink
+              {primaryButton?.label || "Szolgáltatásaink"}
             </Button>
           </BlurFade>
           <BlurFade delay={0.3} direction="up">
             <Button
               className="font-bold"
-              color="secondary"
               variant="ghost"
+              {...makeButtonProps(secondaryButton?.color)}
               onPress={() => {
-                navigate("#about");
+                navigate(secondaryButton?.href || "#about");
               }}
             >
-              Rólunk
+              {secondaryButton?.label || "Rólunk"}
             </Button>
           </BlurFade>
         </div>
@@ -71,9 +96,9 @@ export default function HeroSection() {
         direction="left"
       >
         <img
-          alt="Egészségház"
+          alt={hero.heading?.text || "Egészségház"}
           className="rounded-3xl shadow-lg object-cover h-full w-full"
-          src="/main_image.png"
+          src={hero.mainImageUrl || "/main_image.png"}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#00000055] to-transparent rounded-3xl" />
       </BlurFade>
@@ -101,18 +126,27 @@ export default function HeroSection() {
                 />
               </svg>
 
-              <span id="contact">06 30 573 2212</span>
+              <span id="contact">
+                {HomeTemplate.page.hero.contacts?.phone?.number ||
+                  "06 30 573 2212"}
+              </span>
             </div>
             <div className="w-full md:w-1/3 flex items-center justify-center gap-4 p-4 text-background-light">
               <SocialIcon
                 bgColor="transparent"
                 color="#fff"
-                url="https://facebook.com"
+                url={
+                  HomeTemplate.page.hero.contacts?.social?.link ||
+                  "https://facebook.com"
+                }
               />
 
               <Link
                 className="text-background underline"
-                href="https://www.facebook.com/egeszseghazfitness/?_rdr"
+                href={
+                  HomeTemplate.page.hero.contacts?.social?.link ||
+                  "https://www.facebook.com/egeszseghazfitness/?_rdr"
+                }
                 target="_blank"
               >
                 Facebook oldalunk
@@ -132,7 +166,10 @@ export default function HeroSection() {
                 />
               </svg>
 
-              <span>Kerekesné Tollár Anikó</span>
+              <span>
+                {HomeTemplate.page.hero.contacts?.name?.text ||
+                  "Kerekesné Tollár Anikó"}
+              </span>
             </div>
           </div>
         </div>

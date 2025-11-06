@@ -4,6 +4,8 @@ import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { Service } from "@/types/services";
 import { BlurFade } from "@/components/ui/blur-fade";
+import { HomeTemplate } from "@/templates/home/home_template";
+import { resolveColor, cn } from "@/lib/utils";
 
 export default function ServiceCard({
   service,
@@ -12,6 +14,9 @@ export default function ServiceCard({
   service: Service;
   i: number;
 }) {
+  const cardCfg = HomeTemplate.page.services.card;
+  const headingColor = cardCfg?.heading?.color;
+  const headingResolved = resolveColor(headingColor, "text");
   return (
     <BlurFade inView delay={0.2} key={i}>
       <motion.div
@@ -47,7 +52,13 @@ export default function ServiceCard({
 
           {/* Body */}
           <CardBody className="px-5 py-4">
-            <h3 className="text-2xl font-semibold text-primary-dark mb-2 group-hover:text-primary transition-colors">
+            <h3
+              className={cn(
+                "text-2xl font-semibold mb-2 group-hover:text-primary transition-colors",
+                headingResolved.className
+              )}
+              style={headingResolved.style}
+            >
               {service.id.charAt(0).toUpperCase() +
                 service.id.slice(1, 20).toLowerCase() +
                 (service.id.length > 20 ? "..." : "")}

@@ -4,16 +4,17 @@ import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { Link } from "@heroui/link";
 
-const links = [
-  { href: "/", label: "Kezdőlap" },
-  { href: "/#about", label: "Rólunk" },
-  { href: "/#services", label: "Szolgáltatások" },
-  { href: "/#contact", label: "Kapcsolat" },
-];
+import { HomeTemplate } from "@/templates/home/home_template";
+import { cn, resolveColor } from "@/lib/utils";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const links = HomeTemplate.page.navbar.links;
+  const title = HomeTemplate.page.navbar.title?.text || "Egészségház";
+  const titleColor = HomeTemplate.page.navbar.title?.color;
+  const titleColorResolved = resolveColor(titleColor, "text");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -23,20 +24,25 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 z-50 w-full transition-all duration-500 ${
+      className={cn(
+        "fixed top-0 z-50 w-full transition-all duration-500",
         scrolled
           ? "bg-primary/90 shadow-md backdrop-blur-lg border-b border-primary-dark/30"
           : "bg-transparent border-b border-primary-dark/20"
-      }`}
+      )}
       id="nav"
     >
       <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
         {/* Logo */}
         <Link
           href="/"
-          className="text-2xl font-bold tracking-tight text-primary-dark hover:text-primary transition-colors"
+          className={cn(
+            "text-2xl font-bold tracking-tight hover:text-primary transition-colors",
+            titleColorResolved.className
+          )}
+          style={titleColorResolved.style}
         >
-          Egészségház
+          {title}
         </Link>
 
         {/* Desktop links */}
@@ -52,14 +58,6 @@ export default function Navbar() {
               </Link>
             </motion.div>
           ))}
-          {/* <Button
-            variant="flat"
-            color="secondary"
-            size="sm"
-            className="font-semibold text-sm shadow-sm"
-          >
-            Bejelentkezés
-          </Button> */}
         </div>
 
         {mobileMenuOpen && (

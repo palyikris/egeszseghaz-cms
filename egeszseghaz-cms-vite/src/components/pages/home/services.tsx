@@ -4,19 +4,32 @@ import { ScrollShadow } from "@heroui/scroll-shadow";
 import { Service } from "@/types/services";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import ServiceCard from "./service_card";
+import { HomeTemplate } from "@/templates/home/home_template";
+import { resolveColor, cn } from "@/lib/utils";
 
 interface ServicesSectionProps {
   services: Service[];
 }
 
 export default function ServicesSection({ services }: ServicesSectionProps) {
+  const cfg = HomeTemplate.page.services;
+  const headingResolved = resolveColor(cfg.heading?.color, "text");
+
   return (
     <section
       className="py-24 px-10 bg-gradient-to-tl from-primary-light via-primary-light/90 to-secondary-light my-12 rounded-none relative md:rounded-[5%] lg:rounded-[10%]"
       id="services"
     >
-      <h1 className="text-4xl sm:text-5xl font-semibold text-center text-primary-dark mb-12">
-        <TypingAnimation>Szolgáltatásaink</TypingAnimation>
+      <h1
+        className={cn(
+          "text-4xl sm:text-5xl font-semibold text-center mb-12",
+          headingResolved.className
+        )}
+        style={headingResolved.style}
+      >
+        <TypingAnimation>
+          {cfg.heading?.text || "Szolgáltatásaink"}
+        </TypingAnimation>
       </h1>
       <ScrollShadow className="w-full px-6 h-[800px] py-16">
         <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
