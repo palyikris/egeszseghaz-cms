@@ -49,7 +49,7 @@ export default function ReviewsSection() {
           return (
             <Card
               key={i}
-              className="max-w-60 sm:max-w-sm bg-surface shadow-md border border-border p-6 px-2 md:px-6"
+              className="max-w-64 sm:max-w-sm bg-surface shadow-md border border-border p-6 px-2 md:px-6"
             >
               {t.stars >= 0 && (
                 <div className="flex justify-center mb-4">

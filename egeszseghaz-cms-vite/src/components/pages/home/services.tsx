@@ -15,7 +15,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
       className="py-24 px-10 bg-gradient-to-tl from-primary-light via-primary-light/90 to-secondary-light my-12 rounded-none relative md:rounded-[5%] lg:rounded-[10%]"
       id="services"
     >
-      <h1 className="text-5xl font-semibold text-center text-primary-dark mb-12">
+      <h1 className="text-4xl sm:text-5xl font-semibold text-center text-primary-dark mb-12">
         <TypingAnimation>Szolgáltatásaink</TypingAnimation>
       </h1>
       <ScrollShadow className="w-full px-6 h-[800px] py-16">
