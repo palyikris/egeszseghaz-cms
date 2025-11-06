@@ -27,7 +27,7 @@ const reviews: Review[] = [
 export default function ReviewsSection() {
   return (
     <section
-      className="py-24 px-16 pt-4 lg:pt-24 text-center relative"
+      className="py-24 px-6 sm:px-16 pt-4 lg:pt-24 text-center relative"
       id="reviews"
     >
       <h1 className="text-4xl font-semibold text-primary-dark mb-20 py-20 pt-4 lg:pt-20">
@@ -42,14 +42,14 @@ export default function ReviewsSection() {
       </SpinningText>
 
       <Marquee
-        className="flex justify-center gap-8 [--duration:20s]"
+        className="flex justify-center gap-8 [--duration:20s] w-full"
         pauseOnHover
       >
         {reviews.map((t, i) => {
           return (
             <Card
               key={i}
-              className="max-w-sm bg-surface shadow-md border border-border p-6"
+              className="max-w-60 sm:max-w-sm bg-surface shadow-md border border-border p-6 px-2 md:px-6"
             >
               {t.stars >= 0 && (
                 <div className="flex justify-center mb-4">

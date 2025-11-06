@@ -15,7 +15,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative min-h-screen flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 bg-gradient-to-r from-primary-light via-primary-light/90 to-secondary-light rounded-none sm:rounded-bl-[10%] sm:rounded-br-[10%]"
+      className="relative min-h-screen flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 bg-gradient-to-r from-primary-light via-primary-light/90 to-secondary-light rounded-none sm:rounded-bl-[10%] sm:rounded-br-[10%] mb-25"
       id="hero"
     >
       {/* Content */}
@@ -84,7 +84,7 @@ export default function HeroSection() {
         delay={0.2}
         direction="up"
       >
-        <div className="w-full md:w-2/3 lg:w-1/2 sm:w-5/6 bg-background-light rounded-lg p-1">
+        <div className="w-full md:w-2/3 sm:w-5/6 bg-background-light rounded-lg p-1">
           <div className="flex items-center justify-between gap-4 bg-primary w-full rounded-lg">
             <div className="w-full md:w-1/3 flex items-center justify-center gap-4 p-4 text-background-light">
               <svg
