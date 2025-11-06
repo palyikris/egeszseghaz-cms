@@ -12,8 +12,8 @@ export default function AboutSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="py-24 px-16 bg-surface" id="about">
-      <div className="grid grid-cols-2 gap-12 items-center">
+    <section className="py-16 px-6 sm:px-8 md:px-16 bg-surface" id="about">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div className="space-y-6">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 bg-primary-light/20 text-primary-dark rounded-full p-3 mt-2">
@@ -33,12 +33,12 @@ export default function AboutSection() {
 
             <div>
               <WordRotate
-                className="text-4xl font-semibold text-primary-dark mb-2"
+                className="text-3xl sm:text-4xl font-semibold text-primary-dark mb-2"
                 words={["A Mi Küldetésünk...", "A Te Egészséged!"]}
                 duration={4000}
               />
               <BlurFade
-                className="text-lg text-text-secondary leading-relaxed max-w-lg mt-4"
+                className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-lg mt-4"
                 inView
               >
                 Az Egészségház célja, hogy egy helyen kínáljon prevenciós,
@@ -49,7 +49,7 @@ export default function AboutSection() {
           </div>
           <Spacer></Spacer>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             <BlurFade className="flex items-center gap-3" inView delay={0.1}>
               <div className="text-primary-dark bg-primary-light/20 rounded-md p-2">
                 <svg
@@ -98,7 +98,7 @@ export default function AboutSection() {
             </BlurFade>
           </div>
           <Divider />
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             <Button
               color="secondary"
               className="font-bold"
@@ -126,11 +126,17 @@ export default function AboutSection() {
           className="flex justify-center relative"
           direction="left"
         >
-          <img alt="Küldetésünk" className="rounded-2xl" src="/logo.png" />
+          <div className="w-full flex justify-center">
+            <img
+              alt="Küldetésünk"
+              className="rounded-2xl w-full"
+              src="/logo.png"
+            />
+          </div>
           <div className="w-full h-full bg-primary/80 blur-lg absolute transform -z-1" />
           <div className="w-full h-full absolute overflow-hidden top-0 left-0 rounded-2xl">
-            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute top-0 left-0 bg-secondary-light blur-3xl transform -translate-x-2/3 -translate-y-2/3"></span>
-            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute bottom-0 right-0 bg-secondary-light blur-3xl transform translate-x-2/3 translate-y-2/3"></span>
+            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute top-0 left-0 bg-secondary-light transform -translate-x-2/3 -translate-y-2/3 blur-3xl" />
+            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute bottom-0 right-0 bg-secondary-light blur-3xl transform translate-x-2/3 translate-y-2/3" />
           </div>
         </BlurFade>
       </div>

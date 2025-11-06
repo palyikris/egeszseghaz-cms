@@ -13,6 +13,7 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -61,6 +62,21 @@ export default function Navbar() {
           </Button> */}
         </div>
 
+        {mobileMenuOpen && (
+          <div className="absolute top-full right-4 bg-primary rounded-lg shadow-lg mt-2 w-48 flex flex-col z-50">
+            {links.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="px-4 py-3 text-text-primary hover:bg-primary/20 transition-colors border-b last:border-b-0"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </div>
+        )}
+
         {/* Mobile placeholder */}
         <div className="md:hidden">
           <Button
@@ -68,6 +84,9 @@ export default function Navbar() {
             color="primary"
             className="rounded-xl"
             aria-label="Menu"
+            onPress={() => {
+              setMobileMenuOpen(!mobileMenuOpen);
+            }}
           >
             ☰
           </Button>

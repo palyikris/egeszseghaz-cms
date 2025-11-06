@@ -26,14 +26,17 @@ const reviews: Review[] = [
 
 export default function ReviewsSection() {
   return (
-    <section className="py-24 px-16 text-center relative" id="reviews">
-      <h1 className="text-4xl font-semibold text-primary-dark mb-20 py-20">
+    <section
+      className="py-24 px-16 pt-4 lg:pt-24 text-center relative"
+      id="reviews"
+    >
+      <h1 className="text-4xl font-semibold text-primary-dark mb-20 py-20 pt-4 lg:pt-20">
         <TypingAnimation>Mit mondtok rólunk?</TypingAnimation>
       </h1>
       <SpinningText
         radius={15}
         duration={40}
-        className="right-1/6 top-1/4 absolute"
+        className="right-1/6 top-1/4 absolute hidden lg:block"
       >
         Pácienseink mondták - Nem mi találjuk ki - Gyere próbáld ki te is -{" "}
       </SpinningText>
