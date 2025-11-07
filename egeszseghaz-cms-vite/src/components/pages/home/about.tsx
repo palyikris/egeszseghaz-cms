@@ -15,6 +15,8 @@ export default function AboutSection() {
   const about = HomeTemplate.page.about;
   const headingColor = about.heading?.color;
   const headingResolved = resolveColor(headingColor, "text");
+  const descriptionColor = about.description?.color;
+  const descriptionResolved = resolveColor(descriptionColor, "text");
 
   const isRawColor = (v?: string | null) => !!v && /^#|^rgb|^hsl/i.test(v);
 
@@ -55,10 +57,13 @@ export default function AboutSection() {
                 />
               </div>
               <BlurFade
-                className="text-base sm:text-lg text-text-secondary leading-relaxed max-w-lg mt-4"
+                className={cn(
+                  "text-base sm:text-lg text-text-secondary leading-relaxed max-w-lg mt-4",
+                  descriptionResolved.className
+                )}
                 inView
               >
-                {about.description}
+                {about.description.text}
               </BlurFade>
             </div>
           </div>
@@ -117,10 +122,11 @@ export default function AboutSection() {
                         ? undefined
                         : (primaryColor as any) || "secondary"
                     }
-                    className="font-bold"
+                    className={`font-bold ${!about.primaryButton?.isDisplayed && "hidden"}`}
                     onPress={() => {
                       navigate(about.primaryButton?.href || "#services");
                     }}
+                    variant={(about.primaryButton?.variant as any) || "solid"}
                   >
                     {about.primaryButton?.label || "Tovább"}
                   </Button>
@@ -133,8 +139,8 @@ export default function AboutSection() {
                         ? undefined
                         : (secondaryColor as any) || "primary"
                     }
-                    variant="ghost"
-                    className="font-bold"
+                    variant={(about.secondaryButton?.variant as any) || "ghost"}
+                    className={`font-bold ${!about.secondaryButton?.isDisplayed && "hidden"}`}
                     onPress={() => {
                       navigate(about.secondaryButton?.href || "#reviews");
                     }}
@@ -155,14 +161,20 @@ export default function AboutSection() {
           <div className="w-full flex justify-center">
             <img
               alt="Küldetésünk"
-              className="rounded-2xl w-full"
-              src={about.aboutImgUrl?.url || "/logo.png"}
+              className={`w-full h-auto rounded-${about.aboutImg.rounded}`}
+              src={about.aboutImg?.url || "/logo.png"}
             />
           </div>
-          <div className="w-full h-full bg-primary/80 blur-lg absolute transform -z-1" />
+          <div
+            className={`w-full h-full bg-${about.aboutImg.shadow.color} blur-${about.aboutImg.shadow.blur} absolute transform -z-1`}
+          />
           <div className="w-full h-full absolute overflow-hidden top-0 left-0 rounded-2xl">
-            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute top-0 left-0 bg-secondary-light transform -translate-x-2/3 -translate-y-2/3 blur-3xl" />
-            <span className="w-1/2 h-1/2 rounded-[100%] z-50 absolute bottom-0 right-0 bg-secondary-light blur-3xl transform translate-x-2/3 translate-y-2/3" />
+            <span
+              className={`w-${about.aboutImg.accents[0].size} h-${about.aboutImg.accents[0].size} rounded-[100%] z-50 absolute top-${about.aboutImg.accents[0].position.top} left-${about.aboutImg.accents[0].position.left} right-${about.aboutImg.accents[0].position.right} bottom-${about.aboutImg.accents[0].position.bottom} bg-${about.aboutImg.accents[0].color} transform -translate-x-2/3 -translate-y-2/3 blur-${about.aboutImg.accents[0].blur}`}
+            />
+            <span
+              className={`w-${about.aboutImg.accents[1].size} h-${about.aboutImg.accents[1].size} rounded-[100%] z-50 absolute top-${about.aboutImg.accents[1].position.top} left-${about.aboutImg.accents[1].position.left} right-${about.aboutImg.accents[1].position.right} bottom-${about.aboutImg.accents[1].position.bottom} bg-${about.aboutImg.accents[1].color} transform translate-x-2/3 translate-y-2/3 blur-${about.aboutImg.accents[1].blur}`}
+            />
           </div>
         </BlurFade>
       </div>

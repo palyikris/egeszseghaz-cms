@@ -23,7 +23,9 @@ export default function HeroSection() {
   const primaryButton = hero.primaryButton;
   const secondaryButton = hero.secondaryButton;
 
-  const makeButtonProps = (color?: string | null) => {
+  const makeButtonProps = (hidden: boolean = true, color?: string | null) => {
+    if (!hidden) return { style: { display: "none" } } as any;
+
     if (!color) return {} as any;
     const isRaw = /^#|^rgb|^hsl/i.test(color);
 
@@ -66,10 +68,14 @@ export default function HeroSection() {
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
           <BlurFade delay={0.2} direction="up">
             <Button
-              {...makeButtonProps(primaryButton?.color)}
+              {...makeButtonProps(
+                primaryButton?.isDisplayed,
+                primaryButton?.color
+              )}
               onPress={() => {
                 navigate(primaryButton?.href || "#services");
               }}
+              variant={primaryButton?.variant || "solid"}
             >
               {primaryButton?.label || "Szolgáltatásaink"}
             </Button>
@@ -77,8 +83,11 @@ export default function HeroSection() {
           <BlurFade delay={0.3} direction="up">
             <Button
               className="font-bold"
-              variant="ghost"
-              {...makeButtonProps(secondaryButton?.color)}
+              variant={secondaryButton?.variant || "ghost"}
+              {...makeButtonProps(
+                secondaryButton.isDisplayed,
+                secondaryButton?.color
+              )}
               onPress={() => {
                 navigate(secondaryButton?.href || "#about");
               }}

@@ -17,6 +17,7 @@ export default function ServiceCard({
   const cardCfg = HomeTemplate.page.services.card;
   const headingColor = cardCfg?.heading?.color;
   const headingResolved = resolveColor(headingColor, "text");
+
   return (
     <BlurFade inView delay={0.2} key={i}>
       <motion.div
@@ -25,7 +26,7 @@ export default function ServiceCard({
       >
         <Card
           key={service.id || i}
-          className="relative group max-w-sm bg-surface border border-primary-dark rounded-2xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-accent/60"
+          className={`relative group max-w-sm bg-${cardCfg.bgColor} border border-${cardCfg.borderColor} rounded-${cardCfg.rounded} shadow-${cardCfg.shadow} shadow-${cardCfg.shadowColor} overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-${cardCfg.hoverBorderColor}/60`}
         >
           {/* Header / Image */}
           <div className="relative h-48 overflow-hidden">
@@ -45,8 +46,10 @@ export default function ServiceCard({
             <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-accent via-secondary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
 
             {/* Hover title overlay */}
-            <div className="absolute inset-0 flex items-center justify-center text-background-light text-lg font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-primary-dark/30 backdrop-blur-[2px]">
-              Fedezd fel
+            <div
+              className={`absolute inset-0 flex items-center justify-center text-${cardCfg.hoverOverlay.textColor} text-${cardCfg.hoverOverlay.textSize} font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-${cardCfg.hoverOverlay.bgColor} backdrop-blur-[${cardCfg.hoverOverlay.backdropBlur}]`}
+            >
+              {cardCfg.hoverOverlay.text}
             </div>
           </div>
 
@@ -91,13 +94,13 @@ export default function ServiceCard({
           {/* Footer */}
           <CardFooter className="px-5 pb-5 flex justify-between items-center">
             <Button
-              variant="ghost"
-              color="primary"
+              variant={cardCfg.button.variant as any}
+              color={cardCfg.button.color as any}
               className="relative font-medium overflow-hidden transition-all duration-300 group"
             >
-              <span className="relative z-10">Megnézem</span>
+              <span className={`relative z-10`}>{cardCfg.button.label}</span>
               <motion.div
-                className="absolute inset-0 bg-primary-light/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                className={`absolute inset-0 bg-${cardCfg.button.hoverBgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                 layoutId="buttonHighlight"
               />
             </Button>

@@ -12,13 +12,14 @@ interface ServicesSectionProps {
 }
 
 export default function ServicesSection({ services }: ServicesSectionProps) {
-  const cfg = HomeTemplate.page.services;
-  const headingResolved = resolveColor(cfg.heading?.color, "text");
+  const servicesTemplate = HomeTemplate.page.services;
+  const headingResolved = resolveColor(servicesTemplate.heading?.color, "text");
+  const bgColor = servicesTemplate.bgColor;
 
   return (
     <section
-      className="py-24 px-10 bg-gradient-to-tl from-primary-light via-primary-light/90 to-secondary-light my-12 rounded-none relative md:rounded-[5%] lg:rounded-[10%]"
-      id="services"
+      className={`py-24 px-10 bg-gradient-${bgColor.direction} from-${bgColor.from} via-${bgColor.via} to-${bgColor.to} my-12 rounded-none relative md:rounded-[5%] lg:rounded-[10%]"
+      id="services`}
     >
       <h1
         className={cn(
@@ -28,7 +29,7 @@ export default function ServicesSection({ services }: ServicesSectionProps) {
         style={headingResolved.style}
       >
         <TypingAnimation>
-          {cfg.heading?.text || "Szolgáltatásaink"}
+          {servicesTemplate.heading?.text || "Szolgáltatásaink"}
         </TypingAnimation>
       </h1>
       <ScrollShadow className="w-full px-6 h-[800px] py-16">

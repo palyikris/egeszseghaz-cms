@@ -28,8 +28,8 @@ const reviews: Review[] = [
 ];
 
 export default function ReviewsSection() {
-  const cfg = HomeTemplate.page.reviews;
-  const headingResolved = resolveColor(cfg.heading?.color, "text");
+  const reviewsTemplate = HomeTemplate.page.reviews;
+  const headingResolved = resolveColor(reviewsTemplate.heading?.color, "text");
 
   return (
     <section
@@ -44,15 +44,15 @@ export default function ReviewsSection() {
         style={headingResolved.style}
       >
         <TypingAnimation>
-          {cfg.heading?.text || "Mit mondtok rólunk?"}
+          {reviewsTemplate.heading?.text || "Mit mondtok rólunk?"}
         </TypingAnimation>
       </h1>
       <SpinningText
-        radius={cfg.spinningText?.radius || 15}
-        duration={cfg.spinningText?.duration || 40}
+        radius={reviewsTemplate.spinningText?.radius || 15}
+        duration={reviewsTemplate.spinningText?.duration || 40}
         className="right-1/6 top-1/4 absolute hidden lg:block"
       >
-        {cfg.spinningText?.text ||
+        {reviewsTemplate.spinningText?.text ||
           "Pácienseink mondták - Nem mi találjuk ki - Gyere próbáld ki te is - "}
       </SpinningText>
 
@@ -64,7 +64,7 @@ export default function ReviewsSection() {
           return (
             <Card
               key={i}
-              className="max-w-64 sm:max-w-sm bg-surface shadow-md border border-border p-6 px-2 md:px-6"
+              className={`max-w-64 sm:max-w-sm bg-${reviewsTemplate.card.bgColor} shadow-md border border-${reviewsTemplate.card.borderColor} p-6 px-2 md:px-6`}
             >
               {t.stars >= 0 && (
                 <div className="flex justify-center mb-4">
@@ -73,8 +73,8 @@ export default function ReviewsSection() {
                       key={idx}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
-                      fill="#E6B655"
-                      className="size-8"
+                      fill={reviewsTemplate.card.starColor || "currentColor"}
+                      className={`size-${reviewsTemplate.card.size || 8}`}
                     >
                       <path
                         fillRule="evenodd"
@@ -86,8 +86,16 @@ export default function ReviewsSection() {
                 </div>
               )}
               <CustomDivider className="my-4" iconSize={4} direction="up" />
-              <p className="italic mb-4 text-text-secondary">“{t.text}”</p>
-              <p className="font-semibold text-primary-dark">— {t.name}</p>
+              <p
+                className={`italic mb-4 text-${reviewsTemplate.card.textColor}`}
+              >
+                “{t.text}”
+              </p>
+              <p
+                className={`font-semibold text-${reviewsTemplate.card.authorColor}`}
+              >
+                — {t.name}
+              </p>
             </Card>
           );
         })}

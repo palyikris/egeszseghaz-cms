@@ -19,6 +19,7 @@ export const HomeTemplate = {
         { label: "Rólunk", href: "#about", color: "primary-dark" },
         { label: "Kapcsolat", href: "#contact", color: "primary-dark" },
       ],
+      scrolledBgColor: "primary/90",
     },
     hero: {
       mainImageUrl: "/main_image.png",
@@ -72,8 +73,9 @@ export const HomeTemplate = {
       },
     },
     about: {
-      aboutImgUrl: {
+      aboutImg: {
         url: "/logo.png",
+        rounded: "2xl",
         shadow: {
           color: "primary/80",
           blur: "lg",
@@ -83,8 +85,10 @@ export const HomeTemplate = {
             position: {
               top: "0",
               left: "0",
+              right: "auto",
+              bottom: "auto",
             },
-            color: "secondary-light",
+            color: "accent",
             size: "1/2",
             blur: "3xl",
           },
@@ -92,8 +96,10 @@ export const HomeTemplate = {
             position: {
               bottom: "0",
               right: "0",
+              left: "auto",
+              top: "auto",
             },
-            color: "secondary-light",
+            color: "accent",
             size: "1/2",
             blur: "3xl",
           },
@@ -104,8 +110,11 @@ export const HomeTemplate = {
         textSecond: "A Te Egészséged!",
         color: "primary-dark",
       },
-      description:
-        "Az Egészségház célja, hogy egy helyen kínáljon prevenciós, mozgás- és egészségmegőrző programokat. Modern felszereltség, képzett szakemberek és barátságos környezet vár mindenkit.",
+      description: {
+        text: "Az Egészségház célja, hogy egy helyen kínáljon prevenciós, mozgás- és egészségmegőrző programokat. Modern felszereltség, képzett szakemberek és barátságos környezet vár mindenkit.",
+        color: "text-secondary",
+      },
+
       features: [
         {
           text: "Masszázs és terápiák",
@@ -136,7 +145,7 @@ export const HomeTemplate = {
         isDisplayed: true,
         label: "Tovább",
         href: "#services",
-        color: "inherit",
+        color: "secondary",
         variant: "solid",
       },
       secondaryButton: {
@@ -153,12 +162,18 @@ export const HomeTemplate = {
         color: "primary-dark",
       },
       bgColor: {
-        from: "primary-light",
+        from: "accent",
         via: "primary-light/90",
         to: "secondary-light",
         direction: "to-tl",
       },
       card: {
+        bgColor: "surface",
+        borderColor: "primary-dark",
+        hoverBorderColor: "accent",
+        shadow: "md",
+        shadowColor: "shadow",
+        rounded: "2xl",
         glow: {
           from: "accent",
           via: "secondary",
@@ -169,6 +184,7 @@ export const HomeTemplate = {
           textColor: "background-light",
           bgColor: "primary-dark/30",
           backdropBlur: "2px",
+          textSize: "lg",
         },
         heading: {
           color: "primary-dark",
@@ -181,12 +197,13 @@ export const HomeTemplate = {
           variant: "ghost",
           color: "primary",
           hoverBgColor: "primary-light/40",
+          label: "Megnézem",
         },
       },
     },
     reviews: {
       heading: {
-        text: "Mit mondtok rólunk?",
+        text: "Így írtok ti.",
         color: "primary-dark",
       },
       spinningText: {
@@ -208,7 +225,7 @@ export const HomeTemplate = {
     },
     footer: {
       bgColor: "primary-dark",
-      textColor: "background-light",
+      textColor: "inherit",
       glow: {
         from: "primary",
         to: "transparent",
@@ -308,13 +325,13 @@ export const HomeTemplate = {
             text: "Szombat – Vasárnap: Zárva",
             color: "background-light/90",
           },
-        }
+        },
       },
       upArrow: {
         color: "primary",
         bgColor: "primary-light",
         iconColor: "#fff",
-      }
+      },
     },
   },
 };

@@ -15,6 +15,8 @@ export default function Navbar() {
   const title = HomeTemplate.page.navbar.title?.text || "Egészségház";
   const titleColor = HomeTemplate.page.navbar.title?.color;
   const titleColorResolved = resolveColor(titleColor, "text");
+  const scrolledBgColor =
+    HomeTemplate.page.navbar.scrolledBgColor || "primary/90";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -27,7 +29,7 @@ export default function Navbar() {
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-500",
         scrolled
-          ? "bg-primary/90 shadow-md backdrop-blur-lg border-b border-primary-dark/30"
+          ? `bg-${scrolledBgColor} shadow-md backdrop-blur-lg border-b border-primary-dark/30`
           : "bg-transparent border-b border-primary-dark/20"
       )}
       id="nav"
