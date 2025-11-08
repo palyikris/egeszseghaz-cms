@@ -4,32 +4,50 @@ import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { Link } from "@heroui/link";
 
-import { HomeTemplate } from "@/templates/home/home_template";
 import { cn, resolveColor } from "@/lib/utils";
+import { NavbarSchema } from "@/templates/home/home_schema";
+import { signInWithGoogle } from "@/lib/auth";
+import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
 
-export default function Navbar() {
+import { Avatar } from "@heroui/avatar";
+import { auth } from "@/utils/firebase";
+import { useQueryClient } from "@tanstack/react-query";
+
+interface NavbarProps {
+  navbar: NavbarSchema | undefined;
+}
+
+export default function Navbar({ navbar }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const links = HomeTemplate.page.navbar.links;
-  const title = HomeTemplate.page.navbar.title?.text || "Egészségház";
-  const titleColor = HomeTemplate.page.navbar.title?.color;
-  const titleColorResolved = resolveColor(titleColor, "text");
-  const scrolledBgColor =
-    HomeTemplate.page.navbar.scrolledBgColor || "primary/90";
+  const { data, isLoading } = useIsUserAuthenticated();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
+
     window.addEventListener("scroll", onScroll);
+
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (!navbar) return null;
+
+  const links = navbar.links;
+  const title = navbar.title?.text || "Egészségház";
+  const titleColor = navbar.title?.color;
+  const titleColorResolved = resolveColor(titleColor, "text");
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <nav
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-500",
         scrolled
-          ? `bg-${scrolledBgColor} shadow-md backdrop-blur-lg border-b border-primary-dark/30`
+          ? `bg-primary/70 shadow-md backdrop-blur-lg border-b border-primary-dark/30`
           : "bg-transparent border-b border-primary-dark/20"
       )}
       id="nav"
@@ -56,10 +74,47 @@ export default function Navbar() {
                 className="relative text-text-primary font-medium transition-colors hover:text-primary-dark"
               >
                 {link.label}
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full"></span>
+                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
               </Link>
             </motion.div>
           ))}
+          {data ? (
+            <div className="pl-4 w-auto flex justify-center items-center">
+              <button
+                className="w-auto p-0 bg-transparent border-0 cursor-pointer"
+                onClick={async () => {
+                  await auth.signOut();
+                  queryClient.invalidateQueries({
+                    queryKey: ["isUserAuthenticated"],
+                  });
+                }}
+              >
+                <Avatar
+                  src={auth.currentUser?.photoURL || undefined}
+                  size="md"
+                  alt={auth.currentUser?.email || "User Avatar"}
+                  isBordered
+                  color="secondary"
+                />
+              </button>
+            </div>
+          ) : (
+            <div className="pl-4 w-auto flex justify-center items-center">
+              <Button
+                variant="solid"
+                color="primary"
+                className="text-background-light"
+                onPress={async () => {
+                  await signInWithGoogle();
+                  queryClient.invalidateQueries({
+                    queryKey: ["isUserAuthenticated"],
+                  });
+                }}
+              >
+                Bejelentkezés
+              </Button>
+            </div>
+          )}
         </div>
 
         {mobileMenuOpen && (

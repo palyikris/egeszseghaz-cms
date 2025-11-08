@@ -6,14 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { SocialIcon } from "react-social-icons";
 
 import { BlurFade } from "@/components/ui/blur-fade";
-import { HomeTemplate } from "@/templates/home/home_template";
 import { resolveColor, cn } from "@/lib/utils";
 import { TypingAnimation } from "@/components/ui/typing-animation";
+import { HeroSchema } from "@/templates/home/home_schema";
 
-export default function HeroSection() {
+interface HeroSectionProps {
+  hero: HeroSchema | undefined;
+}
+
+export default function HeroSection({ hero }: HeroSectionProps) {
   const navigate = useNavigate();
 
-  const hero = HomeTemplate.page.hero;
+  if (!hero) return null;
+
   const headingColor = hero.heading?.color;
   const subheadingColor = hero.subheading?.color;
   const headingResolved = resolveColor(headingColor, "text");
@@ -36,7 +41,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className={`relative min-h-screen flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 bg-gradient-${bgColor.direction} from-${bgColor.from} via-${bgColor.via} to-${bgColor.to} rounded-none sm:rounded-bl-[10%] sm:rounded-br-[10%] mb-25`}
+      className={`relative min-h-screen flex flex-col-reverse md:flex-row items-center justify-between px-6 md:px-16 py-12 bg-gradient-to-br from-primary-light via-primary-light/90 to-secondary-light rounded-none sm:rounded-bl-[10%] sm:rounded-br-[10%] mb-25`}
       id="hero"
     >
       {/* Content */}
@@ -136,29 +141,25 @@ export default function HeroSection() {
               </svg>
 
               <span id="contact">
-                {HomeTemplate.page.hero.contacts?.phone?.number ||
-                  "06 30 573 2212"}
+                {hero.contacts?.phone?.number || "06 30 573 2212"}
               </span>
             </div>
             <div className="w-full md:w-1/3 flex items-center justify-center gap-4 p-4 text-background-light">
               <SocialIcon
                 bgColor="transparent"
                 color="#fff"
-                url={
-                  HomeTemplate.page.hero.contacts?.social?.link ||
-                  "https://facebook.com"
-                }
+                url={hero.contacts?.social?.link || "https://facebook.com"}
               />
 
               <Link
                 className="text-background underline"
                 href={
-                  HomeTemplate.page.hero.contacts?.social?.link ||
+                  hero.contacts?.social?.link ||
                   "https://www.facebook.com/egeszseghazfitness/?_rdr"
                 }
                 target="_blank"
               >
-                Facebook oldalunk
+                {hero.contacts?.social?.text || "Facebook oldalunk"}
               </Link>
             </div>
             <div className="w-full md:w-1/3 items-center justify-center gap-4 p-4 text-background-light hidden sm:flex">
@@ -176,8 +177,7 @@ export default function HeroSection() {
               </svg>
 
               <span>
-                {HomeTemplate.page.hero.contacts?.name?.text ||
-                  "Kerekesné Tollár Anikó"}
+                {hero.contacts?.name?.text || "Kerekesné Tollár Anikó"}
               </span>
             </div>
           </div>

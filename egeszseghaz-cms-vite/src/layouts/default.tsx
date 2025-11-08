@@ -2,9 +2,6 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import Navbar from "@/components/navbar";
-import Footer from "@/components/footer";
-
 export default function DefaultLayout({
   children,
 }: {
@@ -48,11 +45,5 @@ export default function DefaultLayout({
     return () => window.removeEventListener("hashchange", onHashChange);
   }, [location]);
 
-  return (
-    <div className="relative flex flex-col h-screen">
-      <Navbar />
-      {children}
-      <Footer />
-    </div>
-  );
+  return <div className="relative flex flex-col h-screen">{children}</div>;
 }

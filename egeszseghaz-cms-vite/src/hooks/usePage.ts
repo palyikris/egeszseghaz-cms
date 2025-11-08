@@ -11,7 +11,7 @@ export function usePage(id: string) {
   return useQuery({
     queryKey: ["page", id],
     queryFn: async () => {
-      const ref = doc(db, "pages", id);
+      const ref = doc(db, "template", id);
       const snap = await getDoc(ref);
 
       if (!snap.exists()) throw new Error("Page not found");

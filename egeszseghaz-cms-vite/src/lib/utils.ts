@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import type { CSSProperties } from "react";
 
 import { clsx, type ClassValue } from "clsx";

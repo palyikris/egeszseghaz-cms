@@ -1,17 +1,21 @@
 /* eslint-disable prettier/prettier */
-export type ComponentBlock =
-  | {
-      type: "text";
-      text: string;
-      color?: string;
-      align?: "left" | "center" | "right";
-    }
-  | { type: "image"; url: string; alt?: string }
-  | { type: "html"; html: string }
-  | { type: "gallery"; items: { url: string; alt?: string }[] };
+
+import {
+  HeroSchema,
+  AboutSchema,
+  ServicesSchema,
+  ReviewsSchema,
+  NavbarSchema,
+  FooterSchema,
+} from "@/templates/home/home_schema";
 
 export interface PageDoc {
   id: string;
   meta?: { title?: string; description?: string };
-  components: ComponentBlock[];
+  hero: HeroSchema;
+  about: AboutSchema;
+  services: ServicesSchema;
+  reviews: ReviewsSchema;
+  navbar: NavbarSchema;
+  footer: FooterSchema;
 }

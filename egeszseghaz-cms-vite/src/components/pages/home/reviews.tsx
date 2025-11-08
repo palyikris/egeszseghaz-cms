@@ -6,8 +6,8 @@ import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Review } from "@/types/reviews";
 import { Card } from "@heroui/card";
 
-import { HomeTemplate } from "@/templates/home/home_template";
 import { resolveColor, cn } from "@/lib/utils";
+import { ReviewsSchema } from "@/templates/home/home_schema";
 
 const reviews: Review[] = [
   {
@@ -27,8 +27,15 @@ const reviews: Review[] = [
   },
 ];
 
-export default function ReviewsSection() {
-  const reviewsTemplate = HomeTemplate.page.reviews;
+interface ReviewSectionProps {
+  reviewsTemplate: ReviewsSchema | undefined;
+}
+
+export default function ReviewsSection({
+  reviewsTemplate,
+}: ReviewSectionProps) {
+  if (!reviewsTemplate) return null;
+
   const headingResolved = resolveColor(reviewsTemplate.heading?.color, "text");
 
   return (

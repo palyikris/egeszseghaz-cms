@@ -4,18 +4,18 @@ import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
 import { Service } from "@/types/services";
 import { BlurFade } from "@/components/ui/blur-fade";
-import { HomeTemplate } from "@/templates/home/home_template";
 import { resolveColor, cn } from "@/lib/utils";
 
 export default function ServiceCard({
   service,
   i,
+  cardTemplate,
 }: {
   service: Service;
   i: number;
+  cardTemplate: any;
 }) {
-  const cardCfg = HomeTemplate.page.services.card;
-  const headingColor = cardCfg?.heading?.color;
+  const headingColor = cardTemplate?.heading?.color;
   const headingResolved = resolveColor(headingColor, "text");
 
   return (
@@ -26,7 +26,7 @@ export default function ServiceCard({
       >
         <Card
           key={service.id || i}
-          className={`relative group max-w-sm bg-${cardCfg.bgColor} border border-${cardCfg.borderColor} rounded-${cardCfg.rounded} shadow-${cardCfg.shadow} shadow-${cardCfg.shadowColor} overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-${cardCfg.hoverBorderColor}/60`}
+          className={`relative group max-w-sm bg-${cardTemplate.bgColor} border border-${cardTemplate.borderColor} rounded-${cardTemplate.rounded} shadow-${cardTemplate.shadow} shadow-${cardTemplate.shadowColor} overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-${cardTemplate.hoverBorderColor}/60`}
         >
           {/* Header / Image */}
           <div className="relative h-48 overflow-hidden">
@@ -43,13 +43,13 @@ export default function ServiceCard({
             <div className="absolute inset-0 bg-gradient-to-t from-primary-dark/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Accent glow line */}
-            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-accent via-secondary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-accent via-secondary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-[2px]" />
 
             {/* Hover title overlay */}
             <div
-              className={`absolute inset-0 flex items-center justify-center text-${cardCfg.hoverOverlay.textColor} text-${cardCfg.hoverOverlay.textSize} font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-${cardCfg.hoverOverlay.bgColor} backdrop-blur-[${cardCfg.hoverOverlay.backdropBlur}]`}
+              className={`absolute inset-0 flex items-center justify-center text-${cardTemplate.hoverOverlay.textColor} text-${cardTemplate.hoverOverlay.textSize} font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-${cardTemplate.hoverOverlay.bgColor} backdrop-blur-[${cardTemplate.hoverOverlay.backdropBlur}]`}
             >
-              {cardCfg.hoverOverlay.text}
+              {cardTemplate.hoverOverlay.text}
             </div>
           </div>
 
@@ -94,13 +94,15 @@ export default function ServiceCard({
           {/* Footer */}
           <CardFooter className="px-5 pb-5 flex justify-between items-center">
             <Button
-              variant={cardCfg.button.variant as any}
-              color={cardCfg.button.color as any}
+              variant={cardTemplate.button.variant as any}
+              color={cardTemplate.button.color as any}
               className="relative font-medium overflow-hidden transition-all duration-300 group"
             >
-              <span className={`relative z-10`}>{cardCfg.button.label}</span>
+              <span className={`relative z-10`}>
+                {cardTemplate.button.label}
+              </span>
               <motion.div
-                className={`absolute inset-0 bg-${cardCfg.button.hoverBgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                className={`absolute inset-0 bg-${cardTemplate.button.hoverBgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
                 layoutId="buttonHighlight"
               />
             </Button>

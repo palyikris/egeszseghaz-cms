@@ -6,13 +6,18 @@ import { Divider } from "@heroui/divider";
 import { Spacer } from "@heroui/spacer";
 import { useNavigate } from "react-router-dom";
 
-import { HomeTemplate } from "@/templates/home/home_template";
 import { resolveColor, cn } from "@/lib/utils";
+import { AboutSchema } from "@/templates/home/home_schema";
 
-export default function AboutSection() {
+interface AboutSectionProps {
+  about: AboutSchema | undefined;
+}
+
+export default function AboutSection({ about }: AboutSectionProps) {
   const navigate = useNavigate();
 
-  const about = HomeTemplate.page.about;
+  if (!about) return null;
+
   const headingColor = about.heading?.color;
   const headingResolved = resolveColor(headingColor, "text");
   const descriptionColor = about.description?.color;
@@ -80,12 +85,11 @@ export default function AboutSection() {
                 <div
                   className={cn(
                     "rounded-md p-2",
-                    resolveColor(f.iconColor || f.color, "text").className,
+                    resolveColor(f.iconColor, "text").className,
                     resolveColor(f.iconBgColor, "bg").className
                   )}
                   style={{
-                    ...(resolveColor(f.iconColor || f.color, "text").style ||
-                      {}),
+                    ...(resolveColor(f.iconColor, "text").style || {}),
                     ...(resolveColor(f.iconBgColor, "bg").style || {}),
                   }}
                 >

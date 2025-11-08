@@ -7,34 +7,48 @@ import ReviewsSection from "@/components/pages/home/reviews";
 import CustomDivider from "@/components/divider";
 import { useServices } from "@/hooks/useServices";
 import CustomLoader from "@/components/loader";
+import { DefaultHomeTemplate } from "@/templates/home/home_template";
+import Navbar from "@/components/navbar";
+import Footer from "@/components/footer";
 
 export default function HomePage() {
-  const { data: pageData, isLoading: pageLoading } = usePage("main");
+  const { data: pageData, isLoading: pageLoading } = usePage("home");
   const { data: services, isLoading: servicesLoading } = useServices();
-
-  console.log(pageData);
+  const hero = pageData?.hero;
+  const about = pageData?.about;
+  const reviews = pageData?.reviews;
+  const servicesTemplate = pageData?.services;
+  const navbar = pageData?.navbar;
+  const footer = pageData?.footer;
 
   if (pageLoading || servicesLoading) return <CustomLoader />;
 
   return (
     <main className="bg-background-light text-text-primary">
-      <HeroSection />
+      <Navbar navbar={navbar} />
+
+      <HeroSection hero={hero} />
 
       <CustomDivider direction="up" className="mt-20" />
 
-      <AboutSection />
+      <AboutSection about={about} />
 
       <CustomDivider />
 
       {services && services.length > 0 ? (
-        <ServicesSection services={services} />
+        <ServicesSection
+          services={services}
+          servicesTemplate={servicesTemplate}
+        />
       ) : (
         <div className="p-6 text-center">
           Nincsenek elérhető szolgáltatások.
         </div>
       )}
 
-      <ReviewsSection />
+      <ReviewsSection reviewsTemplate={reviews} />
+
+      <Footer footer={footer} />
     </main>
   );
 }

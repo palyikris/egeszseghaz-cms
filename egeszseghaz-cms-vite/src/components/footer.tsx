@@ -1,43 +1,49 @@
 /* eslint-disable prettier/prettier */
+import { FooterSchema } from "@/templates/home/home_schema";
 import { Link } from "@heroui/link";
 import { motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
 
-export default function Footer() {
+interface FooterProps {
+  footer: FooterSchema | undefined;
+}
+
+export default function Footer({ footer }: FooterProps) {
   const year = new Date().getFullYear();
 
+  if (!footer) return null;
+
   return (
-    <footer className="bg-primary-dark text-background-light py-16 px-8 md:px-20 relative">
+    <footer
+      className={`bg-primary-dark text-background-light py-16 px-8 md:px-20 relative`}
+    >
       {/* Subtle background glow */}
-      <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent opacity-30 pointer-events-none" />
+      <div
+        className={`absolute inset-0 bg-gradient-to-r from-accent to-transparent opacity-10 blur-2xl pointer-events-none`}
+      />
 
       <div className="relative grid grid-cols-1 md:grid-cols-4 gap-10 text-left z-10">
         {/* Column 1 — Logo & tagline */}
         <div>
-          <h4 className="text-2xl font-bold mb-2 text-accent">
-            Pesterzsébeti Egészségház
+          <h4 className={`text-2xl font-bold mb-2 text-accent`}>
+            {footer.sections.logo.title.text}
           </h4>
-          <p className="text-sm opacity-80 leading-relaxed">
-            Az egészség, mozgás és harmónia otthona. Várjuk szeretettel
-            Pesterzsébet szívében!
+          <p className={`text-sm opacity-80 leading-relaxed`}>
+            {footer.sections.logo.tagline.text}
           </p>
         </div>
 
         {/* Column 2 — Quick Links */}
         <div>
-          <h5 className="text-lg font-semibold mb-3 text-accent">Navigáció</h5>
+          <h5 className={`text-lg font-semibold mb-3 text-accent`}>
+            {footer.sections.links.title.text}
+          </h5>
           <ul className="space-y-2 text-sm opacity-90">
-            {[
-              { label: "Kezdőlap", href: "/" },
-              { label: "Rólunk", href: "/#about" },
-              { label: "Szolgáltatások", href: "/#services" },
-              { label: "Házirend", href: "/#rules" },
-              { label: "Adatkezelési tájékoztató", href: "/#privacy" },
-            ].map((link) => (
+            {footer.sections.links.linkList.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className="hover:text-accent transition-colors text-inherit"
+                  className={`hover:text-accent transition-colors text-inherit`}
                 >
                   {link.label}
                 </Link>
@@ -48,8 +54,8 @@ export default function Footer() {
 
         {/* Column 3 — Contact */}
         <div>
-          <h5 className="text-lg font-semibold mb-3 text-accent">
-            Elérhetőségek
+          <h5 className={`text-lg font-semibold mb-3 text-accent`}>
+            {footer.sections.contact.title.text}
           </h5>
           <p className="flex justify-start items-center gap-2 text-sm opacity-90 leading-relaxed">
             <svg
@@ -64,7 +70,7 @@ export default function Footer() {
                 clipRule="evenodd"
               />
             </svg>
-            +36 30 573 2212
+            {footer.sections.contact.phone.number}
           </p>
           <p className="flex justify-start items-center gap-2 text-sm opacity-90 leading-relaxed">
             <svg
@@ -76,7 +82,7 @@ export default function Footer() {
               <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
               <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
             </svg>
-            egfit.20@gmail.com
+            {footer.sections.contact.email.address}
           </p>
           <p className="text-sm opacity-90 leading-relaxed flex justify-start items-center gap-2">
             <svg
@@ -91,28 +97,29 @@ export default function Footer() {
                 clipRule="evenodd"
               />
             </svg>
-            Átlós utca 17–19, Budapest
+            {footer.sections.contact.address.text}
           </p>
           <Link
-            href="https://www.google.com/maps/place/Egészségház/@47.4235536,19.1048283,17z"
+            href={footer.sections.contact.address.mapLink}
             target="_blank"
-            className="inline-block mt-3 text-accent hover:underline"
+            className={`inline-block mt-3 text-${footer.sections.contact.address.mapTextColor} hover:underline`}
           >
-            Nézd meg térképen →
+            {footer.sections.contact.address.mapText}
           </Link>
         </div>
 
         {/* Column 4 — Opening hours */}
         <div>
-          <h5 className="text-lg font-semibold mb-3 text-accent">
-            Nyitvatartás
+          <h5
+            className={`text-lg font-semibold mb-3 text-${footer.sections.openingHours.title.color}`}
+          >
+            {footer.sections.openingHours.title.text}
           </h5>
-          <p className="text-sm opacity-90 leading-relaxed">
-            Hétfő – Péntek: 8:00 – 20:00
-          </p>
-          <p className="text-sm opacity-90 leading-relaxed">
-            Szombat – Vasárnap: Zárva
-          </p>
+          {footer.sections.openingHours.hours.map((h, idx) => (
+            <p key={idx} className="text-sm opacity-90 leading-relaxed">
+              {h.day}: {h.time}
+            </p>
+          ))}
         </div>
       </div>
 
@@ -134,15 +141,17 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="relative flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-70">
-        <p>© {year} Pesterzsébeti Egészségház. Minden jog fenntartva.</p>
+        <p>
+          © {year} {footer.sections.logo.title.text}. Minden jog fenntartva.
+        </p>
         <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
           <Link
             href="#hero"
-            color="primary"
+            color={footer.upArrow.color as any}
             aria-label="Fel"
-            className="rounded-full shadow-sm bg-primary-light p-3"
+            className={`rounded-full shadow-sm bg-${footer.upArrow.bgColor} p-3`}
           >
-            <ArrowUp size={25} color="#fff" />
+            <ArrowUp size={25} color={footer.upArrow.iconColor} />
           </Link>
         </motion.div>
       </div>
