@@ -2,7 +2,6 @@
 import { Button } from "@heroui/button";
 
 import { useEditMode } from "@/context/edit/edit";
-import { BlurFade } from "../ui/blur-fade";
 
 export function EditToolbar() {
   const { isEditMode, undo, redo, toggleEditMode } = useEditMode();
