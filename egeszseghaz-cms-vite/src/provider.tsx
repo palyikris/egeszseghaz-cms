@@ -3,6 +3,7 @@ import type { NavigateOptions } from "react-router-dom";
 import { HeroUIProvider } from "@heroui/system";
 import { useHref, useNavigate } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { EditModeProvider } from "./context/edit/edit";
 
 declare module "@react-types/shared" {
   interface RouterConfig {
@@ -17,8 +18,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
   return (
     <HeroUIProvider navigate={navigate} useHref={useHref}>
       <QueryClientProvider client={queryClient}>
-        {" "}
-        {children}
+        <EditModeProvider> {children}</EditModeProvider>
       </QueryClientProvider>
     </HeroUIProvider>
   );

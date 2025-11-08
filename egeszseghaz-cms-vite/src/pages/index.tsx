@@ -9,6 +9,7 @@ import { useServices } from "@/hooks/useServices";
 import CustomLoader from "@/components/loader";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
+import { EditToolbar } from "@/components/edit/EditToolBar";
 
 export default function HomePage() {
   const { data: pageData, isLoading: pageLoading } = usePage("home");
@@ -24,6 +25,8 @@ export default function HomePage() {
 
   return (
     <main className="bg-background-light text-text-primary">
+      <EditToolbar />
+
       <Navbar navbar={navbar} />
 
       <HeroSection hero={hero} />

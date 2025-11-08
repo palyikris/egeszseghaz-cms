@@ -12,6 +12,7 @@ import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
 import { Avatar } from "@heroui/avatar";
 import { auth } from "@/utils/firebase";
 import { useQueryClient } from "@tanstack/react-query";
+import { useEditMode } from "@/context/edit/edit";
 
 interface NavbarProps {
   navbar: NavbarSchema | undefined;
@@ -22,6 +23,7 @@ export default function Navbar({ navbar }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data, isLoading } = useIsUserAuthenticated();
   const queryClient = useQueryClient();
+  const { isEditMode } = useEditMode();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -81,7 +83,7 @@ export default function Navbar({ navbar }: NavbarProps) {
           {data ? (
             <div className="pl-4 w-auto flex justify-center items-center">
               <button
-                className="w-auto p-0 bg-transparent border-0 cursor-pointer"
+                className="w-auto p-0 bg-transparent border-0 cursor-pointer relative"
                 onClick={async () => {
                   await auth.signOut();
                   queryClient.invalidateQueries({
@@ -89,6 +91,12 @@ export default function Navbar({ navbar }: NavbarProps) {
                   });
                 }}
               >
+                <div
+                  className={`flex justify-center items-center absolute w-full h-full bg-primary-dark/70 rounded-full top-0 left-0 z-10 transition-all opacity-${isEditMode ? "100" : "0"} duration-500`}
+                >
+                  <span className="text-accent font-bold mb-0.5">E</span>
+                </div>
+
                 <Avatar
                   src={auth.currentUser?.photoURL || undefined}
                   size="md"
