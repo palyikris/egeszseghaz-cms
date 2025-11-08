@@ -23,7 +23,6 @@ export default function HeroSection({ hero }: HeroSectionProps) {
   const subheadingColor = hero.subheading?.color;
   const headingResolved = resolveColor(headingColor, "text");
   const subheadingResolved = resolveColor(subheadingColor, "text");
-  const bgColor = hero.bgColor;
 
   const primaryButton = hero.primaryButton;
   const secondaryButton = hero.secondaryButton;

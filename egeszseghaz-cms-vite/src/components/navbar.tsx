@@ -129,6 +129,39 @@ export default function Navbar({ navbar }: NavbarProps) {
                 {link.label}
               </Link>
             ))}
+            {data ? (
+              <button
+                className="w-full py-2 px-0 flex justify-center items-center bg-transparent border-0 cursor-pointer"
+                onClick={async () => {
+                  await auth.signOut();
+                  queryClient.invalidateQueries({
+                    queryKey: ["isUserAuthenticated"],
+                  });
+                }}
+              >
+                <Avatar
+                  src={auth.currentUser?.photoURL || undefined}
+                  size="md"
+                  alt={auth.currentUser?.email || "User Avatar"}
+                  isBordered
+                  color="secondary"
+                />
+              </button>
+            ) : (
+              <Button
+                variant="solid"
+                color="primary"
+                className="text-background-light"
+                onPress={async () => {
+                  await signInWithGoogle();
+                  queryClient.invalidateQueries({
+                    queryKey: ["isUserAuthenticated"],
+                  });
+                }}
+              >
+                Bejelentkezés
+              </Button>
+            )}
           </div>
         )}
 

@@ -7,7 +7,6 @@ import ReviewsSection from "@/components/pages/home/reviews";
 import CustomDivider from "@/components/divider";
 import { useServices } from "@/hooks/useServices";
 import CustomLoader from "@/components/loader";
-import { DefaultHomeTemplate } from "@/templates/home/home_template";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 
