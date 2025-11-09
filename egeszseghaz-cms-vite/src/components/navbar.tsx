@@ -23,7 +23,7 @@ export default function Navbar({ navbar }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data, isLoading } = useIsUserAuthenticated();
   const queryClient = useQueryClient();
-  const { isEditMode } = useEditMode();
+  const { isEditMode, setIsEditMode } = useEditMode();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -86,6 +86,7 @@ export default function Navbar({ navbar }: NavbarProps) {
                 className="w-auto p-0 bg-transparent border-0 cursor-pointer relative"
                 onClick={async () => {
                   await auth.signOut();
+                  setIsEditMode(false);
                   queryClient.invalidateQueries({
                     queryKey: ["isUserAuthenticated"],
                   });

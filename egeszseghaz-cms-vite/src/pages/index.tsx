@@ -10,6 +10,8 @@ import CustomLoader from "@/components/loader";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { EditToolbar } from "@/components/edit/EditToolBar";
+import { EditSidebar } from "@/components/edit/EditSidebar";
+import { EditableWrapper } from "@/components/edit/EditableWrapper";
 
 export default function HomePage() {
   const { data: pageData, isLoading: pageLoading } = usePage("home");
@@ -26,10 +28,13 @@ export default function HomePage() {
   return (
     <main className="bg-background-light text-text-primary">
       <EditToolbar />
+      <EditSidebar />
 
       <Navbar navbar={navbar} />
 
-      <HeroSection hero={hero} />
+      <EditableWrapper id="hero">
+        <HeroSection hero={hero} />
+      </EditableWrapper>
 
       <CustomDivider direction="up" className="mt-20" />
 
