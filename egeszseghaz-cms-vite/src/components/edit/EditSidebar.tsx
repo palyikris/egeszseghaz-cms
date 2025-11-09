@@ -18,7 +18,7 @@ export function EditSidebar() {
 
   return (
     <div
-      className={`fixed top-0 right-0 h-full w-1/3 border-l border-border shadow-xl z-[10000] flex flex-col p-4 max-h-screen overflow-y-scroll transform ${selectedId ? "opacity-100" : "opacity-0 pointer-events-none translate-x-2"} transition-all duration-200`}
+      className={`fixed top-0 right-0 h-full w-1/3 border-l border-border shadow-xl z-[10000] flex flex-col p-4 max-h-screen overflow-y-scroll transform ${selectedId ? "" : " pointer-events-none translate-x-[100%]"} transition-all duration-100`}
     >
       <h2 className="text-lg font-semibold text-primary-dark mb-2 border-b border-primary-dark">
         Edit Component: {selectedId?.toUpperCase()}
