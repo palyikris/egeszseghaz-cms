@@ -1,12 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { useEditMode } from "@/context/edit/edit";
-import { useState } from "react";
-import { HomeSchema } from './../../templates/home/home_schema';
-import { usePage } from "@/hooks/usePage";
 import { HeroEditor } from "./editors/HomeEditor";
 
 export function EditSidebar() {
-  const { isEditMode, selectedId, draft, updateDraft } = useEditMode();
+  const { isEditMode, selectedId } = useEditMode();
 
   if (!isEditMode || !selectedId) return null;
 
@@ -14,7 +11,7 @@ export function EditSidebar() {
     // Here you can map selectedId to specific editor components
     // For example:
     // hero: <HeroEditor draft={draft} updateDraft={updateDraft} />,
-    hero: <HeroEditor />
+    hero: <HeroEditor />,
   };
 
   const editorComponent = componentMap[selectedId];
