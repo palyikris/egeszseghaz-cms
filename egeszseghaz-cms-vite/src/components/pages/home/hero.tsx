@@ -53,17 +53,17 @@ export default function HeroSection({ hero }: HeroSectionProps) {
     >
       {/* Content */}
       <div className="z-10 w-full md:w-1/2 max-w-2xl lg:max-w-full">
-        <TypingAnimation
+        <BlurFade
           key={headingSource?.text ?? ""}
           className={cn(
             "2xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-bold mb-8 md:mb-16 leading-tight",
             headingResolved.className
           )}
           style={headingResolved.style}
-          duration={80}
+          delay={0.1}
         >
           {headingSource?.text}
-        </TypingAnimation>
+        </BlurFade>
         <BlurFade
           key={subheadingSource?.text ?? ""}
           className={cn(
