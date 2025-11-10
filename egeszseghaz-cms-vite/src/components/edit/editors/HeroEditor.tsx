@@ -3,6 +3,10 @@
 import { useEditMode } from "@/context/edit/edit";
 import { HeroSchema } from "@/templates/home/home_schema";
 import { Input } from "@heroui/input";
+import { Checkbox } from "@heroui/checkbox";
+import { Textarea } from "@heroui/input";
+import { Select, SelectItem } from "@heroui/select";
+import { colorMap } from "@/types/edit";
 
 export function HeroEditor() {
   const { draft, updateDraft } = useEditMode();
@@ -28,11 +32,16 @@ export function HeroEditor() {
           }}
         />
         <div className="flex w-full justify-center items-center mt-4">
-          <img src={hero.mainImageUrl} alt="" width={200} className="rounded-lg"/>
+          <img
+            src={hero.mainImageUrl}
+            alt=""
+            width={200}
+            className="rounded-lg"
+          />
         </div>
       </div>
 
-      {/* Background Gradient */}
+      {/* Background Gradient
       <div>
         <h3 className="font-semibold text-primary-dark mb-1">
           Background Gradient
@@ -79,207 +88,250 @@ export function HeroEditor() {
             </select>
           </div>
         </div>
-      </div>
+      </div> */}
+
+      <hr />
 
       {/* Headings */}
       <div>
         <h3 className="font-semibold text-primary-dark mb-1">Headings</h3>
 
         <div className="mb-2">
-          <p className="block">Heading Text</p>
           <Input
             type="text"
             value={hero.heading?.text ?? ""}
             onChange={(e) => handleChange("heading.text", e.target.value)}
+            label="Heading Text"
           />
         </div>
 
         <div>
-          <p className="block">Heading Color</p>
-          <Input
-            type="color"
-            value={hero.heading?.color ?? "#000000"}
-            onChange={(e) => handleChange("heading.color", e.target.value)}
-          />
+          <Select
+            selectedKeys={[hero.heading?.color]}
+            endContent={
+              <span
+                className={`px-[10px] py-[1px] bg-${hero.heading?.color} rounded-full`}
+              />
+            }
+            label="Heading Color"
+            onSelectionChange={(e) => {
+              handleChange("heading.color", e.currentKey);
+            }}
+          >
+            {colorMap.map((color) => (
+              <SelectItem key={color.name}>{color.name}</SelectItem>
+            ))}
+          </Select>
         </div>
 
         <div className="mt-2">
-          <Input
+          <Textarea
             type="text"
             value={hero.subheading?.text ?? ""}
             onChange={(e) => handleChange("subheading.text", e.target.value)}
-            color="primary"
             label="Subheading Text"
           />
         </div>
 
-        <div>
-          <p className="block">Subheading Color</p>
-          <Input
-            type="color"
-            value={hero.subheading?.color ?? "#000000"}
-            onChange={(e) => handleChange("subheading.color", e.target.value)}
-            className="w-full h-8 cursor-pointer"
-          />
+        <div className="mt-2">
+          <Select
+            selectedKeys={[hero.subheading?.color]}
+            endContent={
+              <span
+                className={`px-[10px] py-[1px] bg-${hero.subheading?.color} rounded-full`}
+              />
+            }
+            label="Subheading Color"
+            onSelectionChange={(e) => {
+              handleChange("subheading.color", e.currentKey);
+            }}
+          >
+            {colorMap.map((color) => (
+              <SelectItem key={color.name}>{color.name}</SelectItem>
+            ))}
+          </Select>
         </div>
       </div>
+
+      <hr className="mt-8" />
 
       {/* Primary Button */}
       <div>
         <h3 className="font-semibold text-primary-dark mb-1">Primary Button</h3>
-        <div className="space-y-1">
+        <div className="space-y-1 mt-4">
           <p className="flex items-center gap-2">
-            <Input
+            <Checkbox
               type="checkbox"
-              checked={hero.primaryButton?.isDisplayed ?? true}
+              isSelected={hero.primaryButton?.isDisplayed}
               onChange={(e) =>
                 handleChange("primaryButton.isDisplayed", e.target.checked)
               }
-              variant="bordered"
+              className="my-1"
             />
-            Show Button
+            {hero.primaryButton?.isDisplayed
+              ? "Button is shown"
+              : "Button is hidden"}
           </p>
-          <p className="block">Label</p>
           <Input
             type="text"
             value={hero.primaryButton?.label ?? ""}
-            onChange={(e) => handleChange("primaryButton.p", e.target.value)}
-            className="w-full border border-border rounded p-1"
+            onChange={(e) =>
+              handleChange("primaryButton.label", e.target.value)
+            }
+            label="Label"
+            className="my-2"
           />
-          <p className="block">Link (href)</p>
           <Input
             type="text"
             value={hero.primaryButton?.href ?? ""}
             onChange={(e) => handleChange("primaryButton.href", e.target.value)}
-            className="w-full border border-border rounded p-1"
+            label="Link (href)"
+            className="my-2"
           />
-          <p className="block">Color</p>
-          <Input
-            type="color"
-            value={hero.primaryButton?.color ?? "#000000"}
-            onChange={(e) =>
-              handleChange("primaryButton.color", e.target.value)
+          <Select
+            selectedKeys={[hero.primaryButton?.color]}
+            endContent={
+              <span
+                className={`px-[10px] py-[1px] bg-${hero.primaryButton?.color} rounded-full`}
+              />
             }
-            className="w-full h-8 cursor-pointer"
-          />
-          <p className="block">Variant</p>
-          <select
-            value={hero.primaryButton?.variant ?? "solid"}
-            onChange={(e) =>
-              handleChange("primaryButton.variant", e.target.value)
-            }
-            className="w-full border border-border rounded p-1"
+            label="Color"
+            onSelectionChange={(e) => {
+              handleChange("primaryButton.color", e.currentKey);
+            }}
           >
-            <option value="solid">Solid</option>
-            <option value="outline">Outline</option>
-            <option value="ghost">Ghost</option>
-          </select>
+            {colorMap.map((color) => (
+              <SelectItem key={color.name}>{color.name}</SelectItem>
+            ))}
+          </Select>
+          <Select
+            selectedKeys={[hero.primaryButton?.variant]}
+            onChange={(e) => {
+              handleChange("primaryButton.variant", e.target.value);
+            }}
+            label="Variant"
+            className="my-1"
+          >
+            <SelectItem key="solid">Solid</SelectItem>
+            <SelectItem key="ghost">Ghost</SelectItem>
+          </Select>
         </div>
       </div>
+
+      <hr className="mt-6" />
 
       {/* Secondary Button */}
       <div>
         <h3 className="font-semibold text-primary-dark mb-1">
           Secondary Button
         </h3>
-        <div className="space-y-1">
+        <div className="space-y-1 mt-4">
           <p className="flex items-center gap-2">
-            <Input
+            <Checkbox
               type="checkbox"
-              checked={hero.secondaryButton?.isDisplayed ?? true}
+              isSelected={hero.secondaryButton?.isDisplayed}
               onChange={(e) =>
                 handleChange("secondaryButton.isDisplayed", e.target.checked)
               }
+              className="my-1"
             />
-            Show Button
+            {hero.secondaryButton?.isDisplayed
+              ? "Button is shown"
+              : "Button is hidden"}
           </p>
-          <p className="block">Label</p>
           <Input
             type="text"
             value={hero.secondaryButton?.label ?? ""}
-            onChange={(e) => handleChange("secondaryButton.p", e.target.value)}
-            className="w-full border border-border rounded p-1"
+            onChange={(e) =>
+              handleChange("secondaryButton.label", e.target.value)
+            }
+            label="Label"
+            className="my-2"
           />
-          <p className="block">Link (href)</p>
           <Input
             type="text"
             value={hero.secondaryButton?.href ?? ""}
             onChange={(e) =>
               handleChange("secondaryButton.href", e.target.value)
             }
-            className="w-full border border-border rounded p-1"
+            label="Link (href)"
+            className="my-2"
           />
-          <p className="block">Color</p>
-          <Input
-            type="color"
-            value={hero.secondaryButton?.color ?? "#000000"}
-            onChange={(e) =>
-              handleChange("secondaryButton.color", e.target.value)
+          <Select
+            selectedKeys={[hero.secondaryButton?.color]}
+            endContent={
+              <span
+                className={`px-[10px] py-[1px] bg-${hero.secondaryButton?.color} rounded-full`}
+              />
             }
-            className="w-full h-8 cursor-pointer"
-          />
-          <p className="block">Variant</p>
-          <select
-            value={hero.secondaryButton?.variant ?? "solid"}
-            onChange={(e) =>
-              handleChange("secondaryButton.variant", e.target.value)
-            }
-            className="w-full border border-border rounded p-1"
+            label="Color"
+            onSelectionChange={(e) => {
+              handleChange("secondaryButton.color", e.currentKey);
+            }}
           >
-            <option value="solid">Solid</option>
-            <option value="outline">Outline</option>
-            <option value="ghost">Ghost</option>
-          </select>
+            {colorMap.map((color) => (
+              <SelectItem key={color.name}>{color.name}</SelectItem>
+            ))}
+          </Select>
+          <Select
+            selectedKeys={[hero.secondaryButton?.variant]}
+            onChange={(e) => {
+              handleChange("secondaryButton.variant", e.target.value);
+            }}
+            label="Variant"
+            className="my-1"
+          >
+            <SelectItem key="solid">Solid</SelectItem>
+            <SelectItem key="ghost">Ghost</SelectItem>
+          </Select>
         </div>
       </div>
+
+      <hr className="mt-6" />
 
       {/* Contacts */}
       <div>
         <h3 className="font-semibold text-primary-dark mb-1">Contacts</h3>
 
-        <div>
-          <p className="block">Phone Number</p>
+        <div className="mt-4">
           <Input
             type="text"
             value={hero.contacts?.phone?.number ?? ""}
             onChange={(e) =>
               handleChange("contacts.phone.number", e.target.value)
             }
-            className="w-full border border-border rounded p-1"
+            label="Phone Number"
           />
         </div>
 
-        <div>
-          <p className="block">Social Link</p>
+        <div className="my-2">
           <Input
             type="text"
             value={hero.contacts?.social?.link ?? ""}
             onChange={(e) =>
               handleChange("contacts.social.link", e.target.value)
             }
-            className="w-full border border-border rounded p-1"
+            label="Social Link"
           />
         </div>
 
-        <div>
-          <p className="block">Social Text</p>
+        <div className="my-2">
           <Input
             type="text"
             value={hero.contacts?.social?.text ?? ""}
             onChange={(e) =>
               handleChange("contacts.social.text", e.target.value)
             }
-            className="w-full border border-border rounded p-1"
+            label="Social Text"
           />
         </div>
 
-        <div>
-          <p className="block">Name Text</p>
+        <div className="my-2">
           <Input
             type="text"
             value={hero.contacts?.name?.text ?? ""}
             onChange={(e) => handleChange("contacts.name.text", e.target.value)}
-            className="w-full border border-border rounded p-1"
+            label="Name Text"
           />
         </div>
       </div>

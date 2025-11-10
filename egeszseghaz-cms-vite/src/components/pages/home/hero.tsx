@@ -9,6 +9,7 @@ import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { HeroSchema } from "@/templates/home/home_schema";
+import { useEditMode } from "@/context/edit/edit";
 
 interface HeroSectionProps {
   hero: HeroSchema | undefined;
@@ -16,16 +17,23 @@ interface HeroSectionProps {
 
 export default function HeroSection({ hero }: HeroSectionProps) {
   const navigate = useNavigate();
+  const { isEditMode, draft } = useEditMode();
 
   if (!hero) return null;
 
-  const headingColor = hero.heading?.color;
-  const subheadingColor = hero.subheading?.color;
-  const headingResolved = resolveColor(headingColor, "text");
-  const subheadingResolved = resolveColor(subheadingColor, "text");
+  const headingSource = isEditMode ? draft.hero?.heading : hero.heading;
+  const subheadingSource = isEditMode
+    ? draft.hero?.subheading
+    : hero.subheading;
+  const headingResolved = resolveColor(headingSource?.color, "text");
+  const subheadingResolved = resolveColor(subheadingSource?.color, "text");
 
-  const primaryButton = hero.primaryButton;
-  const secondaryButton = hero.secondaryButton;
+  const primaryButton = isEditMode
+    ? draft.hero?.primaryButton
+    : hero.primaryButton;
+  const secondaryButton = isEditMode
+    ? draft.hero?.secondaryButton
+    : hero.secondaryButton;
 
   const makeButtonProps = (hidden: boolean = true, color?: string | null) => {
     if (!hidden) return { style: { display: "none" } } as any;
@@ -46,6 +54,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
       {/* Content */}
       <div className="z-10 w-full md:w-1/2 max-w-2xl lg:max-w-full">
         <TypingAnimation
+          key={headingSource?.text ?? ""}
           className={cn(
             "2xl:text-6xl lg:text-5xl md:text-4xl text-3xl font-bold mb-8 md:mb-16 leading-tight",
             headingResolved.className
@@ -53,9 +62,10 @@ export default function HeroSection({ hero }: HeroSectionProps) {
           style={headingResolved.style}
           duration={80}
         >
-          {hero.heading?.text}
+          {headingSource?.text}
         </TypingAnimation>
         <BlurFade
+          key={subheadingSource?.text ?? ""}
           className={cn(
             "text-base md:text-lg mb-6 mt-6 md:mt-10 md:max-w-2xl",
             subheadingResolved.className
@@ -64,7 +74,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
           delay={0.1}
           direction="right"
         >
-          {hero.subheading?.text}
+          <span>{subheadingSource?.text}</span>
         </BlurFade>
         <div className="w-full md:w-2/3 overflow-hidden">
           <Divider />
@@ -76,10 +86,10 @@ export default function HeroSection({ hero }: HeroSectionProps) {
                 primaryButton?.isDisplayed,
                 primaryButton?.color
               )}
+              variant={primaryButton?.variant || "solid"}
               onPress={() => {
                 navigate(primaryButton?.href || "#services");
               }}
-              variant={primaryButton?.variant || "solid"}
             >
               {primaryButton?.label || "Szolgáltatásaink"}
             </Button>
@@ -89,7 +99,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
               className="font-bold"
               variant={secondaryButton?.variant || "ghost"}
               {...makeButtonProps(
-                secondaryButton.isDisplayed,
+                secondaryButton?.isDisplayed,
                 secondaryButton?.color
               )}
               onPress={() => {
@@ -140,7 +150,9 @@ export default function HeroSection({ hero }: HeroSectionProps) {
               </svg>
 
               <span id="contact">
-                {hero.contacts?.phone?.number || "06 30 573 2212"}
+                {isEditMode
+                  ? draft.hero?.contacts?.phone?.number
+                  : hero.contacts?.phone?.number || "06 30 573 2212"}
               </span>
             </div>
             <div className="w-full md:w-1/3 flex items-center justify-center gap-4 p-4 text-background-light">
@@ -153,12 +165,16 @@ export default function HeroSection({ hero }: HeroSectionProps) {
               <Link
                 className="text-background underline"
                 href={
-                  hero.contacts?.social?.link ||
-                  "https://www.facebook.com/egeszseghazfitness/?_rdr"
+                  isEditMode
+                    ? draft.hero?.contacts?.social?.link
+                    : hero.contacts?.social?.link ||
+                      "https://www.facebook.com/egeszseghazfitness/?_rdr"
                 }
                 target="_blank"
               >
-                {hero.contacts?.social?.text || "Facebook oldalunk"}
+                {isEditMode
+                  ? draft.hero?.contacts?.social?.text
+                  : hero.contacts?.social?.text || "Facebook oldalunk"}
               </Link>
             </div>
             <div className="w-full md:w-1/3 items-center justify-center gap-4 p-4 text-background-light hidden sm:flex">

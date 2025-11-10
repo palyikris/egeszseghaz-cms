@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
 import { usePage } from "@/hooks/usePage";
+import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 interface EditModeContextType {
@@ -40,7 +41,8 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateDraft = (key: string, value: any) => {
     setUndoStack((prev) => [...prev, draft]);
-    setDraft((prev) => ({ ...prev, [key]: value }));
+
+    setDraft((prev) => setAtPath(prev, key, value));
     setRedoStack([]);
   };
 
@@ -76,7 +78,9 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const handleKey = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey) {
-        toggleEditMode();
+        if (!isEditMode) {
+          toggleEditMode();
+        }
       }
     };
 
