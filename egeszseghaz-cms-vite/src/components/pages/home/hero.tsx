@@ -7,7 +7,6 @@ import { SocialIcon } from "react-social-icons";
 
 import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";
-import { TypingAnimation } from "@/components/ui/typing-animation";
 import { HeroSchema } from "@/templates/home/home_schema";
 import { useEditMode } from "@/context/edit/edit";
 
