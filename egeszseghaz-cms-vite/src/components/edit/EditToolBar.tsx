@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Chip } from "@heroui/chip";
 
 export function EditToolbar() {
-  const { isEditMode, undo, redo, toggleEditMode } = useEditMode();
+  const { isEditMode, undo, redo, toggleEditMode, draftStatus } = useEditMode();
   const [isTop, setIsTop] = useState(true);
 
   return (
@@ -23,7 +23,7 @@ export function EditToolbar() {
             color="primary"
             className="border border-accent bg-accent text-text-primary"
           >
-            Draft
+            {draftStatus}
           </Chip>
         </div>
         <Button

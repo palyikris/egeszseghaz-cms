@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 
 import { resolveColor, cn } from "@/lib/utils";
 import { AboutSchema } from "@/templates/home/home_schema";
+import { useEditMode } from "@/context/edit/edit";
 
 interface AboutSectionProps {
   about: AboutSchema | undefined;
@@ -16,12 +17,28 @@ interface AboutSectionProps {
 export default function AboutSection({ about }: AboutSectionProps) {
   const navigate = useNavigate();
 
-  if (!about) return null;
+  const { isEditMode, draft } = useEditMode();
 
-  const headingColor = about.heading?.color;
-  const headingResolved = resolveColor(headingColor, "text");
-  const descriptionColor = about.description?.color;
-  const descriptionResolved = resolveColor(descriptionColor, "text");
+  if (!about && !isEditMode) return null;
+
+  const imageUrl = isEditMode
+    ? draft.about?.aboutImg?.url
+    : about?.aboutImg?.url || "/logo.png";
+  const headingSource = isEditMode ? draft.about?.heading : about?.heading;
+  const descriptionSource = isEditMode
+    ? draft.about?.description
+    : about?.description;
+  const aboutImgSource = isEditMode ? draft.about?.aboutImg : about?.aboutImg;
+  const featuresSource = isEditMode ? draft.about?.features : about?.features;
+  const primaryButtonSource = isEditMode
+    ? draft.about?.primaryButton
+    : about?.primaryButton;
+  const secondaryButtonSource = isEditMode
+    ? draft.about?.secondaryButton
+    : about?.secondaryButton;
+
+  const headingResolved = resolveColor(headingSource?.color, "text");
+  const descriptionResolved = resolveColor(descriptionSource?.color, "text");
 
   const isRawColor = (v?: string | null) => !!v && /^#|^rgb|^hsl/i.test(v);
 
@@ -55,8 +72,8 @@ export default function AboutSection({ about }: AboutSectionProps) {
               >
                 <WordRotate
                   words={[
-                    about.heading?.textFirst || "A Mi Küldetésünk...",
-                    about.heading?.textSecond || "A Te Egészséged!",
+                    headingSource?.textFirst || "A Mi Küldetésünk...",
+                    headingSource?.textSecond || "A Te Egészséged!",
                   ]}
                   duration={4000}
                 />
@@ -66,16 +83,17 @@ export default function AboutSection({ about }: AboutSectionProps) {
                   "text-base sm:text-lg text-text-secondary leading-relaxed max-w-lg mt-4",
                   descriptionResolved.className
                 )}
+                style={descriptionResolved.style}
                 inView
               >
-                {about.description.text}
+                {descriptionSource?.text}
               </BlurFade>
             </div>
           </div>
           <Spacer></Spacer>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {about.features?.map((f, idx) => (
+            {featuresSource?.map((f: any, idx: number) => (
               <BlurFade
                 className="flex items-center gap-3"
                 inView
@@ -110,8 +128,8 @@ export default function AboutSection({ about }: AboutSectionProps) {
           <Divider />
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
             {(() => {
-              const primaryColor = about.primaryButton?.color;
-              const secondaryColor = about.secondaryButton?.color;
+              const primaryColor = primaryButtonSource?.color;
+              const secondaryColor = secondaryButtonSource?.color;
               const primaryIsRaw = isRawColor(primaryColor);
               const secondaryIsRaw = isRawColor(secondaryColor);
 
@@ -126,13 +144,13 @@ export default function AboutSection({ about }: AboutSectionProps) {
                         ? undefined
                         : (primaryColor as any) || "secondary"
                     }
-                    className={`font-bold ${!about.primaryButton?.isDisplayed && "hidden"}`}
+                    className={`font-bold ${!primaryButtonSource?.isDisplayed && "hidden"}`}
                     onPress={() => {
-                      navigate(about.primaryButton?.href || "#services");
+                      navigate(primaryButtonSource?.href || "#services");
                     }}
-                    variant={(about.primaryButton?.variant as any) || "solid"}
+                    variant={(primaryButtonSource?.variant as any) || "solid"}
                   >
-                    {about.primaryButton?.label || "Tovább"}
+                    {primaryButtonSource?.label || "Tovább"}
                   </Button>
                   <Button
                     {...(secondaryIsRaw
@@ -143,13 +161,13 @@ export default function AboutSection({ about }: AboutSectionProps) {
                         ? undefined
                         : (secondaryColor as any) || "primary"
                     }
-                    variant={(about.secondaryButton?.variant as any) || "ghost"}
-                    className={`font-bold ${!about.secondaryButton?.isDisplayed && "hidden"}`}
+                    variant={(secondaryButtonSource?.variant as any) || "ghost"}
+                    className={`font-bold ${!secondaryButtonSource?.isDisplayed && "hidden"}`}
                     onPress={() => {
-                      navigate(about.secondaryButton?.href || "#reviews");
+                      navigate(secondaryButtonSource?.href || "#reviews");
                     }}
                   >
-                    {about.secondaryButton?.label || "Értékelések"}
+                    {secondaryButtonSource?.label || "Értékelések"}
                   </Button>
                 </>
               );
@@ -165,19 +183,60 @@ export default function AboutSection({ about }: AboutSectionProps) {
           <div className="w-full flex justify-center">
             <img
               alt="Küldetésünk"
-              className={`w-full h-auto rounded-${about.aboutImg.rounded}`}
-              src={about.aboutImg?.url || "/logo.png"}
+              className={`w-full h-auto rounded-${aboutImgSource?.rounded}`}
+              src={imageUrl || "/logo.png"}
             />
           </div>
           <div
-            className={`w-full h-full bg-${about.aboutImg.shadow.color} blur-${about.aboutImg.shadow.blur} absolute transform -z-1`}
+            className={`w-full h-full absolute transform -z-1`}
+            style={{
+              ...(resolveColor(aboutImgSource?.shadow.color, "bg").style || {}),
+            }}
           />
           <div className="w-full h-full absolute overflow-hidden top-0 left-0 rounded-2xl">
             <span
-              className={`w-${about.aboutImg.accents[0].size} h-${about.aboutImg.accents[0].size} rounded-[100%] z-50 absolute top-${about.aboutImg.accents[0].position.top} left-${about.aboutImg.accents[0].position.left} right-${about.aboutImg.accents[0].position.right} bottom-${about.aboutImg.accents[0].position.bottom} bg-${about.aboutImg.accents[0].color} transform -translate-x-2/3 -translate-y-2/3 blur-${about.aboutImg.accents[0].blur}`}
+              className={`rounded-[100%] z-50 absolute transform -translate-x-2/3 -translate-y-2/3`}
+              style={{
+                width:
+                  aboutImgSource?.accents?.[0]?.size &&
+                  `calc(${aboutImgSource.accents[0].size} * 1)`,
+                height:
+                  aboutImgSource?.accents?.[0]?.size &&
+                  `calc(${aboutImgSource.accents[0].size} * 1)`,
+                top: aboutImgSource?.accents?.[0]?.position?.top,
+                left: aboutImgSource?.accents?.[0]?.position?.left,
+                right: aboutImgSource?.accents?.[0]?.position?.right,
+                bottom: aboutImgSource?.accents?.[0]?.position?.bottom,
+                background: resolveColor(
+                  aboutImgSource?.accents?.[0]?.color,
+                  "bg"
+                ).style?.backgroundColor,
+                filter: aboutImgSource?.accents?.[0]?.blur
+                  ? `blur(${aboutImgSource.accents[0].blur})`
+                  : undefined,
+              }}
             />
             <span
-              className={`w-${about.aboutImg.accents[1].size} h-${about.aboutImg.accents[1].size} rounded-[100%] z-50 absolute top-${about.aboutImg.accents[1].position.top} left-${about.aboutImg.accents[1].position.left} right-${about.aboutImg.accents[1].position.right} bottom-${about.aboutImg.accents[1].position.bottom} bg-${about.aboutImg.accents[1].color} transform translate-x-2/3 translate-y-2/3 blur-${about.aboutImg.accents[1].blur}`}
+              className={`rounded-[100%] z-50 absolute transform translate-x-2/3 translate-y-2/3`}
+              style={{
+                width:
+                  aboutImgSource?.accents?.[1]?.size &&
+                  `calc(${aboutImgSource.accents[1].size} * 1)`,
+                height:
+                  aboutImgSource?.accents?.[1]?.size &&
+                  `calc(${aboutImgSource.accents[1].size} * 1)`,
+                top: aboutImgSource?.accents?.[1]?.position?.top,
+                left: aboutImgSource?.accents?.[1]?.position?.left,
+                right: aboutImgSource?.accents?.[1]?.position?.right,
+                bottom: aboutImgSource?.accents?.[1]?.position?.bottom,
+                background: resolveColor(
+                  aboutImgSource?.accents?.[1]?.color,
+                  "bg"
+                ).style?.backgroundColor,
+                filter: aboutImgSource?.accents?.[1]?.blur
+                  ? `blur(${aboutImgSource.accents[1].blur})`
+                  : undefined,
+              }}
             />
           </div>
         </BlurFade>

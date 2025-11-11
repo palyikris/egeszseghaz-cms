@@ -38,7 +38,9 @@ export default function HomePage() {
 
       <CustomDivider direction="up" className="mt-20" />
 
-      <AboutSection about={about} />
+      <EditableWrapper id="about">
+        <AboutSection about={about} />
+      </EditableWrapper>
 
       <CustomDivider />
 

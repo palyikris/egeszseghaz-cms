@@ -20,6 +20,10 @@ export default function HeroSection({ hero }: HeroSectionProps) {
 
   if (!hero) return null;
 
+  const imageUrl = isEditMode
+    ? draft.hero?.mainImageUrl
+    : hero.mainImageUrl || "/main_image.png";
+
   const headingSource = isEditMode ? draft.hero?.heading : hero.heading;
   const subheadingSource = isEditMode
     ? draft.hero?.subheading
@@ -120,7 +124,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
         <img
           alt={hero.heading?.text || "Egészségház"}
           className="rounded-3xl shadow-lg object-cover h-full w-full"
-          src={hero.mainImageUrl || "/main_image.png"}
+          src={imageUrl || "/main_image.png"}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#00000055] to-transparent rounded-3xl" />
       </BlurFade>

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useEditMode } from "@/context/edit/edit";
 import { HeroEditor } from "./editors/HeroEditor";
+import AboutEditor from "./editors/AboutEditor";
 
 export function EditSidebar() {
   const { isEditMode, selectedId } = useEditMode();
@@ -12,6 +13,7 @@ export function EditSidebar() {
     // For example:
     // hero: <HeroEditor draft={draft} updateDrafte={updateDraft} />,
     hero: <HeroEditor />,
+    about: <AboutEditor />,
   };
 
   const editorComponent = selectedId ? componentMap[selectedId] : null;

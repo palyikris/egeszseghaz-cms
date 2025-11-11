@@ -4,6 +4,9 @@ import { usePage } from "@/hooks/usePage";
 import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
+
+type DraftStatus = "Draft" | "Published";
+
 interface EditModeContextType {
   isEditMode: boolean;
   toggleEditMode: () => void;
@@ -16,6 +19,8 @@ interface EditModeContextType {
   undoStack: Record<string, any>[];
   redoStack: Record<string, any>[];
   setIsEditMode: (value: boolean) => void;
+  draftStatus: DraftStatus;
+  setDraftStatus: (status: DraftStatus) => void;
 }
 
 const EditModeContext = createContext<EditModeContextType | null>(null);
@@ -28,6 +33,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
   const [undoStack, setUndoStack] = useState<Record<string, any>[]>([]);
   const [redoStack, setRedoStack] = useState<Record<string, any>[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [draftStatus, setDraftStatus] = useState<DraftStatus>("Draft");
 
   const { data: isAuthed, isLoading } = useIsUserAuthenticated();
   const page = usePage("home");
@@ -80,6 +86,11 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey) {
         if (!isEditMode) {
           toggleEditMode();
+
+          return;
+        }
+        if (isEditMode) {
+          console.log("Already in edit mode");
         }
       }
     };
@@ -103,6 +114,8 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
         undoStack,
         redoStack,
         setIsEditMode,
+        draftStatus,
+        setDraftStatus,
       }}
     >
       {children}

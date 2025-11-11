@@ -7,30 +7,44 @@ import { Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { colorMap } from "@/types/edit";
+import { useImages } from "@/hooks/useImages";
+import CustomLoader from "@/components/loader";
 
 export function HeroEditor() {
   const { draft, updateDraft } = useEditMode();
   const hero: HeroSchema = draft.hero || {};
+  const { data: images, isLoading: imagesLoading } = useImages();
 
   const handleChange = (path: string, value: any) =>
     updateDraft(`hero.${path}`, value);
+
+  if (imagesLoading) {
+    return (
+      <div className="p-4 space-y-4 text-sm relative">
+        <CustomLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 space-y-4 text-sm relative">
       {/* Main Image */}
       <div>
-        <p className="block font-medium mb-1">Main Image</p>
-        <Input
-          type="file"
-          accept="image/*"
-          onChange={(e) => {
-            const file = e.target.files?.[0];
-            if (file) {
-              const url = URL.createObjectURL(file);
-              handleChange("mainImageUrl", url);
-            }
+        <Select
+          selectedKeys={[hero.mainImageUrl]}
+          label="Main Image"
+          onSelectionChange={(e) => {
+            handleChange("mainImageUrl", e.currentKey);
           }}
-        />
+        >
+          {images && images.length > 0 ? (
+            images.map((imgUrl) => (
+              <SelectItem key={imgUrl.url}>{imgUrl.name}</SelectItem>
+            ))
+          ) : (
+            <SelectItem key="no-images">No images available</SelectItem>
+          )}
+        </Select>
         <div className="flex w-full justify-center items-center mt-4">
           <img
             src={hero.mainImageUrl}
