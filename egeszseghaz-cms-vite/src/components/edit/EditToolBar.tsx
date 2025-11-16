@@ -58,7 +58,7 @@ export function EditToolbar() {
           className="bg-accent text-primary-dark hover:bg-accent/80"
           onPress={() => {
             setDraftStatus("Publishing...");
-            publish.mutateAsync("home", draft);
+            publish.mutateAsync({ pageId: "home", publishedContent: draft });
           }}
         >
           Publish

@@ -1,18 +1,26 @@
 /* eslint-disable prettier/prettier */
 import { publishDraft } from "@/lib/publish";
-import { useMutation } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
+
+type PublishVariables = {
+  pageId: string;
+  publishedContent: any;
+};
 
 export function usePublishSite() {
-
-
-  return useMutation({
+  return useMutation<void, unknown, PublishVariables>({
     mutationKey: ["publish-site"],
-    mutationFn: async (pageId: string, publishedContent: any) => {
-      console.log("usePublishSite mutationFn called with:", pageId, publishedContent)
-      await publishDraft(pageId, publishedContent)
+    // mutationFn receives a single `variables` argument. Pass an object when calling mutate/mutateAsync.
+    mutationFn: async ({ pageId, publishedContent }: PublishVariables) => {
+      console.log(
+        "usePublishSite mutationFn called with:",
+        pageId,
+        publishedContent
+      );
+      await publishDraft(pageId, publishedContent);
     },
     onError: (error) => {
-      console.error("Error publishing site:", error)
+      console.error("Error publishing site:", error);
     },
-  })
+  });
 }
