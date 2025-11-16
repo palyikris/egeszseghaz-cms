@@ -4,10 +4,20 @@ import { Button } from "@heroui/button";
 import { useEditMode } from "@/context/edit/edit";
 import { useState } from "react";
 import { Chip } from "@heroui/chip";
+import { usePublishSite } from "@/hooks/usePublishSite";
 
 export function EditToolbar() {
-  const { isEditMode, undo, redo, toggleEditMode, draftStatus } = useEditMode();
+  const {
+    isEditMode,
+    undo,
+    redo,
+    toggleEditMode,
+    draftStatus,
+    setDraftStatus,
+    draft,
+  } = useEditMode();
   const [isTop, setIsTop] = useState(true);
+  const publish = usePublishSite();
 
   return (
     <div
@@ -46,7 +56,10 @@ export function EditToolbar() {
           variant="solid"
           size="sm"
           className="bg-accent text-primary-dark hover:bg-accent/80"
-          onPress={() => alert("Publish coming soon")}
+          onPress={() => {
+            setDraftStatus("Publishing...");
+            publish.mutateAsync("home", draft);
+          }}
         >
           Publish
         </Button>

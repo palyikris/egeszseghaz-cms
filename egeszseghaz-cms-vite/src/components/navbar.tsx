@@ -6,13 +6,13 @@ import { Link } from "@heroui/link";
 
 import { cn, resolveColor } from "@/lib/utils";
 import { NavbarSchema } from "@/templates/home/home_schema";
+import { useEditMode } from "@/context/edit/edit";
 import { signInWithGoogle } from "@/lib/auth";
 import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
 
 import { Avatar } from "@heroui/avatar";
 import { auth } from "@/utils/firebase";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEditMode } from "@/context/edit/edit";
 
 interface NavbarProps {
   navbar: NavbarSchema | undefined;
@@ -23,7 +23,6 @@ export default function Navbar({ navbar }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data, isLoading } = useIsUserAuthenticated();
   const queryClient = useQueryClient();
-  const { isEditMode, setIsEditMode } = useEditMode();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -33,11 +32,17 @@ export default function Navbar({ navbar }: NavbarProps) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  if (!navbar) return null;
+  const { isEditMode, draft, setIsEditMode } = useEditMode();
 
-  const links = navbar.links;
-  const title = navbar.title?.text || "Egészségház";
-  const titleColor = navbar.title?.color;
+  const templateSource: NavbarSchema | undefined = isEditMode
+    ? (draft.navbar as NavbarSchema) || navbar
+    : navbar;
+
+  if (!templateSource) return null;
+
+  const links = templateSource.links || [];
+  const title = templateSource.title?.text || "Egészségház";
+  const titleColor = templateSource.title?.color;
   const titleColorResolved = resolveColor(titleColor, "text");
 
   if (isLoading) {
@@ -73,7 +78,7 @@ export default function Navbar({ navbar }: NavbarProps) {
             <motion.div key={link.href} whileHover={{ y: -1 }}>
               <Link
                 href={link.href}
-                className="relative text-text-primary font-medium transition-colors hover:text-primary-dark"
+                className={`relative text-${link.color} font-medium transition-colors hover:text-primary-dark`}
               >
                 {link.label}
                 <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />

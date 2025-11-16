@@ -3,47 +3,98 @@ import { FooterSchema } from "@/templates/home/home_schema";
 import { Link } from "@heroui/link";
 import { motion } from "framer-motion";
 import { ArrowUp } from "lucide-react";
+import { useEditMode } from "@/context/edit/edit";
+import { resolveColor, cn } from "@/lib/utils";
 
 interface FooterProps {
   footer: FooterSchema | undefined;
 }
 
 export default function Footer({ footer }: FooterProps) {
+  const { isEditMode, draft } = useEditMode();
   const year = new Date().getFullYear();
 
-  if (!footer) return null;
+  const templateSource: FooterSchema | undefined = isEditMode
+    ? (draft.footer as FooterSchema) || footer
+    : footer;
+
+  if (!templateSource) return null;
+
+  // resolve a few colors for inline styling (ensures live preview in editor)
+  const logoTitleResolved = resolveColor(
+    templateSource.sections.logo.title.color,
+    "text"
+  );
+  const linksTitleResolved = resolveColor(
+    templateSource.sections.links.title.color,
+    "text"
+  );
+  const contactTitleResolved = resolveColor(
+    templateSource.sections.contact.title.color,
+    "text"
+  );
+  const openingTitleResolved = resolveColor(
+    templateSource.sections.openingHours.title.color,
+    "text"
+  );
+  const mapTextResolved = resolveColor(
+    templateSource.sections.contact.address.mapTextColor,
+    "text"
+  );
+  const upArrowBgResolved = resolveColor(templateSource.upArrow.bgColor, "bg");
+  const upArrowIconResolved = resolveColor(
+    templateSource.upArrow.iconColor,
+    "text"
+  );
 
   return (
     <footer
-      className={`bg-primary-dark text-background-light py-16 px-8 md:px-20 relative`}
+      className={`py-16 px-8 md:px-20 relative bg-${templateSource.bgColor.from} text-${templateSource.textColor}`}
     >
       {/* Subtle background glow */}
       <div
-        className={`absolute inset-0 bg-gradient-to-r from-accent to-transparent opacity-10 blur-2xl pointer-events-none`}
+        className={`absolute inset-0 opacity-10 blur-2xl pointer-events-none`}
+        style={{
+          background: `linear-gradient(${templateSource.glow.direction || "to-t"}, var(--tw-gradient-stops))`,
+        }}
       />
 
       <div className="relative grid grid-cols-1 md:grid-cols-4 gap-10 text-left z-10">
         {/* Column 1 — Logo & tagline */}
         <div>
-          <h4 className={`text-2xl font-bold mb-2 text-accent`}>
-            {footer.sections.logo.title.text}
+          <h4
+            className={cn(
+              "text-2xl font-bold mb-2",
+              logoTitleResolved.className
+            )}
+            style={logoTitleResolved.style}
+          >
+            {templateSource.sections.logo.title.text}
           </h4>
-          <p className={`text-sm opacity-80 leading-relaxed`}>
-            {footer.sections.logo.tagline.text}
+          <p
+            className={`text-sm opacity-80 leading-relaxed text-${templateSource.sections.logo.tagline.color}`}
+          >
+            {templateSource.sections.logo.tagline.text}
           </p>
         </div>
 
         {/* Column 2 — Quick Links */}
-        <div>
-          <h5 className={`text-lg font-semibold mb-3 text-accent`}>
-            {footer.sections.links.title.text}
+        <div className="text-background-light">
+          <h5
+            className={cn(
+              "text-lg font-semibold mb-3",
+              linksTitleResolved.className
+            )}
+            style={linksTitleResolved.style}
+          >
+            {templateSource.sections.links.title.text}
           </h5>
           <ul className="space-y-2 text-sm opacity-90">
-            {footer.sections.links.linkList.map((link) => (
+            {templateSource.sections.links.linkList.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}
-                  className={`hover:text-accent transition-colors text-inherit`}
+                  className={`hover:underline transition-colors text-inherit`}
                 >
                   {link.label}
                 </Link>
@@ -54,8 +105,14 @@ export default function Footer({ footer }: FooterProps) {
 
         {/* Column 3 — Contact */}
         <div>
-          <h5 className={`text-lg font-semibold mb-3 text-accent`}>
-            {footer.sections.contact.title.text}
+          <h5
+            className={cn(
+              "text-lg font-semibold mb-3",
+              contactTitleResolved.className
+            )}
+            style={contactTitleResolved.style}
+          >
+            {templateSource.sections.contact.title.text}
           </h5>
           <p className="flex justify-start items-center gap-2 text-sm opacity-90 leading-relaxed">
             <svg
@@ -70,7 +127,7 @@ export default function Footer({ footer }: FooterProps) {
                 clipRule="evenodd"
               />
             </svg>
-            {footer.sections.contact.phone.number}
+            {templateSource.sections.contact.phone.number}
           </p>
           <p className="flex justify-start items-center gap-2 text-sm opacity-90 leading-relaxed">
             <svg
@@ -82,7 +139,7 @@ export default function Footer({ footer }: FooterProps) {
               <path d="M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67Z" />
               <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
             </svg>
-            {footer.sections.contact.email.address}
+            {templateSource.sections.contact.email.address}
           </p>
           <p className="text-sm opacity-90 leading-relaxed flex justify-start items-center gap-2">
             <svg
@@ -97,25 +154,29 @@ export default function Footer({ footer }: FooterProps) {
                 clipRule="evenodd"
               />
             </svg>
-            {footer.sections.contact.address.text}
+            {templateSource.sections.contact.address.text}
           </p>
           <Link
-            href={footer.sections.contact.address.mapLink}
+            href={templateSource.sections.contact.address.mapLink}
             target="_blank"
-            className={`inline-block mt-3 text-${footer.sections.contact.address.mapTextColor} hover:underline`}
+            className={`inline-block mt-3 hover:underline text-${templateSource.sections.contact.address.mapTextColor}`}
           >
-            {footer.sections.contact.address.mapText}
+            {templateSource.sections.contact.address.mapText}
           </Link>
         </div>
 
         {/* Column 4 — Opening hours */}
         <div>
           <h5
-            className={`text-lg font-semibold mb-3 text-${footer.sections.openingHours.title.color}`}
+            className={cn(
+              "text-lg font-semibold mb-3",
+              openingTitleResolved.className
+            )}
+            style={openingTitleResolved.style}
           >
-            {footer.sections.openingHours.title.text}
+            {templateSource.sections.openingHours.title.text}
           </h5>
-          {footer.sections.openingHours.hours.map((h, idx) => (
+          {templateSource.sections.openingHours.hours.map((h, idx) => (
             <p key={idx} className="text-sm opacity-90 leading-relaxed">
               {h.day}: {h.time}
             </p>
@@ -142,16 +203,20 @@ export default function Footer({ footer }: FooterProps) {
       {/* Bottom bar */}
       <div className="relative flex flex-col md:flex-row justify-between items-center gap-4 text-sm opacity-70">
         <p>
-          © {year} {footer.sections.logo.title.text}. Minden jog fenntartva.
+          © {year} {templateSource.sections.logo.title.text}. Minden jog
+          fenntartva.
         </p>
         <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
           <Link
             href="#hero"
-            color={footer.upArrow.color as any}
             aria-label="Fel"
-            className={`rounded-full shadow-sm bg-${footer.upArrow.bgColor} p-3`}
+            className={`rounded-full shadow-sm p-3`}
+            style={{ ...(upArrowBgResolved.style || {}) }}
           >
-            <ArrowUp size={25} color={footer.upArrow.iconColor} />
+            <ArrowUp
+              size={25}
+              color={upArrowIconResolved.style?.color || undefined}
+            />
           </Link>
         </motion.div>
       </div>

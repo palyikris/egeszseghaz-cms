@@ -1,11 +1,25 @@
 /* eslint-disable prettier/prettier */
 import { Divider } from "@heroui/divider";
 
-export default function CustomDivider({ className, direction, iconSize }: { className?: string, direction?: "up" | "down", iconSize?: number }) {
+export default function CustomDivider({
+  className,
+  direction,
+  iconSize,
+  bg,
+}: {
+  className?: string;
+  direction?: "up" | "down";
+  iconSize?: number;
+  bg?: string;
+}) {
   return (
-    <div className={`w-full flex justify-center items-center relative ${className}`}>
+    <div
+      className={`w-full flex justify-center items-center relative ${className}`}
+    >
       <Divider className="w-2/3" />
-      <div className="absolute -top-3 bg-background-light text-primary-dark px-4">
+      <div
+        className={`absolute -top-3 bg-${bg ?? "background-light"} text-primary-dark px-4`}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           className={`size-${iconSize || 6} transform ${direction === "up" ? "rotate-180" : ""}`}

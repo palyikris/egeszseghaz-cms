@@ -5,7 +5,7 @@ import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
 
-type DraftStatus = "Draft" | "Published";
+type DraftStatus = "Draft" | "Published" | "Publishing...";
 
 interface EditModeContextType {
   isEditMode: boolean;
@@ -86,6 +86,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey) {
         if (!isEditMode) {
           toggleEditMode();
+          setDraftStatus("Draft");
 
           return;
         }

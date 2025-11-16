@@ -2,6 +2,7 @@
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
+import React, { useState } from "react";
 import { Service } from "@/types/services";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";
@@ -17,12 +18,30 @@ export default function ServiceCard({
 }) {
   const headingColor = cardTemplate?.heading?.color;
   const headingResolved = resolveColor(headingColor, "text");
+  const headingHoverResolved = resolveColor(
+    cardTemplate?.heading?.hoverColor,
+    "text"
+  );
+
+  const hoverOverlayBgResolved = resolveColor(
+    cardTemplate?.hoverOverlay?.bgColor,
+    "bg"
+  );
+
+  const buttonHoverBgResolved = resolveColor(
+    cardTemplate?.button?.hoverBgColor,
+    "bg"
+  );
+
+  const [isHovered, setIsHovered] = useState(false);
 
   return (
     <BlurFade inView delay={0.2} key={i}>
       <motion.div
         whileHover={{ y: -6 }}
         transition={{ duration: 0.25, ease: "easeOut" }}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
       >
         <Card
           key={service.id || i}
@@ -45,9 +64,17 @@ export default function ServiceCard({
             {/* Accent glow line */}
             <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-accent via-secondary to-accent opacity-0 group-hover:opacity-100 transition-all duration-500 blur-[2px]" />
 
-            {/* Hover title overlay */}
+            {/* Hover title overlay (use inline styles so editor changes appear immediately) */}
             <div
-              className={`absolute inset-0 flex items-center justify-center text-${cardTemplate.hoverOverlay.textColor} text-${cardTemplate.hoverOverlay.textSize} font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-${cardTemplate.hoverOverlay.bgColor} backdrop-blur-[${cardTemplate.hoverOverlay.backdropBlur}]`}
+              className={`absolute text-${cardTemplate?.hoverOverlay?.textColor} inset-0 flex items-center justify-center font-semibold transition-opacity duration-500`}
+              style={{
+                ...(hoverOverlayBgResolved.style || {}),
+                fontSize: cardTemplate?.hoverOverlay?.textSize || undefined,
+                opacity: isHovered ? 1 : 0,
+                backdropFilter: cardTemplate?.hoverOverlay?.backdropBlur
+                  ? `blur(${cardTemplate.hoverOverlay.backdropBlur})`
+                  : undefined,
+              }}
             >
               {cardTemplate.hoverOverlay.text}
             </div>
@@ -57,10 +84,13 @@ export default function ServiceCard({
           <CardBody className="px-5 py-4">
             <h3
               className={cn(
-                "text-2xl font-semibold mb-2 group-hover:text-primary transition-colors",
+                "text-2xl font-semibold mb-2 transition-colors",
                 headingResolved.className
               )}
-              style={headingResolved.style}
+              style={{
+                ...(headingResolved.style || {}),
+                ...(isHovered ? headingHoverResolved.style : {}),
+              }}
             >
               {service.id.charAt(0).toUpperCase() +
                 service.id.slice(1, 20).toLowerCase() +
@@ -96,14 +126,18 @@ export default function ServiceCard({
             <Button
               variant={cardTemplate.button.variant as any}
               color={cardTemplate.button.color as any}
-              className="relative font-medium overflow-hidden transition-all duration-300 group"
+              className="relative font-medium overflow-hidden transition-all duration-300"
             >
               <span className={`relative z-10`}>
                 {cardTemplate.button.label}
               </span>
               <motion.div
-                className={`absolute inset-0 bg-${cardTemplate.button.hoverBgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}
+                className={`absolute inset-0 transition-opacity duration-300`}
                 layoutId="buttonHighlight"
+                style={{
+                  ...(buttonHoverBgResolved.style || {}),
+                  opacity: isHovered ? 1 : 0,
+                }}
               />
             </Button>
           </CardFooter>

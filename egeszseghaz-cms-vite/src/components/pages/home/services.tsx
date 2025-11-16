@@ -7,6 +7,8 @@ import { Service } from "@/types/services";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { resolveColor, cn } from "@/lib/utils";
 import { ServicesSchema } from "@/templates/home/home_schema";
+import { useEditMode } from "@/context/edit/edit";
+import { BlurFade } from "@/components/ui/blur-fade";
 
 interface ServicesSectionProps {
   services: Service[];
@@ -17,26 +19,33 @@ export default function ServicesSection({
   services,
   servicesTemplate,
 }: ServicesSectionProps) {
-  if (!servicesTemplate) return null;
+  const { isEditMode, draft } = useEditMode();
 
-  const headingResolved = resolveColor(servicesTemplate.heading?.color, "text");
+  if (!servicesTemplate && !isEditMode) return null;
+
+  const templateSource: ServicesSchema = isEditMode
+    ? draft.services
+    : servicesTemplate;
+  const headingResolved = resolveColor(templateSource?.heading?.color, "text");
+  const cardSource = isEditMode ? draft.services?.card : servicesTemplate?.card;
 
   return (
     <section
       className={`py-24 px-10 bg-gradient-to-tl from-primary-light via-primary-light/90 to-secondary-light my-12 rounded-none relative md:rounded-[5%] lg:rounded-[10%]`}
       id="services"
     >
-      <h1
-        className={cn(
-          "text-4xl sm:text-5xl font-semibold text-center mb-12",
-          headingResolved.className
-        )}
-        style={headingResolved.style}
-      >
-        <TypingAnimation>
-          {servicesTemplate.heading?.text || "Szolgáltatásaink"}
-        </TypingAnimation>
-      </h1>
+      <BlurFade inView key={templateSource.heading?.text || ""} delay={0.2}>
+        <h1
+          className={cn(
+            "text-4xl sm:text-5xl font-semibold text-center mb-12",
+            headingResolved.className
+          )}
+          style={headingResolved.style}
+          key={templateSource.heading?.text || ""}
+        >
+          {templateSource?.heading?.text || "Szolgáltatásaink"}
+        </h1>
+      </BlurFade>
       <ScrollShadow className="w-full px-6 h-[800px] py-16">
         <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
           {services.map((service, i) => (
@@ -44,7 +53,7 @@ export default function ServicesSection({
               key={i}
               service={service}
               i={i}
-              cardTemplate={servicesTemplate.card}
+              cardTemplate={cardSource}
             />
           ))}
         </div>

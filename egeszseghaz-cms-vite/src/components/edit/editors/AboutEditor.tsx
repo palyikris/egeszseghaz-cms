@@ -76,8 +76,8 @@ export function AboutEditor() {
       </div>
 
       <div>
-        <p className="block font-medium mb-1">Heading (first)</p>
         <Input
+          label="Heading (first)"
           type="text"
           value={about.heading?.textFirst ?? ""}
           onChange={(e) => handleChange("heading.textFirst", e.target.value)}
@@ -85,8 +85,8 @@ export function AboutEditor() {
       </div>
 
       <div>
-        <p className="block font-medium mb-1">Heading (second)</p>
         <Input
+          label="Heading (second)"
           type="text"
           value={about.heading?.textSecond ?? ""}
           onChange={(e) => handleChange("heading.textSecond", e.target.value)}
@@ -94,8 +94,8 @@ export function AboutEditor() {
       </div>
 
       <div>
-        <p className="block font-medium mb-1">Heading Color</p>
         <Select
+          label="Heading Color"
           selectedKeys={[about.heading?.color]}
           endContent={
             <span
@@ -111,16 +111,16 @@ export function AboutEditor() {
       </div>
 
       <div>
-        <p className="block font-medium mb-1">Description</p>
         <Textarea
+          label="Description"
           value={about.description?.text ?? ""}
           onChange={(e) => handleChange("description.text", e.target.value)}
         />
       </div>
 
       <div>
-        <p className="block font-medium mb-1">Description Color</p>
         <Select
+          label="Description Color"
           selectedKeys={[about.description?.color]}
           endContent={
             <span
@@ -136,8 +136,6 @@ export function AboutEditor() {
           ))}
         </Select>
       </div>
-
-      <hr />
 
       <div>
         <h4 className="font-semibold">Features</h4>
@@ -219,8 +217,8 @@ export function AboutEditor() {
         <h4 className="font-semibold">Buttons</h4>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div>
-            <p className="block">Primary Button Label</p>
             <Input
+              label="Primary Button Label"
               type="text"
               value={about.primaryButton?.label ?? ""}
               onChange={(e) =>
@@ -229,8 +227,8 @@ export function AboutEditor() {
             />
           </div>
           <div>
-            <p className="block">Primary Button Color</p>
             <Select
+              label="Primary Button Color"
               selectedKeys={[about.primaryButton?.color]}
               endContent={
                 <span
@@ -250,8 +248,8 @@ export function AboutEditor() {
 
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div>
-            <p className="block">Secondary Button Label</p>
             <Input
+              label="Secondary Button Label"
               type="text"
               value={about.secondaryButton?.label ?? ""}
               onChange={(e) =>
@@ -260,8 +258,8 @@ export function AboutEditor() {
             />
           </div>
           <div>
-            <p className="block">Secondary Button Color</p>
             <Select
+              label="Secondary Button Color"
               selectedKeys={[about.secondaryButton?.color]}
               endContent={
                 <span

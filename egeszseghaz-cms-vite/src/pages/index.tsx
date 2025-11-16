@@ -26,11 +26,13 @@ export default function HomePage() {
   if (pageLoading || servicesLoading) return <CustomLoader />;
 
   return (
-    <main className="bg-background-light text-text-primary">
+    <main className="bg-background-light text-text-primary flex flex-col min-h-screen justify-start">
       <EditToolbar />
       <EditSidebar />
 
-      <Navbar navbar={navbar} />
+      <EditableWrapper id="navbar">
+        <Navbar navbar={navbar} />
+      </EditableWrapper>
 
       <EditableWrapper id="hero">
         <HeroSection hero={hero} />
@@ -45,19 +47,25 @@ export default function HomePage() {
       <CustomDivider />
 
       {services && services.length > 0 ? (
-        <ServicesSection
-          services={services}
-          servicesTemplate={servicesTemplate}
-        />
+        <EditableWrapper id="services">
+          <ServicesSection
+            services={services}
+            servicesTemplate={servicesTemplate}
+          />
+        </EditableWrapper>
       ) : (
         <div className="p-6 text-center">
           Nincsenek elérhető szolgáltatások.
         </div>
       )}
 
-      <ReviewsSection reviewsTemplate={reviews} />
+      <EditableWrapper id="reviews">
+        <ReviewsSection reviewsTemplate={reviews} />
+      </EditableWrapper>
 
-      <Footer footer={footer} />
+      <EditableWrapper id="footer">
+        <Footer footer={footer} />
+      </EditableWrapper>
     </main>
   );
 }

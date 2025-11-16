@@ -8,6 +8,8 @@ import { Card } from "@heroui/card";
 
 import { resolveColor, cn } from "@/lib/utils";
 import { ReviewsSchema } from "@/templates/home/home_schema";
+import { useEditMode } from "@/context/edit/edit";
+import { BlurFade } from "@/components/ui/blur-fade";
 
 const reviews: Review[] = [
   {
@@ -34,44 +36,61 @@ interface ReviewSectionProps {
 export default function ReviewsSection({
   reviewsTemplate,
 }: ReviewSectionProps) {
-  if (!reviewsTemplate) return null;
+  const { isEditMode, draft } = useEditMode();
 
-  const headingResolved = resolveColor(reviewsTemplate.heading?.color, "text");
+  const templateSource: ReviewsSchema | undefined = isEditMode
+    ? (draft.reviews as ReviewsSchema) || reviewsTemplate
+    : reviewsTemplate;
+
+  if (!templateSource) return null;
+
+  const headingResolved = resolveColor(templateSource.heading?.color, "text");
 
   return (
     <section
-      className="py-24 px-6 sm:px-16 pt-4 lg:pt-24 text-center relative"
+      className="py-24 px-6 sm:px-16 pt-4 lg:pt-24 text-center relative w-full flex flex-col items-center"
       id="reviews"
     >
-      <h1
-        className={cn(
-          "text-4xl font-semibold mb-20 py-20 pt-4 lg:pt-20",
-          headingResolved.className
-        )}
-        style={headingResolved.style}
-      >
-        <TypingAnimation>
-          {reviewsTemplate.heading?.text || "Mit mondtok rólunk?"}
-        </TypingAnimation>
-      </h1>
+      <BlurFade inView key={templateSource.heading?.text} delay={0.2}>
+        <h1
+          className={cn(
+            "text-4xl font-semibold mb-20 py-20 pt-4 lg:pt-20",
+            headingResolved.className
+          )}
+          style={headingResolved.style}
+          key={templateSource.heading?.text}
+        >
+          {templateSource.heading?.text || "Mit mondtok rólunk?"}
+        </h1>
+      </BlurFade>
       <SpinningText
-        radius={reviewsTemplate.spinningText?.radius || 15}
-        duration={reviewsTemplate.spinningText?.duration || 40}
-        className="right-1/6 top-1/4 absolute hidden lg:block"
+        radius={templateSource.spinningText?.radius || 15}
+        duration={templateSource.spinningText?.duration || 40}
+        className={`right-1/6 top-1/4 absolute hidden lg:block text-${templateSource.spinningText?.color}`}
       >
-        {reviewsTemplate.spinningText?.text ||
+        {templateSource.spinningText?.text ||
           "Pácienseink mondták - Nem mi találjuk ki - Gyere próbáld ki te is - "}
       </SpinningText>
 
       <Marquee
-        className="flex justify-center gap-8 [--duration:20s] w-full"
+        className="flex justify-center gap-8 [--duration:20s] max-w-[100%]"
         pauseOnHover
       >
         {reviews.map((t, i) => {
+          const card = templateSource.card || {};
+
+          const bgResolved = resolveColor(card.bgColor, "bg");
+          const textResolved = resolveColor(card.textColor, "text");
+
+          const starSize = Number(card.size || 8);
+
           return (
             <Card
               key={i}
-              className={`max-w-64 sm:max-w-sm bg-${reviewsTemplate.card.bgColor} shadow-md border border-${reviewsTemplate.card.borderColor} p-6 px-2 md:px-6`}
+              className={`max-w-64 border border-${card.borderColor} sm:max-w-sm p-6 px-2 md:px-6 ${textResolved.className || ""} shadow-md`}
+              style={{
+                ...(bgResolved.style || {}),
+              }}
             >
               {t.stars >= 0 && (
                 <div className="flex justify-center mb-4">
@@ -80,8 +99,8 @@ export default function ReviewsSection({
                       key={idx}
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
-                      fill={reviewsTemplate.card.starColor || "currentColor"}
-                      className={`size-${reviewsTemplate.card.size || 8}`}
+                      fill={card.starColor || "currentColor"}
+                      className={`size-${starSize}`}
                     >
                       <path
                         fillRule="evenodd"
@@ -92,15 +111,13 @@ export default function ReviewsSection({
                   ))}
                 </div>
               )}
-              <CustomDivider className="my-4" iconSize={4} direction="up" />
-              <p
-                className={`italic mb-4 text-${reviewsTemplate.card.textColor}`}
-              >
+              <div className="w-full flex justify-center">
+                <hr className="mb-4 w-2/3" />
+              </div>
+              <p style={textResolved.style} className="italic mb-4">
                 “{t.text}”
               </p>
-              <p
-                className={`font-semibold text-${reviewsTemplate.card.authorColor}`}
-              >
+              <p className={`font-semibold text-${card.authorColor}`}>
                 — {t.name}
               </p>
             </Card>
