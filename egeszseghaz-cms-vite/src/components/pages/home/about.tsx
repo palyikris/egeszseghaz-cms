@@ -43,7 +43,10 @@ export default function AboutSection({ about }: AboutSectionProps) {
   const isRawColor = (v?: string | null) => !!v && /^#|^rgb|^hsl/i.test(v);
 
   return (
-    <section className="py-16 px-6 sm:px-8 md:px-16 bg-surface" id="about">
+    <section
+      className="py-16 px-6 sm:px-8 md:px-16 bg-background-light"
+      id="about"
+    >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
         <div className="space-y-6">
           <div className="flex items-start gap-4">

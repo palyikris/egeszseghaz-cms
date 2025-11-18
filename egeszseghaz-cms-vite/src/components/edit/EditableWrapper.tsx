@@ -16,7 +16,7 @@ export function EditableWrapper({ id, children }: EditableWrapperProps) {
   return (
     <button
       className={cn(
-        "relative transition-all",
+        "relative transition-all bg-background-light",
         "hover:outline-2 hover:outline-accent/60 hover:cursor-pointer w-full",
         isSelected && "outline-2 outline-accent"
       )}

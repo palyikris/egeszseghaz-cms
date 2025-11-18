@@ -13,6 +13,7 @@ interface EditModeContextType {
   selectedId: string | null;
   setSelectedId: (id: string | null) => void;
   draft: Record<string, any>;
+  setDraft: (draft: Record<string, any>) => void;
   updateDraft: (key: string, value: any) => void;
   undo: () => void;
   redo: () => void;
@@ -72,6 +73,11 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
+  useEffect(() => {
+    if (draftStatus === "Published") {
+    }
+  }, [draftStatus]);
+
   // ⌨️ Keyboard listener (press "e" to toggle)
   useEffect(() => {
     if (isLoading) return;
@@ -109,6 +115,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
         selectedId,
         setSelectedId,
         draft,
+        setDraft,
         updateDraft,
         undo,
         redo,

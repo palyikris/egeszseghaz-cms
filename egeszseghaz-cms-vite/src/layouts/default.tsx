@@ -45,5 +45,9 @@ export default function DefaultLayout({
     return () => window.removeEventListener("hashchange", onHashChange);
   }, [location]);
 
-  return <div className="relative flex flex-col h-screen">{children}</div>;
+  return (
+    <div className="relative flex flex-col min-h-screen bg-background-light">
+      {children}
+    </div>
+  );
 }

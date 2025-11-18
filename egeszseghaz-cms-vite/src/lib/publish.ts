@@ -7,7 +7,7 @@ export async function publishDraft(pageId: string, publishedContent: any) {
   const pageRef = doc(db, "template", pageId);
 
   const pageSnap = await updateDoc(pageRef, {
-    publishedContent: publishedContent,
+    ...publishedContent,
     updatedAt: new Date(),
   } as Partial<PageDoc>);
 

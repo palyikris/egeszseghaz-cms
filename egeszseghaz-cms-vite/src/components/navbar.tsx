@@ -23,6 +23,7 @@ export default function Navbar({ navbar }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data, isLoading } = useIsUserAuthenticated();
   const queryClient = useQueryClient();
+  const { isEditMode, draft, setIsEditMode } = useEditMode();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -31,8 +32,6 @@ export default function Navbar({ navbar }: NavbarProps) {
 
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const { isEditMode, draft, setIsEditMode } = useEditMode();
 
   const templateSource: NavbarSchema | undefined = isEditMode
     ? (draft.navbar as NavbarSchema) || navbar
@@ -74,17 +73,44 @@ export default function Navbar({ navbar }: NavbarProps) {
 
         {/* Desktop links */}
         <div className="hidden md:flex gap-8 items-center">
-          {links.map((link) => (
-            <motion.div key={link.href} whileHover={{ y: -1 }}>
-              <Link
-                href={link.href}
-                className={`relative text-${link.color} font-medium transition-colors hover:text-primary-dark`}
-              >
-                {link.label}
-                <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
-              </Link>
-            </motion.div>
-          ))}
+          {links.map((link) => {
+            if (!isEditMode) {
+              return (
+                <motion.div key={link.href} whileHover={{ y: -1 }}>
+                  <Link
+                    href={link.href}
+                    className={`relative text-${link.color} font-medium transition-colors hover:text-primary-dark`}
+                  >
+                    {link.label}
+                    <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
+                  </Link>
+                </motion.div>
+              );
+            }
+          })}
+
+          {isEditMode && (
+            <>
+              <motion.div key="/" whileHover={{ y: -1 }}>
+                <Link
+                  href="/"
+                  className={`relative text-primary-dark font-medium transition-colors hover:text-primary-dark`}
+                >
+                  Home
+                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
+                </Link>
+              </motion.div>
+              <motion.div key="/settings" whileHover={{ y: -1 }}>
+                <Link
+                  href="/settings"
+                  className={`relative text-primary-dark font-medium transition-colors hover:text-primary-dark`}
+                >
+                  Settings
+                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
+                </Link>
+              </motion.div>
+            </>
+          )}
           {data ? (
             <div className="pl-4 w-auto flex justify-center items-center">
               <button

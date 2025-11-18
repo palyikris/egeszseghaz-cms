@@ -8,15 +8,11 @@ type PublishVariables = {
 };
 
 export function usePublishSite() {
+
   return useMutation<void, unknown, PublishVariables>({
     mutationKey: ["publish-site"],
     // mutationFn receives a single `variables` argument. Pass an object when calling mutate/mutateAsync.
     mutationFn: async ({ pageId, publishedContent }: PublishVariables) => {
-      console.log(
-        "usePublishSite mutationFn called with:",
-        pageId,
-        publishedContent
-      );
       await publishDraft(pageId, publishedContent);
     },
     onError: (error) => {

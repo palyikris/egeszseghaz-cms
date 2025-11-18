@@ -5,6 +5,7 @@ import { useEditMode } from "@/context/edit/edit";
 import { useState } from "react";
 import { Chip } from "@heroui/chip";
 import { usePublishSite } from "@/hooks/usePublishSite";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function EditToolbar() {
   const {
@@ -18,6 +19,7 @@ export function EditToolbar() {
   } = useEditMode();
   const [isTop, setIsTop] = useState(true);
   const publish = usePublishSite();
+  const queryClient = useQueryClient();
 
   return (
     <div
@@ -31,7 +33,7 @@ export function EditToolbar() {
           <Chip
             size="sm"
             color="primary"
-            className="border border-accent bg-accent text-text-primary"
+            className={`border border-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} bg-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} text-text-primary`}
           >
             {draftStatus}
           </Chip>
@@ -56,9 +58,23 @@ export function EditToolbar() {
           variant="solid"
           size="sm"
           className="bg-accent text-primary-dark hover:bg-accent/80"
-          onPress={() => {
+          onPress={async () => {
             setDraftStatus("Publishing...");
-            publish.mutateAsync({ pageId: "home", publishedContent: draft });
+            await publish.mutateAsync(
+              {
+                pageId: "home",
+                publishedContent: draft,
+              },
+              {
+                onSuccess: async () => {
+                  await queryClient.refetchQueries({
+                    queryKey: ["page", "home"],
+                  });
+                  setDraftStatus("Published");
+                  toggleEditMode();
+                },
+              }
+            );
           }}
         >
           Publish
