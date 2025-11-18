@@ -2,7 +2,7 @@
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Service } from "@/types/services";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";

@@ -37,10 +37,6 @@ export default function Footer({ footer }: FooterProps) {
     templateSource.sections.openingHours.title.color,
     "text"
   );
-  const mapTextResolved = resolveColor(
-    templateSource.sections.contact.address.mapTextColor,
-    "text"
-  );
   const upArrowBgResolved = resolveColor(templateSource.upArrow.bgColor, "bg");
   const upArrowIconResolved = resolveColor(
     templateSource.upArrow.iconColor,

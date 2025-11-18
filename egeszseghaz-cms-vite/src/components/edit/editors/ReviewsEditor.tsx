@@ -6,7 +6,6 @@ import { Select, SelectItem } from "@heroui/select";
 import { useEditMode } from "@/context/edit/edit";
 import { ReviewsSchema } from "@/templates/home/home_schema";
 import { colorMap } from "@/types/edit";
-import { Button } from "@heroui/button";
 
 export function ReviewsEditor() {
   const { draft, updateDraft } = useEditMode();

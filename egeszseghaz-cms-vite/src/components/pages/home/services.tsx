@@ -4,7 +4,6 @@ import { ScrollShadow } from "@heroui/scroll-shadow";
 import ServiceCard from "./service_card";
 
 import { Service } from "@/types/services";
-import { TypingAnimation } from "@/components/ui/typing-animation";
 import { resolveColor, cn } from "@/lib/utils";
 import { ServicesSchema } from "@/templates/home/home_schema";
 import { useEditMode } from "@/context/edit/edit";
