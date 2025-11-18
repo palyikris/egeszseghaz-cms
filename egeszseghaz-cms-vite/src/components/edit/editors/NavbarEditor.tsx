@@ -48,7 +48,9 @@ export function NavbarEditor() {
           selectedKeys={[navbar?.title?.color]}
           onSelectionChange={(e) => handleChange("title.color", e.currentKey)}
           endContent={
-            <span className={`px-[10px] py-[1px] bg-${navbar?.title?.color} rounded-full`} />
+            <span
+              className={`px-[10px] py-[1px] bg-${navbar?.title?.color} rounded-full`}
+            />
           }
         >
           {colorMap.map((c) => (
@@ -58,10 +60,13 @@ export function NavbarEditor() {
       </div>
 
       <div>
-        <h4 className="font-semibold">Links</h4>
+        <h4 className="font-semibold mb-2">Links</h4>
         {(navbar?.links || []).map((l, idx) => (
-          <div key={idx} className="grid grid-cols-12 gap-2 mb-2 items-center">
-            <div className="col-span-3">
+          <div
+            key={idx}
+            className="grid grid-cols-12 gap-2 mb-2 items-center border border-border p-2 rounded-lg"
+          >
+            <div className="col-span-12">
               <Input
                 label={`Label ${idx + 1}`}
                 type="text"
@@ -69,7 +74,7 @@ export function NavbarEditor() {
                 onChange={(e) => updateLink(idx, "label", e.target.value)}
               />
             </div>
-            <div className="col-span-2">
+            <div className="col-span-12">
               <Input
                 label={`Href ${idx + 1}`}
                 type="text"
@@ -77,13 +82,17 @@ export function NavbarEditor() {
                 onChange={(e) => updateLink(idx, "href", e.target.value)}
               />
             </div>
-            <div className="col-span-5">
+            <div className="col-span-12">
               <Select
                 label="Color"
                 selectedKeys={[l.color]}
-                onSelectionChange={(e) => updateLink(idx, "color", e.currentKey)}
+                onSelectionChange={(e) =>
+                  updateLink(idx, "color", e.currentKey)
+                }
                 endContent={
-                  <span className={`px-[10px] py-[1px] bg-${l.color} rounded-full`} />
+                  <span
+                    className={`px-[10px] py-[1px] bg-${l.color} rounded-full`}
+                  />
                 }
               >
                 {colorMap.map((c) => (
@@ -91,8 +100,12 @@ export function NavbarEditor() {
                 ))}
               </Select>
             </div>
-            <div className="col-span-1 flex items-end">
-              <Button color="danger" variant="ghost" onPress={() => removeLink(idx)}>
+            <div className="col-span-12 flex items-end">
+              <Button
+                color="danger"
+                variant="ghost"
+                onPress={() => removeLink(idx)}
+              >
                 Remove
               </Button>
             </div>
@@ -100,7 +113,9 @@ export function NavbarEditor() {
         ))}
 
         <div className="mt-4">
-          <Button onPress={addLink} color="primary">Add link</Button>
+          <Button onPress={addLink} color="primary">
+            Add link
+          </Button>
         </div>
       </div>
     </div>
