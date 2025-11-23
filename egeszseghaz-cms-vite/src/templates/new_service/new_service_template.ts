@@ -3,6 +3,7 @@
 import { ServiceSchema } from "./new_service_schema";
 
 export const defaultServiceTemplate: ServiceSchema = {
+  isDisplayed: true,
   heroImage: "",
   gallery: [],
   title: "Új szolgáltatás",

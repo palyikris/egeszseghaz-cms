@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 export interface AnnouncementSchema {
+  isDisplayed: boolean;
   bannerImage: string;
   title: string;
   date: string;

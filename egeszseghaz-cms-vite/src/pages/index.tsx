@@ -12,6 +12,8 @@ import Footer from "@/components/footer";
 import { EditToolbar } from "@/components/edit/EditToolBar";
 import { EditSidebar } from "@/components/edit/EditSidebar";
 import { EditableWrapper } from "@/components/edit/EditableWrapper";
+import { Announcement } from "@/components/banners/announcement";
+import { defaultAnnouncementTemplate } from "@/templates/announcement/announcement_template";
 
 export default function HomePage() {
   const { data: pageData, isLoading: pageLoading } = usePage("home");
@@ -22,6 +24,7 @@ export default function HomePage() {
   const servicesTemplate = pageData?.services;
   const navbar = pageData?.navbar;
   const footer = pageData?.footer;
+  const announcement = defaultAnnouncementTemplate;
 
   if (pageLoading || servicesLoading) return <CustomLoader />;
 
@@ -37,6 +40,8 @@ export default function HomePage() {
       <EditableWrapper id="hero">
         <HeroSection hero={hero} />
       </EditableWrapper>
+
+      <Announcement data={announcement} />
 
       <CustomDivider direction="up" className="mt-20" />
 

@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 
 export interface ServiceSchema {
+  isDisplayed: boolean;
   heroImage: string;
   gallery: string[];
   title: string;
