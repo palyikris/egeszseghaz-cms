@@ -1,13 +1,13 @@
 /* eslint-disable prettier/prettier */
 import { ScrollShadow } from "@heroui/scroll-shadow";
 
-import ServiceCard from "./service_card";
 
 import { Service } from "@/types/services";
 import { resolveColor, cn } from "@/lib/utils";
 import { ServicesSchema } from "@/templates/home/home_schema";
 import { useEditMode } from "@/context/edit/edit";
 import { BlurFade } from "@/components/ui/blur-fade";
+import ServiceCard from "./service_card";
 
 interface ServicesSectionProps {
   services: Service[];

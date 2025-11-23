@@ -13,5 +13,5 @@ export const defaultAnnouncementTemplate: AnnouncementSchema = {
     url: "/events/egeszsegnap-2025",
     isVisible: true,
   },
-  theme: "warning",
+  theme: "info",
 };
