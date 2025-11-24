@@ -13,23 +13,30 @@ import { EditToolbar } from "@/components/edit/EditToolBar";
 import { EditSidebar } from "@/components/edit/EditSidebar";
 import { EditableWrapper } from "@/components/edit/EditableWrapper";
 import { Announcement } from "@/components/banners/announcement";
-import { defaultAnnouncementTemplate } from "@/templates/announcement/announcement_template";
-import { defaultServiceTemplate } from "@/templates/new_service/new_service_template";
 import { NewServiceSection } from "@/components/banners/new_service";
+import { useNewService } from "@/hooks/useNewService";
+import { useAnnouncement } from "@/hooks/useAnnouncement";
 
 export default function HomePage() {
   const { data: pageData, isLoading: pageLoading } = usePage("home");
   const { data: services, isLoading: servicesLoading } = useServices();
+  const { data: newService, isLoading: newServiceLoading } = useNewService();
+  const { data: announcement, isLoading: announcementLoading } =
+    useAnnouncement();
   const hero = pageData?.hero;
   const about = pageData?.about;
   const reviews = pageData?.reviews;
   const servicesTemplate = pageData?.services;
   const navbar = pageData?.navbar;
   const footer = pageData?.footer;
-  const announcement = defaultAnnouncementTemplate;
-  const service = defaultServiceTemplate;
 
-  if (pageLoading || servicesLoading) return <CustomLoader />;
+  if (
+    pageLoading ||
+    servicesLoading ||
+    newServiceLoading ||
+    announcementLoading
+  )
+    return <CustomLoader />;
 
   return (
     <main className="bg-background-light text-text-primary flex flex-col min-h-screen justify-start">
@@ -44,10 +51,14 @@ export default function HomePage() {
         <HeroSection hero={hero} />
       </EditableWrapper>
 
-      <Announcement data={announcement} />
-      <NewServiceSection data={service} />
+      {announcement && announcement.isDisplayed ? (
+        <Announcement data={announcement} />
+      ) : null}
+      {newService && newService.isDisplayed ? (
+        <NewServiceSection data={newService} />
+      ) : null}
 
-      <CustomDivider direction="up" className="mt-20" />
+      <CustomDivider direction="up" className="mt-10" />
 
       <EditableWrapper id="about">
         <AboutSection about={about} />

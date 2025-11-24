@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Button } from "@heroui/button";
 import CustomDivider from "../divider";
-import { useEditMode } from "@/context/edit/edit";
 import { useNavigate } from "react-router-dom";
 import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
 
@@ -12,12 +11,7 @@ interface Props {
 }
 
 export function NewServiceSection({ data }: Props) {
-  const { isEditMode, draft } = useEditMode();
-
-  // When editing, prefer draft.newService if present so live preview shows editor changes.
-  const templateSource: NewServiceSchema = isEditMode
-    ? ((draft as any).newService as NewServiceSchema) || data
-    : data;
+  const templateSource: NewServiceSchema = data;
 
   const [visible, setVisible] = useState(false);
   const [removed, setRemoved] = useState(false);
@@ -26,6 +20,7 @@ export function NewServiceSection({ data }: Props) {
 
   useEffect(() => {
     const timer = requestAnimationFrame(() => setVisible(true));
+
     return () => cancelAnimationFrame(timer);
   }, []);
 
@@ -34,7 +29,7 @@ export function NewServiceSection({ data }: Props) {
     setTimeout(() => setRemoved(true), 300);
   };
 
-  if (!templateSource.isDisplayed || removed) return null;
+  if (removed) return null;
 
   const heroSrc =
     typeof templateSource.heroImage === "string"
