@@ -1,17 +1,28 @@
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Button } from "@heroui/button";
-import { ServiceSchema } from "@/templates/new_service/new_service_schema";
 import CustomDivider from "../divider";
+import { useEditMode } from "@/context/edit/edit";
+import { useNavigate } from "react-router-dom";
+import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
 
 interface Props {
-  data: ServiceSchema;
+  data: NewServiceSchema;
 }
 
 export function NewServiceSection({ data }: Props) {
+  const { isEditMode, draft } = useEditMode();
+
+  // When editing, prefer draft.newService if present so live preview shows editor changes.
+  const templateSource: NewServiceSchema = isEditMode
+    ? ((draft as any).newService as NewServiceSchema) || data
+    : data;
+
   const [visible, setVisible] = useState(false);
   const [removed, setRemoved] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const timer = requestAnimationFrame(() => setVisible(true));
@@ -23,7 +34,21 @@ export function NewServiceSection({ data }: Props) {
     setTimeout(() => setRemoved(true), 300);
   };
 
-  if (!data.isDisplayed || removed) return null;
+  if (!templateSource.isDisplayed || removed) return null;
+
+  const heroSrc =
+    typeof templateSource.heroImage === "string"
+      ? templateSource.heroImage
+      : templateSource.heroImage?.url ||
+        (typeof data.heroImage === "string"
+          ? data.heroImage
+          : data.heroImage?.url);
+
+  const heroAlt =
+    typeof templateSource.title === "string"
+      ? templateSource.title
+      : templateSource.title?.text ||
+        (typeof data.title === "string" ? data.title : data.title?.text);
 
   return (
     <section
@@ -33,60 +58,69 @@ export function NewServiceSection({ data }: Props) {
       ].join(" ")}
       id="service"
     >
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-start">
+      <div
+        className={
+          "max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 items-start"
+        }
+      >
         {/* LEFT PART */}
-        <div className="space-y-5">
+        <div className={"space-y-5"}>
           {/* Title */}
           <BlurFade inView delay={0.1}>
             <h1
-              className="
-                text-3xl md:text-4xl font-semibold leading-tight pb-1
-                bg-gradient-to-r from-primary-dark to-secondary-dark 
-                bg-clip-text text-transparent
-              "
+              className={
+                "text-3xl md:text-4xl font-semibold leading-tight pb-1 bg-gradient-to-r from-primary-dark to-secondary-dark bg-clip-text text-transparent"
+              }
             >
-              {data.title}
+              {templateSource.title?.text}
             </h1>
           </BlurFade>
 
           {/* Subtitle */}
           {data.subtitle && (
             <BlurFade inView delay={0.15}>
-              <p className="text-lg text-text-secondary relative inline-block italic font-bold">
-                {data.subtitle}
-                <span className="absolute left-0 -bottom-1 w-10 h-[3px] rounded-full bg-accent"></span>
+              <p
+                className={`text-lg text-${templateSource.subtitle?.color} relative inline-block italic font-bold`}
+              >
+                {templateSource.subtitle?.text}
+                <span className="absolute left-0 -bottom-1 w-10 h-[3px] rounded-full bg-accent" />
               </p>
             </BlurFade>
           )}
 
           {/* Short Description */}
           <BlurFade inView delay={0.2}>
-            <p className="text-base text-text-secondary leading-relaxed whitespace-pre-line pl-3 border-l-2 border-primary-light my-8">
-              {data.description}
+            <p
+              className={[
+                "text-base leading-relaxed whitespace-pre-line",
+                "pl-4",
+                `border-l-2 border-${templateSource.description?.leftBorderColor || "primary-light"}`,
+                "my-8",
+                `text-${templateSource.description?.color}`,
+              ].join(" ")}
+            >
+              {templateSource.description?.text}
             </p>
           </BlurFade>
 
           {/* Long Description */}
           <BlurFade inView delay={0.25}>
             <p
-              className="
-                text-text-secondary whitespace-pre-line leading-relaxed 
-                bg-surface p-4 rounded-xl border border-accent/50 shadow-sm
-              "
+              className={`whitespace-pre-line leading-relaxed border ${`text-${templateSource.longDescription?.color || "text-secondary"}`} bg-${templateSource.longDescription?.bg || "surface"} p-4 rounded-${templateSource.longDescription?.rounded || "xl"} border-${templateSource.longDescription?.border || "accent"}`}
             >
-              {data.longDescription}
+              {templateSource.longDescription?.text}
             </p>
           </BlurFade>
 
           {/* Contact */}
-          <div
-            className={`p-5 rounded-xly pt-0 space-y-1.5 w-full ${
-              data.priceList.length > 0 ? "md:col-span-2" : "md:col-span-5"
-            }`}
-          >
-            {data.contactInfo.phone && (
-              <div className="text-text-secondary text-sm flex items-center gap-4">
-                <div className="rounded-md p-2 text-primary-dark bg-primary-light/20">
+          <div className={`p-5 rounded-xly pt-0 space-y-1.5 w-full`}>
+            {templateSource.contactInfo?.phone.isDisplayed && (
+              <div
+                className={`text-${templateSource.contactInfo.phone.color} text-md flex items-center gap-4`}
+              >
+                <div
+                  className={`rounded-${templateSource.contactInfo.phone.rounded} p-2 text-${templateSource.contactInfo.phone.iconColor} bg-${templateSource.contactInfo.phone.bgColor}/20`}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -100,12 +134,16 @@ export function NewServiceSection({ data }: Props) {
                     />
                   </svg>
                 </div>
-                {data.contactInfo.phone}
+                {templateSource.contactInfo?.phone.number}
               </div>
             )}
-            {data.contactInfo.email && (
-              <div className="text-text-secondary text-sm flex items-center gap-4">
-                <div className="rounded-md p-2 text-primary-dark bg-primary-light/20">
+            {templateSource.contactInfo?.email.isDisplayed && (
+              <div
+                className={`text-${templateSource.contactInfo.email.color} text-md flex items-center gap-4`}
+              >
+                <div
+                  className={`rounded-${templateSource.contactInfo.email.rounded} p-2 text-${templateSource.contactInfo.email.iconColor} bg-${templateSource.contactInfo.email.bgColor}/20`}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 24 24"
@@ -116,7 +154,7 @@ export function NewServiceSection({ data }: Props) {
                     <path d="M22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z" />
                   </svg>
                 </div>
-                {data.contactInfo.email}
+                {templateSource.contactInfo?.email.address}
               </div>
             )}
           </div>
@@ -125,47 +163,67 @@ export function NewServiceSection({ data }: Props) {
           <BlurFade inView delay={0.4}>
             <div className="flex gap-3 pt-2">
               <Button
-                color="secondary"
-                variant="solid"
-                className="font-semibold"
+                color={
+                  (templateSource.primaryButton?.color as any) || "secondary"
+                }
+                variant={
+                  (templateSource.primaryButton?.variant as any) || "solid"
+                }
+                className={"font-semibold"}
+                onPress={() => {
+                  if (templateSource.primaryButton?.href) {
+                    navigate(templateSource.primaryButton.href);
+                  }
+                }}
               >
-                Több információ
+                {templateSource.primaryButton?.label || "Több információ"}
               </Button>
               <Button
-                color="primary"
-                variant="ghost"
-                className="font-semibold"
+                color={
+                  (templateSource.secondaryButton?.color as any) || "primary"
+                }
+                variant={
+                  (templateSource.secondaryButton?.variant as any) || "ghost"
+                }
+                className={"font-semibold"}
                 onPress={handleDismiss}
               >
-                Nem érdekel
+                {templateSource.secondaryButton?.label || "Nem érdekel"}
               </Button>
             </div>
           </BlurFade>
         </div>
 
         {/* RIGHT PART — HERO & GALLERY */}
-        <div className="relative space-y-4 md:space-y-5">
+        <div className={"relative space-y-4 md:space-y-5"}>
           <BlurFade inView delay={0.1}>
-            <div className="rounded-2xl overflow-hidden shadow-lg">
+            <div className={"rounded-2xl overflow-hidden shadow-lg"}>
               <img
-                src={data.heroImage}
-                alt={data.title}
-                className="w-full h-64 md:h-72 object-cover transition-transform duration-[1300ms] hover:scale-[1.05]"
+                src={heroSrc}
+                alt={heroAlt}
+                className={
+                  "w-full h-64 md:h-72 object-cover transition-transform duration-[1300ms] hover:scale-[1.05]"
+                }
               />
             </div>
           </BlurFade>
 
           <CustomDivider className="my-6 w-full" />
 
-          {data.gallery.length > 0 && (
+          {(templateSource.gallery || []).length > 0 && (
             <BlurFade inView delay={0.15}>
               <div className="grid grid-cols-2 gap-3">
-                {data.gallery.map((img, i) => (
-                  <div key={i} className="rounded-xl overflow-hidden shadow-md">
+                {templateSource.gallery.map((g, i) => (
+                  <div
+                    key={i}
+                    className={"rounded-xl overflow-hidden shadow-md"}
+                  >
                     <img
-                      src={img}
-                      className="w-full h-28 md:h-32 object-cover transition-transform duration-500 hover:scale-105"
-                      alt=""
+                      src={g.url || (g as any)}
+                      className={
+                        "w-full h-28 md:h-32 object-cover transition-transform duration-500 hover:scale-105"
+                      }
+                      alt={g.alt || ""}
                     />
                   </div>
                 ))}

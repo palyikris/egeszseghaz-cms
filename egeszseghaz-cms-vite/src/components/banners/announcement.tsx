@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { AnnouncementSchema } from "@/templates/announcement/announcement_schema";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 interface Props {
   data: AnnouncementSchema;
@@ -10,11 +10,30 @@ export function Announcement({ data }: Props) {
   const [visible, setVisible] = useState(false);
   const [removed, setRemoved] = useState(false);
 
-  const themeStyles = {
-    info: "border-secondary bg-secondary-light/10",
-    warning: "border-error bg-error/10",
-    highlight: "border-accent bg-accent/10",
+  const themeStyles: Record<
+    string,
+    { container: string; cta: string; ctaHover?: string }
+  > = {
+    info: {
+      container: "border-secondary bg-secondary-light/10",
+      cta: "bg-secondary text-white",
+      ctaHover: "hover:bg-secondary-dark",
+    },
+    warning: {
+      container: "border-error bg-error/10",
+      cta: "bg-error text-white",
+      ctaHover: "hover:bg-error-dark",
+    },
+    highlight: {
+      container: "border-accent bg-accent/10",
+      cta: "bg-accent text-white",
+      ctaHover: "hover:bg-accent-dark",
+    },
   };
+
+  // pick theme safely
+  const theme = data.theme ?? "info";
+  const styles = themeStyles[theme] ?? themeStyles.info;
 
   // Trigger entrance animation
   useEffect(() => {
@@ -42,13 +61,14 @@ export function Announcement({ data }: Props) {
         className={[
           "relative w-full max-w-6xl rounded-xl border overflow-hidden",
           "shadow-[0_3px_12px_rgba(0,0,0,0.06)] backdrop-blur-md transition-all duration-300",
-          themeStyles[data.theme],
+          styles.container,
           visible ? "opacity-100 scale-[1]" : "opacity-0 scale-[0.97]",
         ].join(" ")}
       >
         {/* X (dismiss) button */}
         <button
           onClick={handleDismiss}
+          aria-label="Dismiss announcement"
           className="
             absolute top-3 right-3 
             w-7 h-7 rounded-full flex items-center justify-center
@@ -98,14 +118,12 @@ export function Announcement({ data }: Props) {
             {data.cta.isVisible && data.cta.label && data.cta.url && (
               <a
                 href={data.cta.url}
-                className="
-                  inline-flex items-center gap-2 px-4 py-2 rounded-full
-                  bg-secondary text-white font-medium text-sm
-                  shadow-[0_3px_10px_rgba(0,0,0,0.12)]
-                  transition-all 
-                  hover:bg-secondary-dark hover:shadow-[0_5px_14px_rgba(0,0,0,0.15)]
-                  active:scale-[0.97]
-                "
+                className={[
+                  "inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm",
+                  "shadow-[0_3px_10px_rgba(0,0,0,0.12)] transition-all active:scale-[0.97]",
+                  styles.cta,
+                  styles.ctaHover ?? "",
+                ].join(" ")}
               >
                 {data.cta.label}
                 <svg
@@ -117,7 +135,7 @@ export function Announcement({ data }: Props) {
                 >
                   <path
                     d="M5 12h14M13 6l6 6-6 6"
-                    stroke="white"
+                    stroke="currentColor"
                     strokeWidth="2"
                     strokeLinecap="round"
                     strokeLinejoin="round"

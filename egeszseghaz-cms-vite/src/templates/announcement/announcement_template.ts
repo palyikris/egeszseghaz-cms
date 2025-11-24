@@ -3,7 +3,6 @@ import { AnnouncementSchema } from "./announcement_schema";
 
 export const defaultAnnouncementTemplate: AnnouncementSchema = {
   isDisplayed: true,
-  bannerImage: "/main_image.png",
   title: "Ingyenes Egészségnap – Szűrések és Tanácsadás",
   date: "2025-03-14",
   description:
@@ -13,5 +12,5 @@ export const defaultAnnouncementTemplate: AnnouncementSchema = {
     url: "/events/egeszsegnap-2025",
     isVisible: true,
   },
-  theme: "info",
+  theme: "highlight",
 };
