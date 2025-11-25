@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+
 import {
   Sidebar,
   SidebarContent,
@@ -12,25 +13,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 
-import {
-  ChevronsLeft,
-  Home,
-  Inbox,
-  Calendar,
-  Search,
-  Settings,
-} from "lucide-react";
-
-const items = [
-  { title: "Home", url: "#", icon: Home },
-  { title: "Inbox", url: "#", icon: Inbox },
-  { title: "Calendar", url: "#", icon: Calendar },
-  { title: "Search", url: "#", icon: Search },
-  { title: "Settings", url: "#", icon: Settings },
-];
+import { items } from "./navItems";
+import { useLocation } from "react-router-dom";
 
 export function AppSidebar() {
   const { open } = useSidebar();
+
+  const location = useLocation();
 
   return (
     <Sidebar
@@ -45,16 +34,15 @@ export function AppSidebar() {
       {/* Arrow Toggle Button */}
       <SidebarTrigger
         className="
-          absolute -right-3 top-6 z-50 flex h-6 w-6 
-          items-center justify-center rounded-full
-          bg-primary text-white shadow
+          absolute -right-4 top-2 z-50 flex h-8 w-8 
+          items-center justify-center rounded-full bg-primary
+        text-white shadow
           hover:bg-primary-dark transition
           border border-primary-dark
           data-[state=open]:rotate-180
+          cursor-pointer
         "
-      >
-        <ChevronsLeft size={16} />
-      </SidebarTrigger>
+      />
 
       <SidebarContent>
         <SidebarGroup>
@@ -68,10 +56,17 @@ export function AppSidebar() {
           </SidebarGroupLabel>
 
           <SidebarGroupContent>
-            <SidebarMenu>
+            <SidebarMenu className="w-full">
               {items.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
+                <SidebarMenuItem
+                  key={item.title}
+                  className={`${open ? "w-full" : "w-auto"}`}
+                >
+                  <SidebarMenuButton
+                    asChild
+                    className={`${open ? "w-full pr-16" : "w-auto"} hover:bg-primary/80 rounded-sm`}
+                    isActive={location.pathname + location.hash === item.url}
+                  >
                     <a href={item.url} className="flex items-center gap-3">
                       <item.icon size={20} />
                       <span

@@ -1,18 +1,42 @@
 /* eslint-disable prettier/prettier */
-import { title } from "@/components/primitives";
+import { Announcement } from "@/components/banners/announcement";
+import { NewServiceSection } from "@/components/banners/new_service";
+import AnnouncementEditor from "@/components/edit/editors/AnnouncementEditor";
+import NewServiceEditor from "@/components/edit/editors/NewServiceEditor";
+import { useAnnouncementEdit } from "@/context/edit/announcement";
+import { useNewServiceEdit } from "@/context/edit/newService";
 import { SettingsLayout } from "@/layouts/settings";
+import { AnnouncementSchema } from "@/templates/announcement/announcement_schema";
+import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
+
+import { useLocation } from "react-router-dom";
 
 export default function SettingsPage() {
+  const { hash } = useLocation();
+  const { draft: serviceDraft } = useNewServiceEdit();
+  const { draft: announcementDraft } = useAnnouncementEdit();
 
-  
+  const sectionMap: Record<string, React.ReactNode> = {
+    "": <div>General Settings Section</div>,
+    "#images": <div>Images Settings Section</div>,
+    "#palettes": <div>Prebuilt Palettes Settings Section</div>,
+    "#announcement": <AnnouncementEditor />,
+    "#new_service": <NewServiceEditor />,
+  };
+
+  const previewMap: Record<string, React.ReactNode> = {
+    "#announcement": (
+      <Announcement data={announcementDraft as unknown as AnnouncementSchema} />
+    ),
+    "#new_service": (
+      <NewServiceSection data={serviceDraft as unknown as NewServiceSchema} />
+    ),
+  };
 
   return (
     <SettingsLayout>
-      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
-        <div className="inline-block max-w-lg text-center justify-center">
-          <h1 className={title()}>Settings</h1>
-        </div>
-      </section>
+      {hash in previewMap && <div className="mb-6">{previewMap[hash]}</div>}
+      {sectionMap[hash] || <div>Section not found</div>}
     </SettingsLayout>
   );
 }

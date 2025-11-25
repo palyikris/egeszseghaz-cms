@@ -1,9 +1,20 @@
 /* eslint-disable prettier/prettier */
-export const navItems: { label: string; href: string }[] = [
-  { label: "General", href: "/settings#general" },
-  { label: "Navbar", href: "/settings#navbar" },
-  { label: "Footer", href: "/settings#footer" },
-  { label: "Homepage", href: "/settings#homepage" },
-  { label: "Services", href: "/settings#services" },
-  { label: "Publish", href: "/settings#publish" },
+import {
+  Home,
+  Image as Img,
+  Palette,
+  Newspaper,
+  MessageCircleWarning,
+} from "lucide-react";
+
+export const items = [
+  { title: "General", url: "/settings", icon: Home },
+  { title: "Images", url: "/settings#images", icon: Img },
+  { title: "Prebuilt palettes", url: "/settings#palettes", icon: Palette },
+  {
+    title: "Announcement",
+    url: "/settings#announcement",
+    icon: MessageCircleWarning,
+  },
+  { title: "New Service", url: "/settings#new_service", icon: Newspaper },
 ];
