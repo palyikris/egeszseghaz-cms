@@ -81,11 +81,6 @@ export const AnnouncementEditProvider: React.FC<{
     }
   };
 
-  useEffect(() => {
-    if (draftStatus === "Published") {
-    }
-  }, [draftStatus]);
-
   return (
     <AnnouncementEditContext.Provider
       value={{

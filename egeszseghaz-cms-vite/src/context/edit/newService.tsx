@@ -48,6 +48,10 @@ export const NewServiceEditProvider: React.FC<{
 
     setDraft((prev) => setAtPath(prev, key, value));
     setRedoStack([]);
+
+    if (draftStatus !== "Draft") {
+      setDraftStatus("Draft");
+    }
   };
 
   const undo = () => {
@@ -57,6 +61,10 @@ export const NewServiceEditProvider: React.FC<{
       setRedoStack((prev) => [...prev, draft]);
       setDraft(last);
       setUndoStack([...undoStack]);
+    }
+
+    if (draftStatus !== "Draft") {
+      setDraftStatus("Draft");
     }
   };
 
@@ -68,12 +76,11 @@ export const NewServiceEditProvider: React.FC<{
       setDraft(next);
       setRedoStack([...redoStack]);
     }
-  };
 
-  useEffect(() => {
-    if (draftStatus === "Published") {
+    if (draftStatus !== "Draft") {
+      setDraftStatus("Draft");
     }
-  }, [draftStatus]);
+  };
 
   return (
     <NewServiceEditContext.Provider

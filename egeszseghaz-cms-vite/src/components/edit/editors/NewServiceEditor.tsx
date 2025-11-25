@@ -9,14 +9,33 @@ import { useImages } from "@/hooks/useImages";
 import CustomLoader from "@/components/loader";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
+import { useQueryClient } from "@tanstack/react-query";
+import { usePublishNewService } from "@/hooks/usePublishNewService";
 
 export function NewServiceEditor() {
-  const { draft, updateDraft, undo, redo, draftStatus } = useNewServiceEdit();
+  const { draft, updateDraft, undo, redo, draftStatus, setDraftStatus } =
+    useNewServiceEdit();
   const service = draft || {};
 
   const { data: images, isLoading: imagesLoading } = useImages();
+  const publish = usePublishNewService();
+
+  const queryClient = useQueryClient();
 
   const handleChange = (path: string, value: any) => updateDraft(path, value);
+
+  if (publish.isPending) {
+    return (
+      <div
+        className="p-4 space-y-4 text-sm relative bg-primary-light backdrop-blur-2xl rounded-md min-w-xs max-h-[100%] overflow-auto hide-scrollbar max-w-xs"
+        style={{
+          boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px",
+        }}
+      >
+        <CustomLoader />
+      </div>
+    );
+  }
 
   return (
     <div
@@ -293,6 +312,31 @@ export function NewServiceEditor() {
           />
           <span className="select-none">Show email</span>
         </div>
+      </div>
+
+      <div>
+        <Button
+          color="primary"
+          className="w-full mt-4"
+          onPress={async () => {
+            setDraftStatus("Publishing...");
+            await publish.mutateAsync(
+              {
+                publishedContent: draft,
+              },
+              {
+                onSuccess: () => {
+                  queryClient.invalidateQueries({
+                    queryKey: ["newService"],
+                  });
+                  setDraftStatus("Published");
+                },
+              }
+            );
+          }}
+        >
+          Publish
+        </Button>
       </div>
     </div>
   );
