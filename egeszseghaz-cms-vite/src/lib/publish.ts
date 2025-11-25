@@ -13,3 +13,23 @@ export async function publishDraft(pageId: string, publishedContent: any) {
 
   return pageSnap;
 }
+
+export async function publishAnnouncement(publishedContent: any) {
+  const announcementRef = doc(db, "template", "announcement");
+  const announcementSnap = await updateDoc(announcementRef, {
+    ...publishedContent,
+    updatedAt: new Date(),
+  } as Partial<PageDoc>);
+
+  return announcementSnap;
+}
+
+export async function publishNewService(publishedContent: any) {
+  const serviceRef = doc(db, "template", "newService");
+  const serviceSnap = await updateDoc(serviceRef, {
+    ...publishedContent,
+    updatedAt: new Date(),
+  } as Partial<PageDoc>);
+
+  return serviceSnap;
+}

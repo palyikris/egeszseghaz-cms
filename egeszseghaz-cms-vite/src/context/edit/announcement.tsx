@@ -1,9 +1,7 @@
 /* eslint-disable prettier/prettier */
-import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
 import { useAnnouncement } from "@/hooks/useAnnouncement";
 import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
-
 
 type DraftStatus = "Draft" | "Published" | "Publishing...";
 
@@ -34,7 +32,13 @@ export const AnnouncementEditProvider: React.FC<{
 
   useEffect(() => {
     if (announcement.data) {
-      setDraft(announcement.data || {});
+      setDraft((prev) => {
+        if (!prev || Object.keys(prev).length === 0) {
+          return announcement.data;
+        }
+
+        return prev;
+      });
     }
   }, [announcement.data]);
 
@@ -43,6 +47,10 @@ export const AnnouncementEditProvider: React.FC<{
 
     setDraft((prev) => setAtPath(prev, key, value));
     setRedoStack([]);
+
+    if (draftStatus !== "Draft") {
+      setDraftStatus("Draft");
+    }
   };
 
   const undo = () => {
@@ -53,6 +61,10 @@ export const AnnouncementEditProvider: React.FC<{
       setDraft(last);
       setUndoStack([...undoStack]);
     }
+
+    if (draftStatus !== "Draft") {
+      setDraftStatus("Draft");
+    }
   };
 
   const redo = () => {
@@ -62,6 +74,10 @@ export const AnnouncementEditProvider: React.FC<{
       setUndoStack((prev) => [...prev, draft]);
       setDraft(next);
       setRedoStack([...redoStack]);
+    }
+
+    if (draftStatus !== "Draft") {
+      setDraftStatus("Draft");
     }
   };
 
@@ -90,9 +106,12 @@ export const AnnouncementEditProvider: React.FC<{
 };
 
 export const useAnnouncementEdit = () => {
-  const ctx = useContext(AnnouncementEditContext)
+  const ctx = useContext(AnnouncementEditContext);
 
-  if (!ctx) throw new Error("useAnnouncementEdit must be used within AnnouncementEditProvider")
-  
-  return ctx
-}
+  if (!ctx)
+    throw new Error(
+      "useAnnouncementEdit must be used within AnnouncementEditProvider"
+    );
+
+  return ctx;
+};

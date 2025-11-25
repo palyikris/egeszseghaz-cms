@@ -8,9 +8,10 @@ import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
 
 interface Props {
   data: NewServiceSchema;
+  className?: string;
 }
 
-export function NewServiceSection({ data }: Props) {
+export function NewServiceSection({ data, className }: Props) {
   const templateSource: NewServiceSchema = data;
 
   const [visible, setVisible] = useState(false);
@@ -50,6 +51,7 @@ export function NewServiceSection({ data }: Props) {
       className={[
         "py-14 px-6 sm:px-12 md:px-20 bg-background-light transition-all duration-300",
         visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4",
+        className || "",
       ].join(" ")}
       id="service"
     >

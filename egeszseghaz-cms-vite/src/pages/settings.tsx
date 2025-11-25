@@ -29,7 +29,10 @@ export default function SettingsPage() {
       <Announcement data={announcementDraft as unknown as AnnouncementSchema} />
     ),
     "#new_service": (
-      <NewServiceSection data={serviceDraft as unknown as NewServiceSchema} />
+      <NewServiceSection
+        className="max-h-screen overflow-auto hide-scrollbar"
+        data={serviceDraft as unknown as NewServiceSchema}
+      />
     ),
   };
 

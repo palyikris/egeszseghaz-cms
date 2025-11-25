@@ -33,7 +33,13 @@ export const NewServiceEditProvider: React.FC<{
 
   useEffect(() => {
     if (newService.data) {
-      setDraft(newService.data || {});
+      setDraft((prev) => {
+        if (!prev || Object.keys(prev).length === 0) {
+          return newService.data;
+        }
+
+        return prev;
+      });
     }
   }, [newService.data]);
 

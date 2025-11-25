@@ -4,7 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 
 export function SettingsLayout({ children }: { children: React.ReactNode }) {
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={false}>
       <div className="flex min-h-screen max-h-screen overflow-hidden w-full bg-background">
         <AppSidebar />
 

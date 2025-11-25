@@ -5,17 +5,42 @@ import { Select, SelectItem } from "@heroui/select";
 import { Checkbox } from "@heroui/checkbox";
 
 import { useAnnouncementEdit } from "@/context/edit/announcement";
-import { AnnouncementSchema } from "@/templates/announcement/announcement_schema";
+import { Button } from "@heroui/button";
+import { Chip } from "@heroui/chip";
+import { usePublishAnnouncement } from "@/hooks/usePublishAnnouncement";
+import { useQueryClient } from "@tanstack/react-query";
+import CustomLoader from "@/components/loader";
 
 export function AnnouncementEditor() {
-  const { draft, updateDraft } = useAnnouncementEdit();
-  const announcement: AnnouncementSchema = draft.announcement || {};
+  const { draft, updateDraft, draftStatus, undo, redo, setDraftStatus } =
+    useAnnouncementEdit();
+  const announcement = draft || {};
+  const publish = usePublishAnnouncement();
 
-  const handleChange = (path: string, value: any) =>
-    updateDraft(`announcement.${path}`, value);
+  const queryClient = useQueryClient();
+
+  const handleChange = (path: string, value: any) => updateDraft(path, value);
+
+  if (publish.isPending) {
+    return (
+      <div
+        className="p-4 space-y-4 text-sm relative bg-primary-light backdrop-blur-2xl rounded-md min-w-sm max-h-[100%] overflow-auto hide-scrollbar"
+        style={{
+          boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px",
+        }}
+      >
+        <CustomLoader />
+      </div>
+    );
+  }
 
   return (
-    <div className="p-4 space-y-4 text-sm relative bg-primary-light backdrop-blur-2xl rounded-md max-w-xs max-h-[100%] overflow-auto hide-scrollbar">
+    <div
+      className="p-4 space-y-4 text-sm relative bg-primary-light backdrop-blur-2xl rounded-md min-w-sm max-h-[100%] overflow-auto hide-scrollbar"
+      style={{
+        boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px",
+      }}
+    >
       <style>{`
       .hide-scrollbar {
         -ms-overflow-style: none; /* IE and Edge */
@@ -26,7 +51,25 @@ export function AnnouncementEditor() {
       }
       `}</style>
 
-      <h3 className="font-semibold">Announcement</h3>
+      <div className="w-full flex justify-start items-center gap-2">
+        <h3 className="font-semibold">Announcement</h3>
+        <Chip
+          size="sm"
+          color="primary"
+          className={`border border-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} bg-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} text-text-primary`}
+        >
+          {draftStatus}
+        </Chip>
+      </div>
+
+      <div className="w-full flex justify-center items-center gap-6">
+        <Button className="w-full" color="secondary" onPress={undo}>
+          Undo
+        </Button>
+        <Button className="w-full" color="primary" onPress={redo}>
+          Redo
+        </Button>
+      </div>
 
       <div>
         <div className="flex items-center gap-2">
@@ -66,6 +109,8 @@ export function AnnouncementEditor() {
         />
       </div>
 
+      <hr />
+
       <div>
         <h4 className="font-semibold">CTA</h4>
         <div className="space-y-2 mt-2">
@@ -104,6 +149,31 @@ export function AnnouncementEditor() {
           <SelectItem key="warning">warning</SelectItem>
           <SelectItem key="highlight">highlight</SelectItem>
         </Select>
+      </div>
+
+      <div>
+        <Button
+          className="w-full"
+          color="primary"
+          onPress={async () => {
+            setDraftStatus("Publishing...");
+            await publish.mutateAsync(
+              {
+                publishedContent: draft,
+              },
+              {
+                onSuccess: async () => {
+                  await queryClient.refetchQueries({
+                    queryKey: ["announcement"],
+                  });
+                  setDraftStatus("Published");
+                },
+              }
+            );
+          }}
+        >
+          Publish
+        </Button>
       </div>
     </div>
   );
