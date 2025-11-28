@@ -5,10 +5,12 @@ import {
   Palette,
   Newspaper,
   MessageCircleWarning,
+  Cog,
 } from "lucide-react";
 
 export const items = [
-  { title: "General", url: "/settings", icon: Home },
+  { title: "Main Page", url: "/", icon: Home },
+  { title: "General", url: "/settings", icon: Cog },
   { title: "Images", url: "/settings#images", icon: Img },
   { title: "Prebuilt palettes", url: "/settings#palettes", icon: Palette },
   {
@@ -17,4 +19,5 @@ export const items = [
     icon: MessageCircleWarning,
   },
   { title: "New Service", url: "/settings#new_service", icon: Newspaper },
+  { title: "All Services", url: "/services", icon: Newspaper },
 ];
