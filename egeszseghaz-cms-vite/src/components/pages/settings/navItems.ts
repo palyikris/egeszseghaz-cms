@@ -19,5 +19,5 @@ export const items = [
     icon: MessageCircleWarning,
   },
   { title: "New Service", url: "/settings#new_service", icon: Newspaper },
-  { title: "All Services", url: "/services", icon: Newspaper },
+  { title: "All Services", url: "/settings#services", icon: Newspaper },
 ];

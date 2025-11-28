@@ -22,6 +22,7 @@ export default function SettingsPage() {
     "#palettes": <div>Prebuilt Palettes Settings Section</div>,
     "#announcement": <AnnouncementEditor />,
     "#new_service": <NewServiceEditor />,
+    "#services": <div>All Services Settings Section</div>,
   };
 
   const previewMap: Record<string, React.ReactNode> = {
