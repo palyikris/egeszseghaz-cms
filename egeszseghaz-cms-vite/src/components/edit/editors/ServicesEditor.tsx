@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@heroui/input";
 import { Textarea } from "@heroui/input";
