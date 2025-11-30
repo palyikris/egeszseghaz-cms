@@ -41,7 +41,14 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const toggleEditMode = () => {
     if (!isEditMode && page.data) {
-      setDraft(page.data || {});
+      // Only initialize the draft from the fetched page when the draft
+      // is currently empty. This prevents overwriting a draft we've just
+      // populated after publishing (which can happen if the provider's
+      // `page.data` hasn't updated synchronously yet).
+      if (page.data !== draft) {
+        console.log(page.data.hero.mainImageUrl);
+        setDraft(page.data || {});
+      }
     }
     setIsEditMode((prev) => !prev);
   };

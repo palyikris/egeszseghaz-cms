@@ -19,7 +19,5 @@ export function usePage(id: string) {
 
       return { id: snap.id, ...(snap.data() as Omit<PageDoc, "id">) };
     },
-    refetchOnWindowFocus: true,
-    refetchOnReconnect: true,
   });
 }

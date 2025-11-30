@@ -56,7 +56,7 @@ export function AppSidebar() {
               ${open ? "opacity-100" : "opacity-0"}
             `}
           >
-            Application
+            Egészségház CMS
           </SidebarGroupLabel>
 
           <SidebarGroupContent>

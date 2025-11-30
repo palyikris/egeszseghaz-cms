@@ -37,6 +37,8 @@ export default function HomePage() {
     announcementLoading
   )
     return <CustomLoader />;
+  
+  console.log("Home page data:", pageData?.hero.mainImageUrl);
 
   return (
     <main className="bg-background-light text-text-primary flex flex-col min-h-screen justify-start">

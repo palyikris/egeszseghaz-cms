@@ -6,16 +6,20 @@ import { useState } from "react";
 import { Chip } from "@heroui/chip";
 import { usePublishSite } from "@/hooks/usePublishSite";
 import { useQueryClient } from "@tanstack/react-query";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/utils/firebase";
 
 export function EditToolbar() {
   const {
     isEditMode,
     undo,
     redo,
+    setIsEditMode,
     toggleEditMode,
     draftStatus,
     setDraftStatus,
     draft,
+    setDraft,
   } = useEditMode();
   const [isTop, setIsTop] = useState(true);
   const publish = usePublishSite();
@@ -67,11 +71,12 @@ export function EditToolbar() {
               },
               {
                 onSuccess: async () => {
-                  await queryClient.refetchQueries({
-                    queryKey: ["page", "home"],
-                  });
+                  queryClient.invalidateQueries({ queryKey: ["page", "home"] });
+                  setIsEditMode(false);
                   setDraftStatus("Published");
-                  toggleEditMode();
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 1000);
                 },
               }
             );

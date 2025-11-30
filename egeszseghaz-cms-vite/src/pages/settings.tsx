@@ -3,6 +3,8 @@ import { Announcement } from "@/components/banners/announcement";
 import { NewServiceSection } from "@/components/banners/new_service";
 import AnnouncementEditor from "@/components/edit/editors/AnnouncementEditor";
 import NewServiceEditor from "@/components/edit/editors/NewServiceEditor";
+import ServicesEditor from "@/components/edit/editors/ServicesEditor";
+import ImagesEditor from "@/components/edit/editors/ImagesEditor";
 import { useAnnouncementEdit } from "@/context/edit/announcement";
 import { useNewServiceEdit } from "@/context/edit/newService";
 import { SettingsLayout } from "@/layouts/settings";
@@ -18,11 +20,11 @@ export default function SettingsPage() {
 
   const sectionMap: Record<string, React.ReactNode> = {
     "": <div>General Settings Section</div>,
-    "#images": <div>Images Settings Section</div>,
+    "#images": <ImagesEditor />,
     "#palettes": <div>Prebuilt Palettes Settings Section</div>,
     "#announcement": <AnnouncementEditor />,
     "#new_service": <NewServiceEditor />,
-    "#services": <div>All Services Settings Section</div>,
+    "#services": <ServicesEditor />,
   };
 
   const previewMap: Record<string, React.ReactNode> = {

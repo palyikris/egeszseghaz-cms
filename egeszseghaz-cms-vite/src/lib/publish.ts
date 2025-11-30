@@ -33,3 +33,13 @@ export async function publishNewService(publishedContent: any) {
 
   return serviceSnap;
 }
+
+export async function publishService(serviceId: string, publishedContent: any) {
+  const serviceRef = doc(db, "newreservation", serviceId);
+  const serviceSnap = await updateDoc(serviceRef, {
+    ...publishedContent,
+    updatedAt: new Date(),
+  });
+
+  return serviceSnap;
+}

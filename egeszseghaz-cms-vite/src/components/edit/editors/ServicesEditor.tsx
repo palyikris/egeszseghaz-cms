@@ -1,289 +1,173 @@
 /* eslint-disable prettier/prettier */
+import React, { useState, useMemo } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@heroui/input";
 import { Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
+import { Button } from "@heroui/button";
 
-import { useEditMode } from "@/context/edit/edit";
-import { ServicesSchema } from "@/templates/home/home_schema";
-import { colorMap } from "@/types/edit";
+import { useServices } from "@/hooks/useServices";
+import { useImages } from "@/hooks/useImages";
+import { usePublishService } from "@/hooks/usePublishService";
+import ServiceCard from "@/components/pages/home/service_card";
+import type { Service } from "@/types/services";
+import CustomLoader from "@/components/loader";
 
-export function ServicesEditor() {
-  const { draft, updateDraft } = useEditMode();
-  const services: ServicesSchema = draft.services || {};
+export default function ServicesEditor() {
+  const { data: services, isLoading } = useServices();
+  const { data: images } = useImages();
+  const publish = usePublishService();
+  const queryClient = useQueryClient();
 
-  const handleChange = (path: string, value: any) =>
-    updateDraft(`services.${path}`, value);
+  const [selected, setSelected] = useState<Service | null>(null);
 
-  const updateCard = (path: string, value: any) =>
-    handleChange(`card.${path}`, value);
+  const cardTemplate = useMemo(() => {
+    return {
+      bgColor: "white",
+      borderColor: "gray-200",
+      rounded: "md",
+      shadow: "md",
+      shadowColor: "gray-300",
+      hoverBorderColor: "primary",
+      heading: { color: "text-primary", hoverColor: "text-primary" },
+      hoverOverlay: {
+        text: "View",
+        textColor: "white",
+        bgColor: "primary",
+        backdropBlur: "",
+      },
+      button: { variant: "default", color: "primary", label: "Open" },
+    };
+  }, []);
+
+  const onSelectService = (svc: Service) => {
+    setSelected(svc);
+  };
+
+  const handlePublish = async () => {
+    if (!selected) return;
+
+    const payload = {
+      desc: selected.desc,
+      img: selected.img,
+      name: selected.name,
+      phone: selected.phone,
+    };
+
+    try {
+      await publish.mutateAsync({ id: selected.id, publishedContent: payload });
+      await queryClient.invalidateQueries({ queryKey: ["services"] });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <div className="w-full h-64 flex items-center justify-center">
+        <CustomLoader />
+      </div>
+    );
+  }
 
   return (
-    <div className="p-4 space-y-4 text-sm relative">
-      <h3 className="font-semibold">Services section</h3>
-
-      <div>
-        <Input
-          label="Heading"
-          type="text"
-          value={services.heading?.text ?? ""}
-          onChange={(e) => handleChange("heading.text", e.target.value)}
-        />
-      </div>
-
-      <div>
-        <Select
-          label="Heading Color"
-          selectedKeys={[services.heading?.color]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.heading?.color} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => handleChange("heading.color", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
+    <div className="w-full flex gap-6">
+      <div className="w-2/3 grid grid-cols-2 gap-4 max-h-[70vh] overflow-auto hide-scrollbar">
+        {!isLoading &&
+          (services || []).map((svc: any, i: number) => (
+            <button
+              key={svc.id || i}
+              onClick={() => onSelectService(svc as Service)}
+              className={`cursor-pointer rounded-sm flex justify-center items-center m-2 p-4 ${selected?.id === svc.id ? "ring-2 ring-primary" : ""}`}
+            >
+              <ServiceCard service={svc} i={i} cardTemplate={cardTemplate} />
+            </button>
           ))}
-        </Select>
       </div>
 
-      <hr className="mt-6"/>
+      <div
+        className="w-1/3 p-4 space-y-4 bg-primary-light backdrop-blur-2xl rounded-md min-w-xs max-h-[70vh] overflow-auto hide-scrollbar"
+        style={{ boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px" }}
+      >
+        <h3 className="font-semibold">Edit Service</h3>
 
-      <h4 className="font-semibold">Card</h4>
-      <div>
-        <Input
-          label="Card Button Label"
-          type="text"
-          value={services.card?.button?.label ?? ""}
-          onChange={(e) => updateCard("button.label", e.target.value)}
-        />
-      </div>
+        {!selected && <div>Select a service to edit</div>}
 
-      <div>
-        <Select
-          label="Card Heading Color"
-          selectedKeys={[services.card?.heading?.color]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.heading?.color} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("heading.color", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
+        {publish.isPending && (
+          <div className="text-center py-10">
+            <CustomLoader />
+            <div className="mt-2">Publishing...</div>
+          </div>
+        )}
 
-      <div>
-        <Select
-          label="Card Heading Hover Color"
-          selectedKeys={[services.card?.heading?.hoverColor]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.heading?.hoverColor} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("heading.hoverColor", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
+        {selected && !publish.isPending && (
+          <div className="space-y-3">
+            <div>
+              <Input
+                id="service-name"
+                type="text"
+                value={selected.name ?? ""}
+                onChange={(e: any) =>
+                  setSelected({ ...selected, name: e.target.value })
+                }
+                label="Service Name"
+              />
+            </div>
 
-      <div>
-        <Select
-          label="Card Background Color"
-          selectedKeys={[services.card?.bgColor]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.bgColor} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("bgColor", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
+            <div>
+              <Input
+                id="service-phone"
+                type="text"
+                value={selected.phone ?? ""}
+                onChange={(e: any) =>
+                  setSelected({ ...selected, phone: e.target.value })
+                }
+                label="Phone Number"
+              />
+            </div>
 
-      <div>
-        <Select
-          label="Card Border Color"
-          selectedKeys={[services.card?.borderColor]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.borderColor} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("borderColor", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
+            <div>
+              <Select
+                id="service-image"
+                label="Image"
+                selectedKeys={[selected.img ?? ""]}
+                onSelectionChange={(e: any) =>
+                  setSelected({ ...selected, img: e.currentKey })
+                }
+              >
+                {images && images.length > 0 ? (
+                  images.map((img: any) => (
+                    <SelectItem key={img.url}>{img.name}</SelectItem>
+                  ))
+                ) : (
+                  <SelectItem key="no-images">No images</SelectItem>
+                )}
+              </Select>
+            </div>
 
-      <div>
-        <Select
-          label="Card Hover Border Color"
-          selectedKeys={[services.card?.hoverBorderColor]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.hoverBorderColor} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("hoverBorderColor", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
+            <div>
+              <Textarea
+                id="service-desc"
+                value={selected.desc ?? ""}
+                onChange={(e: any) =>
+                  setSelected({ ...selected, desc: e.target.value })
+                }
+                label="Service Description"
+              />
+            </div>
 
-      <div>
-        {/* <Input
-          label="Card Shadow"
-          type="text"
-          value={services.card?.shadow ?? ""}
-          onChange={(e) => updateCard("shadow", e.target.value)}
-        /> */}
-
-        <Select
-          label="Card Shadow"
-          selectedKeys={[services.card?.shadow]}
-          onSelectionChange={(e) => updateCard("shadow", e.currentKey)}
-        >
-          <SelectItem key="sm">sm</SelectItem>
-          <SelectItem key="md">md</SelectItem>
-          <SelectItem key="lg">lg</SelectItem>
-          <SelectItem key="xl">xl</SelectItem>
-          <SelectItem key="2xl">2xl</SelectItem>
-          <SelectItem key="none">none</SelectItem>
-        </Select>
-      </div>
-
-      <div>
-        <Select
-          label="Card Shadow Color"
-          selectedKeys={[services.card?.shadowColor]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.shadowColor} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("shadowColor", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
-
-      <div>
-        <Select
-          label="Card Rounded"
-          selectedKeys={[services.card?.rounded]}
-          onSelectionChange={(e) => updateCard("rounded", e.currentKey)}
-        >
-          <SelectItem key="none">none</SelectItem>
-          <SelectItem key="sm">sm</SelectItem>
-          <SelectItem key="md">md</SelectItem>
-          <SelectItem key="lg">lg</SelectItem>
-          <SelectItem key="xl">xl</SelectItem>
-          <SelectItem key="2xl">2xl</SelectItem>
-          <SelectItem key="3xl">3xl</SelectItem>
-          <SelectItem key="full">full</SelectItem>
-        </Select>
-      </div>
-
-      <div>
-        <Textarea
-          label="Hover Overlay Text"
-          value={services.card?.hoverOverlay?.text ?? ""}
-          onChange={(e) => updateCard("hoverOverlay.text", e.target.value)}
-        />
-      </div>
-
-      <div>
-        <Select
-          label="Hover Overlay Text Color"
-          selectedKeys={[services.card?.hoverOverlay?.textColor]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.hoverOverlay?.textColor} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("hoverOverlay.textColor", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
-
-      <div>
-        <Input
-          label="Hover Overlay Backdrop Blur"
-          type="text"
-          value={services.card?.hoverOverlay?.backdropBlur ?? ""}
-          onChange={(e) => updateCard("hoverOverlay.backdropBlur", e.target.value)}
-        />
-      </div>
-
-      <div>
-        <Input
-          label="Hover Overlay Text Size"
-          type="text"
-          value={services.card?.hoverOverlay?.textSize ?? ""}
-          onChange={(e) => updateCard("hoverOverlay.textSize", e.target.value)}
-        />
-      </div>
-
-      <hr />
-
-      <h4 className="font-semibold">Card Button</h4>
-      <div>
-        <Select
-          label="Button Variant"
-          selectedKeys={[services.card?.button?.variant]}
-          onSelectionChange={(e) => updateCard("button.variant", e.currentKey)}
-        >
-          <SelectItem key="solid">solid</SelectItem>
-          <SelectItem key="ghost">ghost</SelectItem>
-        </Select>
-      </div>
-
-      <div>
-        <Select
-          label="Button Color"
-          selectedKeys={[services.card?.button?.color]}
-          endContent={
-            <span
-              className={`px-[10px] py-[1px] bg-${services.card?.button?.color} rounded-full`}
-            />
-          }
-          onSelectionChange={(e) => updateCard("button.color", e.currentKey)}
-        >
-          {colorMap.map((c) => (
-            <SelectItem key={c.name}>{c.name}</SelectItem>
-          ))}
-        </Select>
-      </div>
-
-      <div>
-        <Input
-          label="Button Hover Background"
-          type="text"
-          value={services.card?.button?.hoverBgColor ?? ""}
-          onChange={(e) => updateCard("button.hoverBgColor", e.target.value)}
-        />
+            <div className="pt-2">
+              <Button
+                className="w-full"
+                color="primary"
+                onPress={handlePublish}
+              >
+                Publish
+              </Button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
 }
-
-export default ServicesEditor;
