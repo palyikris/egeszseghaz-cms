@@ -12,6 +12,7 @@ import { AnnouncementSchema } from "@/templates/announcement/announcement_schema
 import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
 
 import { useLocation } from "react-router-dom";
+import GeneralSettings from "@/components/edit/editors/GeneralSettingsEditor";
 
 export default function SettingsPage() {
   const { hash } = useLocation();
@@ -19,7 +20,7 @@ export default function SettingsPage() {
   const { draft: announcementDraft } = useAnnouncementEdit();
 
   const sectionMap: Record<string, React.ReactNode> = {
-    "": <div>General Settings Section</div>,
+    "": <GeneralSettings />,
     "#images": <ImagesEditor />,
     "#palettes": <div>Prebuilt Palettes Settings Section</div>,
     "#announcement": <AnnouncementEditor />,
