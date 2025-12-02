@@ -63,6 +63,14 @@
 
   --color-primary: var(--primary);
 
+    /* Ensure runtime palette variants map to the palette variables so
+      utilities like `from-primary-light/90` (which use `--color-primary-light`)
+      resolve correctly at runtime. */
+    --color-primary-light: var(--primary-light);
+    --color-primary-dark: var(--primary-dark);
+    --color-secondary-light: var(--secondary-light);
+    --color-secondary-dark: var(--secondary-dark);
+
   --color-popover-foreground: var(--popover-foreground);
 
   --color-popover: var(--popover);

@@ -85,7 +85,7 @@ export default function ReviewsSection({
           return (
             <Card
               key={i}
-              className={`max-w-64 border border-${card.borderColor} sm:max-w-sm p-6 px-2 md:px-6 ${textResolved.className || ""} shadow-md`}
+              className={`max-w-64 border border-primary/30 sm:max-w-sm p-6 px-2 md:px-6 ${textResolved.className || ""} shadow-md bg-background`}
               style={{
                 ...(bgResolved.style || {}),
               }}

@@ -16,7 +16,7 @@ export default function CustomDivider({
     <div
       className={`w-full flex justify-center items-center relative ${className}`}
     >
-      <Divider className="w-2/3" />
+      <Divider className="w-2/3 bg-primary-light" />
       <div
         className={`absolute -top-3 bg-${bg ?? "background-light"} text-primary-dark px-4`}
       >

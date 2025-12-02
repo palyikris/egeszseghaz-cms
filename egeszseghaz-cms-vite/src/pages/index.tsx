@@ -69,12 +69,10 @@ export default function HomePage() {
       <CustomDivider />
 
       {services && services.length > 0 ? (
-        <EditableWrapper id="services">
-          <ServicesSection
-            services={services}
-            servicesTemplate={servicesTemplate}
-          />
-        </EditableWrapper>
+        <ServicesSection
+          services={services}
+          servicesTemplate={servicesTemplate}
+        />
       ) : (
         <div className="p-6 text-center">
           Nincsenek elérhető szolgáltatások.

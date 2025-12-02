@@ -9,163 +9,242 @@ export const wellness: ThemePalette = {
     primary: "#8E715B",
     primaryLight: "#BFA590",
     primaryDark: "#604A3A",
+
     secondary: "#4BA6A3",
     secondaryLight: "#7FC9C6",
     secondaryDark: "#2B6E6C",
+
     accent: "#E6B655",
+
     background: "#F8F5F1",
     foreground: "#2E2E2E",
+
     textPrimary: "#2E2E2E",
     textSecondary: "#5C5C5C",
   },
   dark: {
-    primary: "#604A3A",
+    primary: "#8E715B",
     primaryLight: "#BFA590",
-    primaryDark: "#402E21",
-    secondary: "#2B6E6C",
+    primaryDark: "#604A3A",
+
+    secondary: "#4BA6A3",
     secondaryLight: "#7FC9C6",
-    secondaryDark: "#1D4746",
+    secondaryDark: "#2B6E6C",
+
     accent: "#E6B655",
-    background: "#1C1C1C",
-    foreground: "#F8F5F1",
-    textPrimary: "#F8F5F1",
-    textSecondary: "#AAAAAA",
+
+    background: "#1E1C19",
+    foreground: "#F3EDE6",
+
+    textPrimary: "#F3EDE6",
+    textSecondary: "#C7C1BC",
   },
 };
 
-/** COOL SPA */
-export const coolSpa: ThemePalette = {
-  name: "cool-spa",
-  label: "Cool Spa",
+export const urbanOnyx: ThemePalette = {
+  name: "urban-onyx",
+  label: "Urban Onyx",
   light: {
-    primary: "#3A7CA5",
-    primaryLight: "#64A4C8",
-    primaryDark: "#26597B",
-    secondary: "#49C0B6",
-    secondaryLight: "#7ADBD3",
-    secondaryDark: "#2F887F",
-    accent: "#A5D0E3",
-    background: "#F4FAFC",
-    foreground: "#1E2A32",
-    textPrimary: "#1E2A32",
-    textSecondary: "#6A7A86",
+    primary: "#4A7E88", // Deep blue-green, modern, elegant
+    primaryLight: "#8EBBC3", // Soft minty teal
+    primaryDark: "#31575E", // Onyx teal
+
+    secondary: "#6A607F", // Smoky violet-grey — luxe hotel vibe
+    secondaryLight: "#A79EB8",
+    secondaryDark: "#474157",
+
+    accent: "#D8A95D", // Brushed champagne gold
+
+    background: "#F4F5F7", // Cool mineral grey (not warm like Wellness)
+    foreground: "#1D1F21",
+
+    textPrimary: "#1D1F21",
+    textSecondary: "#505458",
   },
   dark: {
-    primary: "#26597B",
-    primaryLight: "#64A4C8",
-    primaryDark: "#1B364B",
-    secondary: "#2F887F",
-    secondaryLight: "#7ADBD3",
-    secondaryDark: "#1C5E58",
-    accent: "#7AB4C9",
-    background: "#0F161B",
-    foreground: "#E6EEF4",
-    textPrimary: "#E6EEF4",
-    textSecondary: "#95A3AE",
+    primary: "#4A7E88",
+    primaryLight: "#8EBBC3",
+    primaryDark: "#31575E",
+
+    secondary: "#6A607F",
+    secondaryLight: "#A79EB8",
+    secondaryDark: "#474157",
+
+    accent: "#D8A95D",
+
+    background: "#181A1B", // Polished onyx charcoal
+    foreground: "#E7E9EA",
+
+    textPrimary: "#E7E9EA",
+    textSecondary: "#B5B7BA",
   },
 };
 
-/** FOREST GREEN */
-export const forest: ThemePalette = {
-  name: "forest",
-  label: "Forest Green",
+export const aquaStone: ThemePalette = {
+  name: "aqua-stone",
+  label: "Aqua Stone",
   light: {
-    primary: "#567D46",
-    primaryLight: "#7FA871",
-    primaryDark: "#3F5E34",
-    secondary: "#8FB996",
-    secondaryLight: "#B8D9BF",
-    secondaryDark: "#6C8F72",
-    accent: "#C4DFAA",
-    background: "#F3F7F2",
-    foreground: "#1F2A1F",
-    textPrimary: "#1F2A1F",
-    textSecondary: "#5C6F5C",
+    primary: "#6FA8B8", // Mineral aqua
+    primaryLight: "#A8D1DD",
+    primaryDark: "#4B7A86",
+
+    secondary: "#8F7A5A", // Limestone warm neutral (NOT green)
+    secondaryLight: "#C3B59C",
+    secondaryDark: "#5E513C",
+
+    accent: "#E3C27A", // Soft gold
+
+    background: "#F6F7F8", // Clean light stone
+    foreground: "#26292A",
+
+    textPrimary: "#26292A",
+    textSecondary: "#585B5C",
   },
   dark: {
-    primary: "#3F5E34",
-    primaryLight: "#7FA871",
-    primaryDark: "#2B4023",
-    secondary: "#6C8F72",
-    secondaryLight: "#B8D9BF",
-    secondaryDark: "#4A694E",
-    accent: "#A7C794",
-    background: "#0F150F",
-    foreground: "#E1EDE1",
-    textPrimary: "#E1EDE1",
-    textSecondary: "#8FA48F",
+    primary: "#6FA8B8",
+    primaryLight: "#A8D1DD",
+    primaryDark: "#4B7A86",
+
+    secondary: "#8F7A5A",
+    secondaryLight: "#C3B59C",
+    secondaryDark: "#5E513C",
+
+    accent: "#E3C27A",
+
+    background: "#1A1C1D", // Soft charcoal
+    foreground: "#E9EBEC",
+
+    textPrimary: "#E9EBEC",
+    textSecondary: "#B7B9BA",
   },
 };
 
-/** NEUTRAL PRO */
-export const neutral: ThemePalette = {
-  name: "neutral",
-  label: "Neutral Professional",
+/** COPPER CLAY — Inspired by luxury ceramics & terracotta spas */
+export const copperClay: ThemePalette = {
+  name: "copper-clay",
+  label: "Copper Clay",
   light: {
-    primary: "#6A6A6A",
-    primaryLight: "#9C9C9C",
-    primaryDark: "#4A4A4A",
-    secondary: "#A0A0A0",
-    secondaryLight: "#C7C7C7",
-    secondaryDark: "#707070",
-    accent: "#D0D0D0",
-    background: "#FAFAFA",
-    foreground: "#222222",
-    textPrimary: "#222222",
-    textSecondary: "#666666",
+    primary: "#B86A4C", // Copper
+    primaryLight: "#DBA68F",
+    primaryDark: "#804530",
+
+    secondary: "#6A8570", // Green-grey counterbalance
+    secondaryLight: "#9CB9A3",
+    secondaryDark: "#435646",
+
+    accent: "#E7C475", // Warm gold
+
+    background: "#FAF6F3",
+    foreground: "#2A2725",
+
+    textPrimary: "#2A2725",
+    textSecondary: "#5A5450",
   },
   dark: {
-    primary: "#4A4A4A",
-    primaryLight: "#9C9C9C",
-    primaryDark: "#2D2D2D",
-    secondary: "#707070",
-    secondaryLight: "#C7C7C7",
-    secondaryDark: "#4A4A4A",
-    accent: "#9C9C9C",
-    background: "#111111",
-    foreground: "#EDEDED",
-    textPrimary: "#EDEDED",
-    textSecondary: "#AAAAAA",
+    primary: "#B86A4C",
+    primaryLight: "#DBA68F",
+    primaryDark: "#804530",
+
+    secondary: "#6A8570",
+    secondaryLight: "#9CB9A3",
+    secondaryDark: "#435646",
+
+    accent: "#E7C475",
+
+    background: "#1C1A18",
+    foreground: "#EEE9E5",
+
+    textPrimary: "#EEE9E5",
+    textSecondary: "#BEB9B5",
   },
 };
 
-/** VIBRANT ENERGY */
-export const vibrant: ThemePalette = {
-  name: "vibrant",
-  label: "Vibrant Orange",
+/** ARCTIC MIST — Clean, icy clinic + wellness aesthetic */
+export const arcticMist: ThemePalette = {
+  name: "arctic-mist",
+  label: "Arctic Mist",
   light: {
-    primary: "#E26D39",
-    primaryLight: "#FFA87A",
-    primaryDark: "#A9491C",
-    secondary: "#FF9F1C",
-    secondaryLight: "#FFBE6D",
-    secondaryDark: "#C57800",
-    accent: "#FFD079",
-    background: "#FFF7F3",
-    foreground: "#3D2A1F",
-    textPrimary: "#3D2A1F",
-    textSecondary: "#7A5A45",
+    primary: "#7EAEC9", // Ice blue
+    primaryLight: "#B6D4E3",
+    primaryDark: "#547A91",
+
+    secondary: "#4C6370", // Cold slate
+    secondaryLight: "#7C8E98",
+    secondaryDark: "#2F3D46",
+
+    accent: "#E3B25A", // Warm contrast
+
+    background: "#F5F8FA",
+    foreground: "#1F2427",
+
+    textPrimary: "#1F2427",
+    textSecondary: "#4D565C",
   },
   dark: {
-    primary: "#A9491C",
-    primaryLight: "#FFA87A",
-    primaryDark: "#6F2C0C",
-    secondary: "#C57800",
-    secondaryLight: "#FFBE6D",
-    secondaryDark: "#8E5500",
-    accent: "#EAB660",
-    background: "#1A120E",
-    foreground: "#FAEDE2",
-    textPrimary: "#FAEDE2",
-    textSecondary: "#B89D8A",
+    primary: "#7EAEC9",
+    primaryLight: "#B6D4E3",
+    primaryDark: "#547A91",
+
+    secondary: "#4C6370",
+    secondaryLight: "#7C8E98",
+    secondaryDark: "#2F3D46",
+
+    accent: "#E3B25A",
+
+    background: "#171B1D",
+    foreground: "#E3E8EB",
+
+    textPrimary: "#E3E8EB",
+    textSecondary: "#A8B0B5",
+  },
+};
+
+/** ROYAL SAGE — Premium spa branding direction */
+export const royalSage: ThemePalette = {
+  name: "royal-sage",
+  label: "Royal Sage",
+  light: {
+    primary: "#7D8D6D", // Sage green
+    primaryLight: "#AFBCA6",
+    primaryDark: "#556048",
+
+    secondary: "#85669B", // Regal purple
+    secondaryLight: "#B99BC7",
+    secondaryDark: "#5A436A",
+
+    accent: "#D9B56A",
+
+    background: "#F6F4F2",
+    foreground: "#242321",
+
+    textPrimary: "#242321",
+    textSecondary: "#56534F",
+  },
+  dark: {
+    primary: "#7D8D6D",
+    primaryLight: "#AFBCA6",
+    primaryDark: "#556048",
+
+    secondary: "#85669B",
+    secondaryLight: "#B99BC7",
+    secondaryDark: "#5A436A",
+
+    accent: "#D9B56A",
+
+    background: "#1B1A18",
+    foreground: "#EAE7E2",
+
+    textPrimary: "#EAE7E2",
+    textSecondary: "#B9B5AF",
   },
 };
 
 /** Registry */
 export const PALETTES: ThemePalette[] = [
   wellness,
-  coolSpa,
-  forest,
-  neutral,
-  vibrant,
+  urbanOnyx,
+  aquaStone,
+  copperClay,
+  arcticMist,
+  royalSage,
 ];
