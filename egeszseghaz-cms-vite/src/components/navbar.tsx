@@ -134,8 +134,8 @@ export default function Navbar({ navbar }: NavbarProps) {
                   size="md"
                   alt={auth.currentUser?.email || "User Avatar"}
                   isBordered
-                  className="bg-white text-primary-dark"
-                  style={{ backgroundColor: "#ffffff" }}
+                  color="secondary"
+                  className="bg-accent text-primary-dark"
                 />
               </button>
             </div>

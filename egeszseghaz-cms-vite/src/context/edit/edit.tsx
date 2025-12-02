@@ -105,6 +105,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
         }
         if (isEditMode) {
           console.log("Already in edit mode");
+          return;
         }
       }
     };
@@ -112,7 +113,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
     window.addEventListener("keydown", handleKey);
 
     return () => window.removeEventListener("keydown", handleKey);
-  }, [isAuthed, isLoading]);
+  }, [isAuthed, isLoading, isEditMode]);
 
   return (
     <EditModeContext.Provider
