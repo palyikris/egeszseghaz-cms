@@ -80,12 +80,14 @@ export default function ReviewsSection({
           const bgResolved = resolveColor(card.bgColor, "bg");
           const textResolved = resolveColor(card.textColor, "text");
 
+          const authorResolved = resolveColor(card.authorColor, "text");
+
           const starSize = Number(card.size || 8);
 
           return (
             <Card
               key={i}
-              className={`max-w-64 border border-primary/30 sm:max-w-sm p-6 px-2 md:px-6 ${textResolved.className || ""} shadow-md bg-background`}
+              className={`max-w-64 border border-primary/30 sm:max-w-sm p-6 px-2 md:px-6 ${textResolved.className || ""} ${bgResolved.className || "bg-white"} shadow-md`}
               style={{
                 ...(bgResolved.style || {}),
               }}
@@ -115,7 +117,10 @@ export default function ReviewsSection({
               <p style={textResolved.style} className="italic mb-4">
                 “{t.text}”
               </p>
-              <p className={`font-semibold text-${card.authorColor}`}>
+              <p
+                className={`font-semibold ${authorResolved.className || ""}`}
+                style={authorResolved.style}
+              >
                 — {t.name}
               </p>
             </Card>

@@ -166,7 +166,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
               />
 
               <Link
-                className="text-background underline"
+                className="text-background-light underline"
                 href={
                   isEditMode
                     ? draft.hero?.contacts?.social?.link
