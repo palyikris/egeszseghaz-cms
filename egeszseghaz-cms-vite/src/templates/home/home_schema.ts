@@ -1,3 +1,5 @@
+import { Review } from "@/types/reviews";
+
 /* eslint-disable prettier/prettier */
 export interface NavbarSchema {
   iconUrl: string;
@@ -27,7 +29,7 @@ export interface HeroSchema {
   };
   contacts: {
     phone: { number: string };
-    social: { link: string, text: string };
+    social: { link: string; text: string };
     name: { text: string };
   };
 }
@@ -87,6 +89,7 @@ export interface ReviewsSchema {
     duration: number;
   };
   card: any;
+  reviews: Review[];
 }
 
 export interface FooterSchema {
@@ -95,7 +98,7 @@ export interface FooterSchema {
     from: string;
     to: string;
     via: string;
-  }
+  };
   textColor: string;
   glow: { from: string; to: string; opacity: string; direction: string };
   sections: {
@@ -125,7 +128,7 @@ export interface FooterSchema {
         number: string;
         color: string;
         iconColor: string;
-      },
+      };
       email: {
         address: string;
         color: string;

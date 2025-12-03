@@ -11,7 +11,7 @@ export default function PrebuiltPalettes() {
   const activeName = typeof active === "string" ? active : active?.name;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 max-h-screen overflow-y-auto w-full pt-6 px-4">
       <h3 className="text-lg font-semibold">Theme</h3>
 
       <div>

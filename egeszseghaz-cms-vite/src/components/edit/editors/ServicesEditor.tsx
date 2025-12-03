@@ -1,25 +1,32 @@
 /* eslint-disable prettier/prettier */
 import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Input } from "@heroui/input";
-import { Textarea } from "@heroui/input";
-import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 
 import { useServices } from "@/hooks/useServices";
 import { useImages } from "@/hooks/useImages";
 import { usePublishService } from "@/hooks/usePublishService";
-import ServiceCard from "@/components/pages/home/service_card";
+import { useUploadImage } from "@/hooks/useUploadImage";
 import type { Service } from "@/types/services";
 import CustomLoader from "@/components/loader";
+import { useDeleteService } from "@/hooks/useDeleteService";
+import { useCreateService } from "@/hooks/useCreateService";
 
-export default function ServicesEditor() {
+import CreateServiceModal from "@/components/edit/CreateServiceModal";
+import ServiceList from "@/components/edit/ServiceList";
+import ServiceForm from "@/components/edit/ServiceForm";
+
+export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
   const { data: images } = useImages();
   const publish = usePublishService();
   const queryClient = useQueryClient();
+  const deleteService = useDeleteService();
+  const createService = useCreateService();
+  const upload = useUploadImage();
 
   const [selected, setSelected] = useState<Service | null>(null);
+  const [showCreateModal, setShowCreateModal] = useState(false);
 
   const cardTemplate = useMemo(() => {
     return {
@@ -36,13 +43,11 @@ export default function ServicesEditor() {
         bgColor: "primary",
         backdropBlur: "",
       },
-      button: { variant: "default", color: "primary", label: "Open" },
+      button: { variant: "default", color: "primary", label: "" },
     };
   }, []);
 
-  const onSelectService = (svc: Service) => {
-    setSelected(svc);
-  };
+  const onSelectService = (svc: Service) => setSelected(svc);
 
   const handlePublish = async () => {
     if (!selected) return;
@@ -62,6 +67,23 @@ export default function ServicesEditor() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!selected) return;
+    try {
+      if (!selected.id) throw new Error("Service ID is missing");
+      if (
+        confirm(
+          "Are you sure you want to delete this service? This action cannot be undone."
+        )
+      ) {
+        await deleteService.mutateAsync(selected.id);
+        setSelected(null);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="w-full h-64 flex items-center justify-center">
@@ -71,102 +93,65 @@ export default function ServicesEditor() {
   }
 
   return (
-    <div className="w-full flex gap-6">
-      <div className="w-2/3 grid grid-cols-2 gap-4 max-h-[70vh] overflow-auto hide-scrollbar">
-        {!isLoading &&
-          (services || []).map((svc: any, i: number) => (
-            <button
-              key={svc.id || i}
-              onClick={() => onSelectService(svc as Service)}
-              className={`cursor-pointer rounded-sm flex justify-center items-center m-2 p-4 ${selected?.id === svc.id ? "ring-2 ring-primary" : ""}`}
-            >
-              <ServiceCard service={svc} i={i} cardTemplate={cardTemplate} />
-            </button>
-          ))}
+    <div className="w-full flex gap-6 flex-col">
+      <div className="grid-2">
+        <Button color="primary" onPress={() => setShowCreateModal(true)}>
+          Create New Service
+        </Button>
       </div>
 
-      <div
-        className="w-1/3 p-4 space-y-4 bg-primary-light backdrop-blur-2xl rounded-md min-w-xs max-h-[70vh] overflow-auto hide-scrollbar"
-        style={{ boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px" }}
-      >
-        <h3 className="font-semibold">Edit Service</h3>
+      <CreateServiceModal
+        open={showCreateModal}
+        onClose={() => setShowCreateModal(false)}
+        onCreate={async (id, coach, file) => {
+          try {
+            const payload: any = {
+              name: id,
+              coach,
+              desc: "",
+              img: "",
+              phone: "",
+            };
+            if (file) {
+              const imgRes = await upload.mutateAsync({ file, folder: id });
+              payload.img = imgRes.url;
+            }
 
-        {!selected && <div>Select a service to edit</div>}
+            const res = await createService.mutateAsync({ payload, id });
+            const svc = { id: res.id ?? id, ...payload } as Service;
+            setSelected(svc);
+            return svc;
+          } catch (err) {
+            console.error(err);
+            return null;
+          }
+        }}
+      />
 
-        {publish.isPending && (
-          <div className="text-center py-10">
-            <CustomLoader />
-            <div className="mt-2">Publishing...</div>
-          </div>
-        )}
+      <div className="w-full flex justify-center items-center gap-4">
+        <ServiceList
+          services={services as Service[] | undefined}
+          selectedId={selected?.id ?? null}
+          onSelect={onSelectService}
+          cardTemplate={cardTemplate}
+        />
 
-        {selected && !publish.isPending && (
-          <div className="space-y-3">
-            <div>
-              <Input
-                id="service-name"
-                type="text"
-                value={selected.name ?? ""}
-                onChange={(e: any) =>
-                  setSelected({ ...selected, name: e.target.value })
-                }
-                label="Service Name"
-              />
-            </div>
+        <div
+          className="w-1/3 p-4 space-y-4 bg-primary-light backdrop-blur-2xl rounded-md min-w-xs max-h-[70vh] overflow-auto hide-scrollbar"
+          style={{ boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px" }}
+        >
+          <h3 className="font-semibold">Edit Service</h3>
 
-            <div>
-              <Input
-                id="service-phone"
-                type="text"
-                value={selected.phone ?? ""}
-                onChange={(e: any) =>
-                  setSelected({ ...selected, phone: e.target.value })
-                }
-                label="Phone Number"
-              />
-            </div>
-
-            <div>
-              <Select
-                id="service-image"
-                label="Image"
-                selectedKeys={[selected.img ?? ""]}
-                onSelectionChange={(e: any) =>
-                  setSelected({ ...selected, img: e.currentKey })
-                }
-              >
-                {images && images.length > 0 ? (
-                  images.map((img: any) => (
-                    <SelectItem key={img.url}>{img.name}</SelectItem>
-                  ))
-                ) : (
-                  <SelectItem key="no-images">No images</SelectItem>
-                )}
-              </Select>
-            </div>
-
-            <div>
-              <Textarea
-                id="service-desc"
-                value={selected.desc ?? ""}
-                onChange={(e: any) =>
-                  setSelected({ ...selected, desc: e.target.value })
-                }
-                label="Service Description"
-              />
-            </div>
-
-            <div className="pt-2">
-              <Button
-                className="w-full"
-                color="primary"
-                onPress={handlePublish}
-              >
-                Publish
-              </Button>
-            </div>
-          </div>
-        )}
+          <ServiceForm
+            service={selected}
+            images={images}
+            publishing={publish.isPending}
+            deleting={deleteService.isPending}
+            onChange={(s) => setSelected(s)}
+            onPublish={handlePublish}
+            onDelete={handleDelete}
+          />
+        </div>
       </div>
     </div>
   );

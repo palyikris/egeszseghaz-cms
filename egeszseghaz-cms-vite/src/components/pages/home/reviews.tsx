@@ -9,24 +9,6 @@ import { ReviewsSchema } from "@/templates/home/home_schema";
 import { useEditMode } from "@/context/edit/edit";
 import { BlurFade } from "@/components/ui/blur-fade";
 
-const reviews: Review[] = [
-  {
-    name: "Kovács János",
-    text: "Nagyon elégedett vagyok a szolgáltatással, profi csapat és barátságos légkör!",
-    stars: 5,
-  },
-  {
-    name: "Szabó Éva",
-    text: "A kezelések hatékonyak voltak, és a személyzet nagyon figyelmes. Csak ajánlani tudom!",
-    stars: 4,
-  },
-  {
-    name: "Nagy Péter",
-    text: "Kiváló ellátásban részesültem, a doktorok és ápolók is nagyon kedvesek voltak.",
-    stars: 5,
-  },
-];
-
 interface ReviewSectionProps {
   reviewsTemplate: ReviewsSchema | undefined;
 }
@@ -43,6 +25,7 @@ export default function ReviewsSection({
   if (!templateSource) return null;
 
   const headingResolved = resolveColor(templateSource.heading?.color, "text");
+  const reviews: Review[] = templateSource.reviews || [];
 
   return (
     <section

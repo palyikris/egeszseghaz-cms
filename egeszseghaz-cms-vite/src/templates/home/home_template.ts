@@ -163,6 +163,7 @@ export const DefaultHomeTemplate: HomeSchema = {
       size: "6",
       authorColor: "primary-dark",
     },
+    reviews: [],
   },
   footer: {
     bgColor: {

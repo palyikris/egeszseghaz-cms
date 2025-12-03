@@ -2,7 +2,8 @@
 export interface Service {
   id: string;
   name: string;
+  coach?: string;
   desc: string;
   img: string;
-  phone: string
+  phone: string;
 }

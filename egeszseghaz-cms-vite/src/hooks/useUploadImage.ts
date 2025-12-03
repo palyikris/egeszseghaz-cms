@@ -4,14 +4,15 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type UploadVariables = {
   file: File;
+  folder?: string;
 };
 
 export function useUploadImage() {
   const queryClient = useQueryClient();
 
   return useMutation<ImageInfo, Error, UploadVariables>({
-    mutationFn: async ({ file }: UploadVariables) => {
-      return await uploadImageToFirebase(file);
+    mutationFn: async ({ file, folder }: UploadVariables) => {
+      return await uploadImageToFirebase(file, folder);
     },
     mutationKey: ["upload-image"],
     onSuccess: () => {

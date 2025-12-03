@@ -239,6 +239,123 @@ export const royalSage: ThemePalette = {
   },
 };
 
+export const desertQuartz: ThemePalette = {
+  name: "desert-quartz",
+  label: "Desert Quartz",
+  light: {
+    primary: "#C97F7B", // Dusty rose clay
+    primaryLight: "#E3BAB7",
+    primaryDark: "#8C5553",
+
+    secondary: "#7B6A8F", // Desert dusk violet
+    secondaryLight: "#B5A7C3",
+    secondaryDark: "#524761",
+
+    accent: "#E8C06A", // Sunlit gold sand
+
+    background: "#F8F4F2", // Warm light sandstone
+    foreground: "#2E2A28",
+
+    textPrimary: "#2E2A28",
+    textSecondary: "#5C5551",
+  },
+  dark: {
+    primary: "#C97F7B",
+    primaryLight: "#E3BAB7",
+    primaryDark: "#8C5553",
+
+    secondary: "#7B6A8F",
+    secondaryLight: "#B5A7C3",
+    secondaryDark: "#524761",
+
+    accent: "#E8C06A",
+
+    background: "#1C1A19", // Dark sandstone
+    foreground: "#EAE6E4",
+
+    textPrimary: "#EAE6E4",
+    textSecondary: "#BEB9B7",
+  },
+};
+
+export const polarFern: ThemePalette = {
+  name: "polar-fern",
+  label: "Polar Fern",
+  light: {
+    primary: "#75A4AE", // Icy river blue
+    primaryLight: "#B3D1D7",
+    primaryDark: "#4F737A",
+
+    secondary: "#6F8F67", // Cold fern green
+    secondaryLight: "#A8C5A1",
+    secondaryDark: "#4A6145",
+
+    accent: "#DCC785", // Pure matte gold
+
+    background: "#F5F9FA", // Arctic daylight
+    foreground: "#1E2324",
+
+    textPrimary: "#1E2324",
+    textSecondary: "#52585A",
+  },
+  dark: {
+    primary: "#75A4AE",
+    primaryLight: "#B3D1D7",
+    primaryDark: "#4F737A",
+
+    secondary: "#6F8F67",
+    secondaryLight: "#A8C5A1",
+    secondaryDark: "#4A6145",
+
+    accent: "#DCC785",
+
+    background: "#161A1B", // Deep glacial stone
+    foreground: "#E5E7E8",
+
+    textPrimary: "#E5E7E8",
+    textSecondary: "#B6BBBD",
+  },
+};
+
+export const jadeEmber: ThemePalette = {
+  name: "jade-ember",
+  label: "Jade Ember",
+  light: {
+    primary: "#4A7C6F", // Deep jade
+    primaryLight: "#85B7AC",
+    primaryDark: "#34564D",
+
+    secondary: "#9E6A4F", // Ember terracotta
+    secondaryLight: "#CFA68D",
+    secondaryDark: "#6A4735",
+
+    accent: "#E5C679", // Warm gold
+
+    background: "#F6F5F3", // Smooth pearl white
+    foreground: "#242523",
+
+    textPrimary: "#242523",
+    textSecondary: "#555753",
+  },
+  dark: {
+    primary: "#4A7C6F",
+    primaryLight: "#85B7AC",
+    primaryDark: "#34564D",
+
+    secondary: "#9E6A4F",
+    secondaryLight: "#CFA68D",
+    secondaryDark: "#6A4735",
+
+    accent: "#E5C679",
+
+    background: "#1A1B1A", // Deep charcoal jade
+    foreground: "#E8E7E4",
+
+    textPrimary: "#E8E7E4",
+    textSecondary: "#B8B7B4",
+  },
+};
+
 /** Registry */
 export const PALETTES: ThemePalette[] = [
   wellness,
@@ -247,4 +364,7 @@ export const PALETTES: ThemePalette[] = [
   copperClay,
   arcticMist,
   royalSage,
+  desertQuartz,
+  polarFern,
+  jadeEmber,
 ];

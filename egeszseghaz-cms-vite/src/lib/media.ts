@@ -30,11 +30,14 @@ export async function getImagesFromFirebase(): Promise<ImageInfo[]> {
   return urlsWithNames;
 }
 
-export async function uploadImageToFirebase(file: File): Promise<ImageInfo> {
+export async function uploadImageToFirebase(
+  file: File,
+  folder: string = "media"
+): Promise<ImageInfo> {
   // create a unique name to avoid collisions
   const timestamp = Date.now();
   const name = `${timestamp}_${file.name}`;
-  const fileRef = ref(storage, `media/${name}`);
+  const fileRef = ref(storage, `${folder}/${name}`);
 
   await uploadBytes(fileRef, file);
   const url = await getDownloadURL(fileRef);
