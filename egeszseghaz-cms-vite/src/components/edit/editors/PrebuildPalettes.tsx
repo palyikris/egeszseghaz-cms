@@ -2,6 +2,7 @@
 import { PALETTES } from "@/palettes/themes";
 import { usePalette } from "@/hooks/usePalette";
 import { useUpdatePalette } from "@/hooks/useUpdatePalette";
+import { Button } from "@heroui/button";
 
 export default function PrebuiltPalettes() {
   const { data: active } = usePalette();
@@ -15,15 +16,12 @@ export default function PrebuiltPalettes() {
       <h3 className="text-lg font-semibold">Theme</h3>
 
       <div>
-        <button
-          className="mb-2 px-3 py-2 rounded-md text-sm border border-muted"
-          onClick={() => update.mutate("wellness")}
-        >
+        <Button color="primary" onPress={() => update.mutate("wellness")}>
           Restore Default
-        </button>
+        </Button>
       </div>
 
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-10 p-4">
         {PALETTES.map((theme) => {
           const isActive = activeName === theme.name;
 
