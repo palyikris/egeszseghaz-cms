@@ -5,7 +5,7 @@ import { items } from "./navItems";
 export default function SettingsGrid() {
   return (
     <div className="py-6 bg-background">
-      <h2 className="text-2xl font-semibold mb-4">Settings</h2>
+      <h2 className="text-2xl font-semibold mb-4">Beállítások</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {items.map((it) => {
           const Icon = it.icon as React.ComponentType<any>;
@@ -22,7 +22,9 @@ export default function SettingsGrid() {
               </div>
               <div className="flex-1">
                 <div className="font-medium text-text-primary">{it.title}</div>
-                <div className="text-sm text-primary">Go to {it.title}</div>
+                <div className="text-sm text-primary">
+                  Megnyitás: {it.title}
+                </div>
               </div>
             </a>
           );

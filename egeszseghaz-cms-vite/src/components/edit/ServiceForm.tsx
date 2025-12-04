@@ -17,15 +17,15 @@ type Props = {
 };
 
 export default function ServiceForm({ service, images, publishing, deleting, onChange, onPublish, onDelete }: Props) {
-  if (!service) return <div>Select a service to edit</div>;
+  if (!service) return <div>Válassz egy szolgáltatást szerkesztésre</div>;
 
   if (publishing || deleting) {
     return (
       <div className="text-center py-10">
         <CustomLoader />
         <div className="mt-2">
-          {publishing && <div>Publishing...</div>}
-          {deleting && <div>Deleting...</div>}
+          {publishing && <div>Közzététel...</div>}
+          {deleting && <div>Törlés...</div>}
         </div>
       </div>
     );
@@ -34,38 +34,75 @@ export default function ServiceForm({ service, images, publishing, deleting, onC
   return (
     <div className="space-y-3">
       <div>
-        <Input id="service-id" type="text" value={service.name ?? ""} onChange={(e: any) => onChange({ ...service, name: e.target.value })} label="Service Name (ID)" />
+        <Input
+          id="service-id"
+          type="text"
+          value={service.name ?? ""}
+          onChange={(e: any) => onChange({ ...service, name: e.target.value })}
+          label="Szolgáltatás neve (ID)"
+        />
       </div>
 
       <div>
-        <Input id="service-coach" type="text" value={(service as any).coach ?? ""} onChange={(e: any) => onChange({ ...service, coach: e.target.value })} label="Coach Name" />
+        <Input
+          id="service-coach"
+          type="text"
+          value={(service as any).coach ?? ""}
+          onChange={(e: any) => onChange({ ...service, coach: e.target.value })}
+          label="Coach neve"
+        />
       </div>
 
       <div>
-        <Input id="service-phone" type="text" value={service.phone ?? ""} onChange={(e: any) => onChange({ ...service, phone: e.target.value })} label="Phone Number" />
+        <Input
+          id="service-phone"
+          type="text"
+          value={service.phone ?? ""}
+          onChange={(e: any) => onChange({ ...service, phone: e.target.value })}
+          label="Telefonszám"
+        />
       </div>
 
       <div>
-        <Select id="service-image" label="Image" selectedKeys={[service.img ?? ""]} onSelectionChange={(e: any) => onChange({ ...service, img: e.currentKey })}>
+        <Select
+          id="service-image"
+          label="Image"
+          selectedKeys={[service.img ?? ""]}
+          onSelectionChange={(e: any) =>
+            onChange({ ...service, img: e.currentKey })
+          }
+        >
           {images && images.length > 0 ? (
-            images.map((img: any) => <SelectItem key={img.url}>{img.name}</SelectItem>)
+            images.map((img: any) => (
+              <SelectItem key={img.url}>{img.name}</SelectItem>
+            ))
           ) : (
-            <SelectItem key="no-images">No images</SelectItem>
+            <SelectItem key="no-images">Nincsenek képek</SelectItem>
           )}
         </Select>
       </div>
 
       <div>
-        <Textarea id="service-desc" value={service.desc ?? ""} onChange={(e: any) => onChange({ ...service, desc: e.target.value })} label="Service Description" />
+        <Textarea
+          id="service-desc"
+          value={service.desc ?? ""}
+          onChange={(e: any) => onChange({ ...service, desc: e.target.value })}
+          label="Szolgáltatás leírása"
+        />
       </div>
 
       <div className="pt-2">
         <Button className="w-full" color="primary" onPress={onPublish}>
-          Publish
+          Közzététel
         </Button>
         <hr className="my-4" />
-        <Button className="w-full" color="danger" onPress={onDelete} variant="ghost">
-          Delete
+        <Button
+          className="w-full"
+          color="danger"
+          onPress={onDelete}
+          variant="ghost"
+        >
+          Törlés
         </Button>
       </div>
     </div>

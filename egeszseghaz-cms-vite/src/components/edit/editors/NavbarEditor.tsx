@@ -31,7 +31,7 @@ export function NavbarEditor() {
 
   return (
     <div className="p-4 space-y-4 text-sm">
-      <h3 className="font-semibold">Navbar</h3>
+      <h3 className="font-semibold">Navigáció</h3>
 
       <div>
         <Input
@@ -68,7 +68,7 @@ export function NavbarEditor() {
           >
             <div className="col-span-12">
               <Input
-                label={`Label ${idx + 1}`}
+                label={`Felirat ${idx + 1}`}
                 type="text"
                 value={l.label}
                 onChange={(e) => updateLink(idx, "label", e.target.value)}
@@ -76,7 +76,7 @@ export function NavbarEditor() {
             </div>
             <div className="col-span-12">
               <Input
-                label={`Href ${idx + 1}`}
+                label={`Hivatkozás ${idx + 1}`}
                 type="text"
                 value={l.href}
                 onChange={(e) => updateLink(idx, "href", e.target.value)}
@@ -84,7 +84,7 @@ export function NavbarEditor() {
             </div>
             <div className="col-span-12">
               <Select
-                label="Color"
+                label="Szín"
                 selectedKeys={[l.color]}
                 onSelectionChange={(e) =>
                   updateLink(idx, "color", e.currentKey)
@@ -106,7 +106,7 @@ export function NavbarEditor() {
                 variant="ghost"
                 onPress={() => removeLink(idx)}
               >
-                Remove
+                Törlés
               </Button>
             </div>
           </div>
@@ -114,7 +114,7 @@ export function NavbarEditor() {
 
         <div className="mt-4">
           <Button onPress={addLink} color="primary">
-            Add link
+            Link hozzáadása
           </Button>
         </div>
       </div>

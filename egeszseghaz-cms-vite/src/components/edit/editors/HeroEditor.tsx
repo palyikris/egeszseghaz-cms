@@ -32,7 +32,7 @@ export function HeroEditor() {
       <div>
         <Select
           selectedKeys={[hero.mainImageUrl]}
-          label="Main Image"
+          label="Fő kép"
           onSelectionChange={(e) => {
             handleChange("mainImageUrl", e.currentKey);
           }}
@@ -42,7 +42,7 @@ export function HeroEditor() {
               <SelectItem key={imgUrl.url}>{imgUrl.name}</SelectItem>
             ))
           ) : (
-            <SelectItem key="no-images">No images available</SelectItem>
+            <SelectItem key="no-images">Nincsenek elérhető képek</SelectItem>
           )}
         </Select>
         <div className="flex w-full justify-center items-center mt-4">
@@ -108,14 +108,14 @@ export function HeroEditor() {
 
       {/* Headings */}
       <div>
-        <h3 className="font-semibold text-primary-dark mb-1">Headings</h3>
+        <h3 className="font-semibold text-primary-dark mb-1">Címsorok</h3>
 
         <div className="mb-2">
           <Input
             type="text"
             value={hero.heading?.text ?? ""}
             onChange={(e) => handleChange("heading.text", e.target.value)}
-            label="Heading Text"
+            label="Cím szöveg"
           />
         </div>
 
@@ -127,7 +127,7 @@ export function HeroEditor() {
                 className={`px-[10px] py-[1px] bg-${hero.heading?.color} rounded-full`}
               />
             }
-            label="Heading Color"
+            label="Cím színe"
             onSelectionChange={(e) => {
               handleChange("heading.color", e.currentKey);
             }}
@@ -143,7 +143,7 @@ export function HeroEditor() {
             type="text"
             value={hero.subheading?.text ?? ""}
             onChange={(e) => handleChange("subheading.text", e.target.value)}
-            label="Subheading Text"
+            label="Alcím szöveg"
           />
         </div>
 
@@ -155,7 +155,7 @@ export function HeroEditor() {
                 className={`px-[10px] py-[1px] bg-${hero.subheading?.color} rounded-full`}
               />
             }
-            label="Subheading Color"
+            label="Alcím színe"
             onSelectionChange={(e) => {
               handleChange("subheading.color", e.currentKey);
             }}
@@ -171,7 +171,9 @@ export function HeroEditor() {
 
       {/* Primary Button */}
       <div>
-        <h3 className="font-semibold text-primary-dark mb-1">Primary Button</h3>
+        <h3 className="font-semibold text-primary-dark mb-1">
+          Elsődleges gomb
+        </h3>
         <div className="space-y-1 mt-4">
           <p className="flex items-center gap-2">
             <Checkbox
@@ -182,9 +184,7 @@ export function HeroEditor() {
               }
               className="my-1"
             />
-            {hero.primaryButton?.isDisplayed
-              ? "Button is shown"
-              : "Button is hidden"}
+            {hero.primaryButton?.isDisplayed ? "Gomb látható" : "Gomb elrejtve"}
           </p>
           <Input
             type="text"
@@ -192,7 +192,7 @@ export function HeroEditor() {
             onChange={(e) =>
               handleChange("primaryButton.label", e.target.value)
             }
-            label="Label"
+            label="Felirat"
             className="my-2"
           />
           <Input
@@ -209,7 +209,7 @@ export function HeroEditor() {
                 className={`px-[10px] py-[1px] bg-${hero.primaryButton?.color} rounded-full`}
               />
             }
-            label="Color"
+            label="Szín"
             onSelectionChange={(e) => {
               handleChange("primaryButton.color", e.currentKey);
             }}
@@ -223,11 +223,11 @@ export function HeroEditor() {
             onChange={(e) => {
               handleChange("primaryButton.variant", e.target.value);
             }}
-            label="Variant"
+            label="Variáns"
             className="my-1"
           >
-            <SelectItem key="solid">Solid</SelectItem>
-            <SelectItem key="ghost">Ghost</SelectItem>
+            <SelectItem key="solid">Tömör</SelectItem>
+            <SelectItem key="ghost">Áttetsző</SelectItem>
           </Select>
         </div>
       </div>
@@ -237,7 +237,7 @@ export function HeroEditor() {
       {/* Secondary Button */}
       <div>
         <h3 className="font-semibold text-primary-dark mb-1">
-          Secondary Button
+          Másodlagos gomb
         </h3>
         <div className="space-y-1 mt-4">
           <p className="flex items-center gap-2">
@@ -250,8 +250,8 @@ export function HeroEditor() {
               className="my-1"
             />
             {hero.secondaryButton?.isDisplayed
-              ? "Button is shown"
-              : "Button is hidden"}
+              ? "Gomb látható"
+              : "Gomb elrejtve"}
           </p>
           <Input
             type="text"
@@ -259,7 +259,7 @@ export function HeroEditor() {
             onChange={(e) =>
               handleChange("secondaryButton.label", e.target.value)
             }
-            label="Label"
+            label="Felirat"
             className="my-2"
           />
           <Input
@@ -278,7 +278,7 @@ export function HeroEditor() {
                 className={`px-[10px] py-[1px] bg-${hero.secondaryButton?.color} rounded-full`}
               />
             }
-            label="Color"
+            label="Szín"
             onSelectionChange={(e) => {
               handleChange("secondaryButton.color", e.currentKey);
             }}
@@ -292,11 +292,11 @@ export function HeroEditor() {
             onChange={(e) => {
               handleChange("secondaryButton.variant", e.target.value);
             }}
-            label="Variant"
+            label="Variáns"
             className="my-1"
           >
-            <SelectItem key="solid">Solid</SelectItem>
-            <SelectItem key="ghost">Ghost</SelectItem>
+            <SelectItem key="solid">Tömör</SelectItem>
+            <SelectItem key="ghost">Áttetsző</SelectItem>
           </Select>
         </div>
       </div>
@@ -305,7 +305,7 @@ export function HeroEditor() {
 
       {/* Contacts */}
       <div>
-        <h3 className="font-semibold text-primary-dark mb-1">Contacts</h3>
+        <h3 className="font-semibold text-primary-dark mb-1">Kapcsolat</h3>
 
         <div className="mt-4">
           <Input
@@ -314,7 +314,7 @@ export function HeroEditor() {
             onChange={(e) =>
               handleChange("contacts.phone.number", e.target.value)
             }
-            label="Phone Number"
+            label="Telefonszám"
           />
         </div>
 
@@ -325,7 +325,7 @@ export function HeroEditor() {
             onChange={(e) =>
               handleChange("contacts.social.link", e.target.value)
             }
-            label="Social Link"
+            label="Közösségi link"
           />
         </div>
 
@@ -336,7 +336,7 @@ export function HeroEditor() {
             onChange={(e) =>
               handleChange("contacts.social.text", e.target.value)
             }
-            label="Social Text"
+            label="Közösségi szöveg"
           />
         </div>
 
@@ -345,7 +345,7 @@ export function HeroEditor() {
             type="text"
             value={hero.contacts?.name?.text ?? ""}
             onChange={(e) => handleChange("contacts.name.text", e.target.value)}
-            label="Name Text"
+            label="Név"
           />
         </div>
       </div>

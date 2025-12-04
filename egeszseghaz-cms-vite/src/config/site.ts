@@ -47,7 +47,7 @@ export const siteConfig = {
       href: "/calendar",
     },
     {
-      label: "Settings",
+      label: "Beállítások",
       href: "/settings",
     },
     {

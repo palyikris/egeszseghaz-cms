@@ -96,7 +96,7 @@ export default function Navbar({ navbar }: NavbarProps) {
                   href="/"
                   className={`relative text-primary-dark font-medium transition-colors hover:text-primary-dark`}
                 >
-                  Home
+                  Főoldal
                   <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
                 </Link>
               </motion.div>
@@ -105,7 +105,7 @@ export default function Navbar({ navbar }: NavbarProps) {
                   href="/settings"
                   className={`relative text-primary-dark font-medium transition-colors hover:text-primary-dark`}
                 >
-                  Settings
+                  Beállítások
                   <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-accent transition-all duration-300 hover:w-full" />
                 </Link>
               </motion.div>

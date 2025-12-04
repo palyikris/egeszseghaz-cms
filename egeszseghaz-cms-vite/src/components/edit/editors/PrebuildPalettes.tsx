@@ -13,11 +13,11 @@ export default function PrebuiltPalettes() {
 
   return (
     <div className="space-y-4 max-h-screen overflow-y-auto w-full pt-6 px-4">
-      <h3 className="text-lg font-semibold">Theme</h3>
+      <h3 className="text-lg font-semibold">Téma</h3>
 
       <div>
         <Button color="primary" onPress={() => update.mutate("wellness")}>
-          Restore Default
+          Alapértelmezés visszaállítása
         </Button>
       </div>
 

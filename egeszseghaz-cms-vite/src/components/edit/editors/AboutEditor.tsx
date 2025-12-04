@@ -47,12 +47,12 @@ export function AboutEditor() {
 
   return (
     <div className="p-4 space-y-4 text-sm relative">
-      <h3 className="font-semibold text-primary-dark">About section</h3>
+      <h3 className="font-semibold text-primary-dark">Rólunk</h3>
 
       <div>
         <Select
           selectedKeys={[about.aboutImg?.url]}
-          label="Main Image"
+          label="Fő kép"
           onSelectionChange={(e) => {
             handleChange("aboutImg.url", e.currentKey);
           }}
@@ -62,7 +62,7 @@ export function AboutEditor() {
               <SelectItem key={imgUrl.url}>{imgUrl.name}</SelectItem>
             ))
           ) : (
-            <SelectItem key="no-images">No images available</SelectItem>
+            <SelectItem key="no-images">Nincsenek elérhető képek</SelectItem>
           )}
         </Select>
         <div className="flex w-full justify-center items-center mt-4">
@@ -77,7 +77,7 @@ export function AboutEditor() {
 
       <div>
         <Input
-          label="Heading (first)"
+          label="Cím (első)"
           type="text"
           value={about.heading?.textFirst ?? ""}
           onChange={(e) => handleChange("heading.textFirst", e.target.value)}
@@ -86,7 +86,7 @@ export function AboutEditor() {
 
       <div>
         <Input
-          label="Heading (second)"
+          label="Cím (második)"
           type="text"
           value={about.heading?.textSecond ?? ""}
           onChange={(e) => handleChange("heading.textSecond", e.target.value)}
@@ -95,7 +95,7 @@ export function AboutEditor() {
 
       <div>
         <Select
-          label="Heading Color"
+          label="Cím színe"
           selectedKeys={[about.heading?.color]}
           endContent={
             <span
@@ -112,7 +112,7 @@ export function AboutEditor() {
 
       <div>
         <Textarea
-          label="Description"
+          label="Leírás"
           value={about.description?.text ?? ""}
           onChange={(e) => handleChange("description.text", e.target.value)}
         />
@@ -120,7 +120,7 @@ export function AboutEditor() {
 
       <div>
         <Select
-          label="Description Color"
+          label="Leírás színe"
           selectedKeys={[about.description?.color]}
           endContent={
             <span
@@ -138,7 +138,7 @@ export function AboutEditor() {
       </div>
 
       <div>
-        <h4 className="font-semibold">Features</h4>
+        <h4 className="font-semibold">Jellemzők</h4>
         <div className="space-y-2 mt-2">
           {(about.features || []).map((f: any, idx: number) => (
             <div key={idx} className="p-2 border rounded-md">
@@ -146,7 +146,7 @@ export function AboutEditor() {
                 type="text"
                 value={f.text}
                 onChange={(e) => updateFeature(idx, "text", e.target.value)}
-                label={`Feature ${idx + 1}`}
+                label={`Szolgáltatás ${idx + 1}`}
               />
               <div className="grid grid-cols-2 gap-2 mt-2">
                 <Select
@@ -205,7 +205,7 @@ export function AboutEditor() {
 
           <div>
             <Button color="primary" className="w-full" onPress={addFeature}>
-              Add Feature
+              Jellemző hozzáadása
             </Button>
           </div>
         </div>
@@ -214,11 +214,11 @@ export function AboutEditor() {
       <hr />
 
       <div>
-        <h4 className="font-semibold">Buttons</h4>
+        <h4 className="font-semibold">Gombok</h4>
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div>
             <Input
-              label="Primary Button Label"
+              label="Elsődleges gomb felirat"
               type="text"
               value={about.primaryButton?.label ?? ""}
               onChange={(e) =>
@@ -228,7 +228,7 @@ export function AboutEditor() {
           </div>
           <div>
             <Select
-              label="Primary Button Color"
+              label="Elsődleges gomb színe"
               selectedKeys={[about.primaryButton?.color]}
               endContent={
                 <span
@@ -249,7 +249,7 @@ export function AboutEditor() {
         <div className="grid grid-cols-2 gap-2 mt-2">
           <div>
             <Input
-              label="Secondary Button Label"
+              label="Másodlagos gomb felirat"
               type="text"
               value={about.secondaryButton?.label ?? ""}
               onChange={(e) =>
@@ -259,7 +259,7 @@ export function AboutEditor() {
           </div>
           <div>
             <Select
-              label="Secondary Button Color"
+              label="Másodlagos gomb színe"
               selectedKeys={[about.secondaryButton?.color]}
               endContent={
                 <span

@@ -9,15 +9,19 @@ import {
 } from "lucide-react";
 
 export const items = [
-  { title: "Main Page", url: "/", icon: Home },
-  { title: "General", url: "/settings", icon: Cog },
-  { title: "Images", url: "/settings#images", icon: Img },
-  { title: "Prebuilt palettes", url: "/settings#palettes", icon: Palette },
+  { title: "Főoldal", url: "/", icon: Home },
+  { title: "Általános", url: "/settings", icon: Cog },
+  { title: "Képek", url: "/settings#images", icon: Img },
   {
-    title: "Announcement",
+    title: "Előre definiált paletták",
+    url: "/settings#palettes",
+    icon: Palette,
+  },
+  {
+    title: "Közlemény",
     url: "/settings#announcement",
     icon: MessageCircleWarning,
   },
-  { title: "New Service", url: "/settings#new_service", icon: Newspaper },
-  { title: "All Services", url: "/settings#services", icon: Newspaper },
+  { title: "Új szolgáltatás", url: "/settings#new_service", icon: Newspaper },
+  { title: "Összes szolgáltatás", url: "/settings#services", icon: Newspaper },
 ];

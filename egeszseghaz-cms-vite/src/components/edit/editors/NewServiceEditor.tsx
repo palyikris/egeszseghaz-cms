@@ -55,11 +55,11 @@ export function NewServiceEditor() {
       `}</style>
 
       <div className="w-full flex justify-start items-center gap-2">
-        <h3 className="font-semibold">New Service</h3>
+        <h3 className="font-semibold">Új szolgáltatás</h3>
         <Chip
           size="sm"
           color="primary"
-          className={`border border-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} bg-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} text-text-primary`}
+          className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} text-text-primary`}
         >
           {draftStatus}
         </Chip>
@@ -67,10 +67,10 @@ export function NewServiceEditor() {
 
       <div className="w-full flex justify-center items-center gap-6">
         <Button className="w-full" color="secondary" onPress={undo}>
-          Undo
+          Visszavonás
         </Button>
         <Button className="w-full" color="primary" onPress={redo}>
-          Redo
+          Újra
         </Button>
       </div>
 
@@ -82,14 +82,14 @@ export function NewServiceEditor() {
             onChange={(e) => handleChange("isDisplayed", e.target.checked)}
             className="my-1"
           />
-          <span className="select-none">Display section</span>
+          <span className="select-none">Szakasz megjelenítése</span>
         </div>
       </div>
 
       <div>
         <Select
           selectedKeys={[service.heroImage?.url]}
-          label="Image"
+          label="Kép"
           onSelectionChange={(e: any) =>
             handleChange("heroImage.url", e.currentKey)
           }
@@ -99,14 +99,14 @@ export function NewServiceEditor() {
               <SelectItem key={img.url}>{img.name}</SelectItem>
             ))
           ) : (
-            <SelectItem key="no-images">No images</SelectItem>
+            <SelectItem key="no-images">Nincsenek képek</SelectItem>
           )}
         </Select>
       </div>
 
       <div>
         <Input
-          label="Hero Image Alt"
+          label="Hero kép alt"
           type="text"
           value={service.heroImage?.alt ?? ""}
           onChange={(e) => handleChange("heroImage.alt", e.target.value)}
@@ -116,7 +116,7 @@ export function NewServiceEditor() {
       <hr />
       {/* Gallery editor */}
       <div>
-        <h4 className="font-semibold">Gallery</h4>
+        <h4 className="font-semibold">Galéria</h4>
 
         {imagesLoading ? (
           <div className="py-4">
@@ -140,7 +140,7 @@ export function NewServiceEditor() {
                 <div className="col-span-12 space-y-2">
                   <Select
                     selectedKeys={[g.url]}
-                    label="Image"
+                    label="Kép"
                     onSelectionChange={(e: any) =>
                       handleChange(`gallery.${i}.url`, e.currentKey)
                     }
@@ -155,7 +155,7 @@ export function NewServiceEditor() {
                   </Select>
 
                   <Input
-                    label="Alt"
+                    label="Alt szöveg"
                     type="text"
                     value={g.alt ?? ""}
                     onChange={(e) =>
@@ -176,7 +176,7 @@ export function NewServiceEditor() {
                     color="danger"
                     variant="ghost"
                   >
-                    Remove
+                    Eltávolítás
                   </Button>
                 </div>
               </div>
@@ -193,7 +193,7 @@ export function NewServiceEditor() {
                 color="primary"
                 className="w-full mb-8"
               >
-                Add Image
+                Kép hozzáadása
               </Button>
             </div>
           </div>
@@ -204,7 +204,7 @@ export function NewServiceEditor() {
 
       <div>
         <Input
-          label="Title"
+          label="Cím"
           type="text"
           value={service.title?.text ?? ""}
           onChange={(e) => handleChange("title.text", e.target.value)}
@@ -213,7 +213,7 @@ export function NewServiceEditor() {
 
       <div>
         <Input
-          label="Subtitle"
+          label="Alcím"
           type="text"
           value={service.subtitle?.text ?? ""}
           onChange={(e) => handleChange("subtitle.text", e.target.value)}
@@ -222,7 +222,7 @@ export function NewServiceEditor() {
 
       <div>
         <Textarea
-          label="Short Description"
+          label="Rövid leírás"
           value={service.description?.text ?? ""}
           onChange={(e) => handleChange("description.text", e.target.value)}
         />
@@ -230,7 +230,7 @@ export function NewServiceEditor() {
 
       <div>
         <Textarea
-          label="Long Description"
+          label="Hosszú leírás"
           value={service.longDescription?.text ?? ""}
           onChange={(e) => handleChange("longDescription.text", e.target.value)}
         />
@@ -238,16 +238,16 @@ export function NewServiceEditor() {
 
       <hr />
       <div>
-        <h4 className="font-semibold mb-4">Primary Button</h4>
+        <h4 className="font-semibold mb-4">Elsődleges gomb</h4>
         <Input
-          label="Label"
+          label="Felirat"
           type="text"
           value={service.primaryButton?.label ?? ""}
           onChange={(e) => handleChange("primaryButton.label", e.target.value)}
         />
         <Input
           className="my-2"
-          label="Href"
+          label="Hivatkozás"
           type="text"
           value={service.primaryButton?.href ?? ""}
           onChange={(e) => handleChange("primaryButton.href", e.target.value)}
@@ -260,17 +260,17 @@ export function NewServiceEditor() {
               handleChange("primaryButton.isDisplayed", e.target.checked)
             }
           />
-          <span className="select-none">Show primary button</span>
+          <span className="select-none">Elsődleges gomb megjelenítése</span>
         </div>
       </div>
 
       <hr />
 
       <div>
-        <h4 className="font-semibold mb-4">Contact Phone</h4>
+        <h4 className="font-semibold mb-4">Kapcsolat telefonszám</h4>
         <Input
           className="mb-2"
-          label="Phone Number"
+          label="Telefonszám"
           type="text"
           value={service.contactInfo?.phone.number ?? ""}
           onChange={(e) =>
@@ -285,17 +285,17 @@ export function NewServiceEditor() {
               handleChange("contactInfo.phone.isDisplayed", e.target.checked)
             }
           />
-          <span className="select-none">Show phone</span>
+          <span className="select-none">Telefonszám megjelenítése</span>
         </div>
       </div>
 
       <hr />
 
       <div>
-        <h4 className="font-semibold mb-4">Contact Email</h4>
+        <h4 className="font-semibold mb-4">Kapcsolat e-mail</h4>
         <Input
           className="mb-2"
-          label="Email"
+          label="E-mail"
           type="text"
           value={service.contactInfo?.email.address ?? ""}
           onChange={(e) =>
@@ -310,7 +310,7 @@ export function NewServiceEditor() {
               handleChange("contactInfo.email.isDisplayed", e.target.checked)
             }
           />
-          <span className="select-none">Show email</span>
+          <span className="select-none">E-mail megjelenítése</span>
         </div>
       </div>
 
@@ -319,7 +319,7 @@ export function NewServiceEditor() {
           color="primary"
           className="w-full mt-4"
           onPress={async () => {
-            setDraftStatus("Publishing...");
+            setDraftStatus("Közzététel...");
             await publish.mutateAsync(
               {
                 publishedContent: draft,
@@ -329,13 +329,13 @@ export function NewServiceEditor() {
                   queryClient.invalidateQueries({
                     queryKey: ["newService"],
                   });
-                  setDraftStatus("Published");
+                  setDraftStatus("Közzétéve");
                 },
               }
             );
           }}
         >
-          Publish
+          Közzététel
         </Button>
       </div>
     </div>

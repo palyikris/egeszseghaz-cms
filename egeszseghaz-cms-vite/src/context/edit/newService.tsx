@@ -3,7 +3,7 @@ import { useNewService } from "@/hooks/useNewService";
 import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type DraftStatus = "Draft" | "Published" | "Publishing...";
+type DraftStatus = "Vázlat" | "Közzétéve" | "Közzététel...";
 
 interface NewServiceEditContextType {
   draft: Record<string, any>;
@@ -27,7 +27,7 @@ export const NewServiceEditProvider: React.FC<{
   const [draft, setDraft] = useState<Record<string, any>>({});
   const [undoStack, setUndoStack] = useState<Record<string, any>[]>([]);
   const [redoStack, setRedoStack] = useState<Record<string, any>[]>([]);
-  const [draftStatus, setDraftStatus] = useState<DraftStatus>("Draft");
+  const [draftStatus, setDraftStatus] = useState<DraftStatus>("Vázlat");
 
   const newService = useNewService();
 
@@ -49,8 +49,8 @@ export const NewServiceEditProvider: React.FC<{
     setDraft((prev) => setAtPath(prev, key, value));
     setRedoStack([]);
 
-    if (draftStatus !== "Draft") {
-      setDraftStatus("Draft");
+    if (draftStatus !== "Vázlat") {
+      setDraftStatus("Vázlat");
     }
   };
 
@@ -63,8 +63,8 @@ export const NewServiceEditProvider: React.FC<{
       setUndoStack([...undoStack]);
     }
 
-    if (draftStatus !== "Draft") {
-      setDraftStatus("Draft");
+    if (draftStatus !== "Vázlat") {
+      setDraftStatus("Vázlat");
     }
   };
 
@@ -77,8 +77,8 @@ export const NewServiceEditProvider: React.FC<{
       setRedoStack([...redoStack]);
     }
 
-    if (draftStatus !== "Draft") {
-      setDraftStatus("Draft");
+    if (draftStatus !== "Vázlat") {
+      setDraftStatus("Vázlat");
     }
   };
 

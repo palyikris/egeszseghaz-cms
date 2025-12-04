@@ -49,7 +49,7 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
         {/* HEADER */}
         <div className="flex items-center justify-between p-5 border-b border-border/60">
           <h3 className="text-lg font-semibold text-primary dark:text-primary-light">
-            Create New Service
+            Új szolgáltatás létrehozása
           </h3>
 
           <button
@@ -67,14 +67,14 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
         {/* CONTENT */}
         <div className="p-6 space-y-4">
           <Input
-            label="Service Name (ID)"
+            label="Szolgáltatás neve (ID)"
             variant="bordered"
             value={id}
             onChange={(e: any) => setId(e.target.value)}
           />
 
           <Input
-            label="Coach Name"
+            label="Coach neve"
             variant="bordered"
             value={coach}
             onChange={(e: any) => setCoach(e.target.value)}
@@ -107,7 +107,7 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
               {file ? (
                 <span>{file.name}</span>
               ) : (
-                <span>Click to upload image</span>
+                <span>Kattints a kép feltöltéséhez</span>
               )}
             </label>
           </div>
@@ -115,13 +115,14 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
           {/* ACTIONS */}
           <div className="flex justify-end gap-3 pt-4">
             <Button variant="flat" color="secondary" onPress={onClose}>
-              Cancel
+              Mégse
             </Button>
 
             <Button
               color="primary"
               onPress={async () => {
-                if (!id.trim()) return alert("Please enter a service ID");
+                if (!id.trim())
+                  return alert("Kérlek add meg a szolgáltatás azonosítóját");
 
                 const svc = await onCreate(id.trim(), coach, file);
                 if (svc) {
@@ -132,7 +133,7 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
                 }
               }}
             >
-              Create
+              Létrehozás
             </Button>
           </div>
         </div>

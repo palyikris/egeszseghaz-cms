@@ -49,11 +49,11 @@ export function FooterEditor() {
 
   return (
     <div className="p-4 space-y-4 text-sm">
-      <h3 className="font-semibold">Footer</h3>
+      <h3 className="font-semibold">Lábléc</h3>
 
       <div>
         <Select
-          label="Text Color"
+          label="Szöveg színe"
           selectedKeys={[footer?.textColor]}
           onSelectionChange={(e) => handleChange("textColor", e.currentKey)}
           endContent={
@@ -70,7 +70,7 @@ export function FooterEditor() {
 
       <div>
         <Input
-          label="Logo Title"
+          label="Logó címe"
           type="text"
           value={footer?.sections.logo.title.text ?? ""}
           onChange={(e) =>
@@ -89,7 +89,7 @@ export function FooterEditor() {
           }
         /> */}
         <Select
-          label="Logo Title Color"
+          label="Logó cím színe"
           selectedKeys={[footer?.sections.logo.title.color]}
           onSelectionChange={(e) =>
             handleChange("sections.logo.title.color", e.currentKey)
@@ -108,7 +108,7 @@ export function FooterEditor() {
 
       <div>
         <Textarea
-          label="Logo Tagline"
+          label="Logó szlogen"
           value={footer?.sections.logo.tagline.text ?? ""}
           onChange={(e) =>
             handleChange("sections.logo.tagline.text", e.target.value)
@@ -117,7 +117,7 @@ export function FooterEditor() {
       </div>
 
       <hr className="mt-6" />
-      <h4 className="font-semibold">Links</h4>
+      <h4 className="font-semibold">Linkek</h4>
 
       <div>
         <Input
@@ -134,7 +134,7 @@ export function FooterEditor() {
           <div key={idx} className="grid grid-cols-12 gap-2 mb-2 items-center">
             <div className="col-span-5">
               <Input
-                label={`Label ${idx + 1}`}
+                label={`Felirat ${idx + 1}`}
                 type="text"
                 value={l.label}
                 onChange={(e) =>
@@ -144,7 +144,7 @@ export function FooterEditor() {
             </div>
             <div className="col-span-5">
               <Input
-                label={`Href ${idx + 1}`}
+                label={`Hivatkozás ${idx + 1}`}
                 type="text"
                 value={l.href}
                 onChange={(e) => updateSectionLink(idx, "href", e.target.value)}
@@ -156,7 +156,7 @@ export function FooterEditor() {
                 variant="ghost"
                 onPress={() => removeLink(idx)}
               >
-                Remove
+                Törlés
               </Button>
             </div>
           </div>
@@ -164,17 +164,17 @@ export function FooterEditor() {
 
         <div className="mt-4">
           <Button onPress={addLink} color="primary">
-            Add link
+            Link hozzáadása
           </Button>
         </div>
       </div>
 
       <hr className="mt-6" />
 
-      <h4 className="font-semibold">Contact</h4>
+      <h4 className="font-semibold">Kapcsolat</h4>
       <div>
         <Input
-          label="Phone"
+          label="Telefonszám"
           type="text"
           value={footer?.sections.contact.phone.number ?? ""}
           onChange={(e) =>
@@ -184,7 +184,7 @@ export function FooterEditor() {
       </div>
       <div>
         <Input
-          label="Email"
+          label="E-mail"
           type="text"
           value={footer?.sections.contact.email.address ?? ""}
           onChange={(e) =>
@@ -194,7 +194,7 @@ export function FooterEditor() {
       </div>
       <div>
         <Textarea
-          label="Address"
+          label="Cím"
           value={footer?.sections.contact.address.text ?? ""}
           onChange={(e) =>
             handleChange("sections.contact.address.text", e.target.value)
@@ -203,7 +203,7 @@ export function FooterEditor() {
       </div>
       <div>
         <Input
-          label="Map Link"
+          label="Térkép link"
           type="text"
           value={footer?.sections.contact.address.mapLink ?? ""}
           onChange={(e) =>
@@ -213,7 +213,7 @@ export function FooterEditor() {
       </div>
       <div>
         <Select
-          label="Map Text Color"
+          label="Térkép szöveg színe"
           selectedKeys={[footer?.sections.contact.address.mapTextColor]}
           onSelectionChange={(e) =>
             handleChange("sections.contact.address.mapTextColor", e.currentKey)
@@ -232,12 +232,12 @@ export function FooterEditor() {
 
       <hr className="mt-6" />
 
-      <h4 className="font-semibold">Opening Hours</h4>
+      <h4 className="font-semibold">Nyitvatartás</h4>
       {(footer?.sections.openingHours.hours || []).map((h, idx) => (
         <div key={idx} className="grid grid-cols-12 gap-2 mb-2 items-end">
           <div className="col-span-5">
             <Input
-              label={`Day ${idx + 1}`}
+              label={`Nap ${idx + 1}`}
               type="text"
               value={h.day}
               onChange={(e) => updateOpeningHour(idx, "day", e.target.value)}
@@ -245,7 +245,7 @@ export function FooterEditor() {
           </div>
           <div className="col-span-5">
             <Input
-              label={`Time ${idx + 1}`}
+              label={`Idő ${idx + 1}`}
               type="text"
               value={h.time}
               onChange={(e) => updateOpeningHour(idx, "time", e.target.value)}
@@ -257,7 +257,7 @@ export function FooterEditor() {
               color="danger"
               onPress={() => removeOpeningHour(idx)}
             >
-              Remove
+              Törlés
             </Button>
           </div>
         </div>
@@ -265,7 +265,7 @@ export function FooterEditor() {
 
       <div className="mt-4">
         <Button onPress={addOpeningHour} color="primary">
-          Add opening hour
+          Nyitvatartás hozzáadása
         </Button>
       </div>
     </div>

@@ -44,7 +44,7 @@ export default function SettingsPage() {
     <SettingsLayout>
       {hash in previewMap && <div className="mb-6">{previewMap[hash]}</div>}
       {hash ? (
-        sectionMap[hash] || <div>Section not found</div>
+        sectionMap[hash] || <div>Szakasz nem található</div>
       ) : (
         <SettingsGrid />
       )}

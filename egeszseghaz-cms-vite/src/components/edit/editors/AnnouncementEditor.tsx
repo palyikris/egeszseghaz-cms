@@ -52,11 +52,11 @@ export function AnnouncementEditor() {
       `}</style>
 
       <div className="w-full flex justify-start items-center gap-2">
-        <h3 className="font-semibold">Announcement</h3>
+        <h3 className="font-semibold">Közlemény</h3>
         <Chip
           size="sm"
           color="primary"
-          className={`border border-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} bg-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} text-text-primary`}
+          className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} text-text-primary`}
         >
           {draftStatus}
         </Chip>
@@ -64,10 +64,10 @@ export function AnnouncementEditor() {
 
       <div className="w-full flex justify-center items-center gap-6">
         <Button className="w-full" color="secondary" onPress={undo}>
-          Undo
+          Visszavonás
         </Button>
         <Button className="w-full" color="primary" onPress={redo}>
-          Redo
+          Újra
         </Button>
       </div>
 
@@ -79,13 +79,13 @@ export function AnnouncementEditor() {
             onChange={(e) => handleChange("isDisplayed", e.target.checked)}
             className="my-1"
           />
-          <span className="select-none">Display announcement</span>
+          <span className="select-none">Közlemény megjelenítése</span>
         </div>
       </div>
 
       <div>
         <Input
-          label="Title"
+          label="Cím"
           type="text"
           value={announcement.title ?? ""}
           onChange={(e) => handleChange("title", e.target.value)}
@@ -94,7 +94,7 @@ export function AnnouncementEditor() {
 
       <div>
         <Input
-          label="Date"
+          label="Dátum"
           type="date"
           value={announcement.date ?? ""}
           onChange={(e) => handleChange("date", e.target.value)}
@@ -103,7 +103,7 @@ export function AnnouncementEditor() {
 
       <div>
         <Textarea
-          label="Description"
+          label="Leírás"
           value={announcement.description ?? ""}
           onChange={(e) => handleChange("description", e.target.value)}
         />
@@ -120,11 +120,11 @@ export function AnnouncementEditor() {
               isSelected={announcement.cta?.isVisible}
               onChange={(e) => handleChange("cta.isVisible", e.target.checked)}
             />
-            <span className="select-none">Show CTA</span>
+            <span className="select-none">CTA megjelenítése</span>
           </div>
 
           <Input
-            label="CTA Label"
+            label="CTA felirat"
             type="text"
             value={announcement.cta?.label ?? ""}
             onChange={(e) => handleChange("cta.label", e.target.value)}
@@ -141,7 +141,7 @@ export function AnnouncementEditor() {
 
       <div>
         <Select
-          label="Theme"
+          label="Téma"
           selectedKeys={[announcement.theme ?? "info"]}
           onSelectionChange={(e) => handleChange("theme", e.currentKey)}
         >
@@ -156,7 +156,7 @@ export function AnnouncementEditor() {
           className="w-full"
           color="primary"
           onPress={async () => {
-            setDraftStatus("Publishing...");
+            setDraftStatus("Közzététel...");
             await publish.mutateAsync(
               {
                 publishedContent: draft,
@@ -166,13 +166,13 @@ export function AnnouncementEditor() {
                   await queryClient.refetchQueries({
                     queryKey: ["announcement"],
                   });
-                  setDraftStatus("Published");
+                  setDraftStatus("Közzétéve");
                 },
               }
             );
           }}
         >
-          Publish
+          Közzététel
         </Button>
       </div>
     </div>

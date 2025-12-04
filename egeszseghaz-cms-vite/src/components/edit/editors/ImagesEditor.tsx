@@ -38,7 +38,7 @@ export default function ImagesEditor() {
   return (
     <div className="w-full mx-auto max-w-7xl">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold">Images</h2>
+        <h2 className="text-xl font-semibold">Képek</h2>
       </div>
 
       {isLoading && (
@@ -68,7 +68,7 @@ export default function ImagesEditor() {
             />
 
             <Upload className="size-10 text-primary mb-3 opacity-80 group-hover:opacity-100 transition-opacity" />
-            <p className="text-primary font-medium">Upload image</p>
+            <p className="text-primary font-medium">Kép feltöltése</p>
 
             {upload.isPending && (
               <div className="absolute inset-0 flex items-center justify-center bg-white/60 backdrop-blur">

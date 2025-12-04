@@ -73,7 +73,7 @@ export default function ServicesEditor(): JSX.Element {
       if (!selected.id) throw new Error("Service ID is missing");
       if (
         confirm(
-          "Are you sure you want to delete this service? This action cannot be undone."
+          "Biztosan törli ezt a szolgáltatást? Ez a művelet nem vonható vissza."
         )
       ) {
         await deleteService.mutateAsync(selected.id);
@@ -96,7 +96,7 @@ export default function ServicesEditor(): JSX.Element {
     <div className="w-full flex gap-6 flex-col">
       <div className="grid-2">
         <Button color="primary" onPress={() => setShowCreateModal(true)}>
-          Create New Service
+          Új szolgáltatás létrehozása
         </Button>
       </div>
 
@@ -140,7 +140,7 @@ export default function ServicesEditor(): JSX.Element {
           className="w-1/3 p-4 space-y-4 bg-primary-light backdrop-blur-2xl rounded-md min-w-xs max-h-[70vh] overflow-auto hide-scrollbar"
           style={{ boxShadow: "rgba(0, 0, 0, 0.6) 0px 1px 4px" }}
         >
-          <h3 className="font-semibold">Edit Service</h3>
+          <h3 className="font-semibold">Szolgáltatás szerkesztése</h3>
 
           <ServiceForm
             service={selected}

@@ -20,11 +20,11 @@ export function ReviewsEditor() {
 
   return (
     <div className="p-4 space-y-4 text-sm relative">
-      <h3 className="font-semibold">Reviews section</h3>
+      <h3 className="font-semibold">Vélemények</h3>
 
       <div>
         <Input
-          label="Heading"
+          label="Címsor"
           type="text"
           value={reviews.heading?.text ?? ""}
           onChange={(e) => handleChange("heading.text", e.target.value)}
@@ -33,7 +33,7 @@ export function ReviewsEditor() {
 
       <div>
         <Select
-          label="Heading Color"
+          label="Cím színe"
           selectedKeys={[reviews.heading?.color]}
           endContent={
             <span
@@ -50,17 +50,17 @@ export function ReviewsEditor() {
 
       <hr />
 
-      <h4 className="font-semibold">Spinning Text</h4>
+      <h4 className="font-semibold">Forgó szöveg</h4>
       <div>
         <Textarea
-          label="Spinning Text"
+          label="Forgó szöveg"
           value={reviews.spinningText?.text ?? ""}
           onChange={(e) => handleChange("spinningText.text", e.target.value)}
         />
       </div>
       <div>
         <Select
-          label="Spinning Text Color"
+          label="Forgó szöveg színe"
           selectedKeys={[reviews.spinningText?.color]}
           endContent={
             <span
@@ -79,7 +79,7 @@ export function ReviewsEditor() {
       <div className="grid grid-cols-2 gap-2">
         <div>
           <Input
-            label="Spinning Radius"
+            label="Forgási sugár"
             type="number"
             value={reviews.spinningText?.radius.toString() ?? "15"}
             onChange={(e) =>
@@ -89,7 +89,7 @@ export function ReviewsEditor() {
         </div>
         <div>
           <Input
-            label="Spinning Duration"
+            label="Forgási idő"
             type="number"
             value={reviews.spinningText?.duration.toString() ?? "40"}
             onChange={(e) =>
@@ -101,10 +101,10 @@ export function ReviewsEditor() {
 
       <hr />
 
-      <h4 className="font-semibold">Card</h4>
+      <h4 className="font-semibold">Kártya</h4>
       <div>
         <Select
-          label="Card Background"
+          label="Kártya háttér"
           selectedKeys={[reviews.card?.bgColor]}
           endContent={
             <span
@@ -121,7 +121,7 @@ export function ReviewsEditor() {
 
       <div>
         <Select
-          label="Card Border Color"
+          label="Kártya szegély színe"
           selectedKeys={[reviews.card?.borderColor]}
           endContent={
             <span
@@ -138,7 +138,7 @@ export function ReviewsEditor() {
 
       <div>
         <Select
-          label="Card Text Color"
+          label="Kártya szöveg színe"
           selectedKeys={[reviews.card?.textColor]}
           endContent={
             <span
@@ -155,7 +155,7 @@ export function ReviewsEditor() {
 
       <div>
         <Input
-          label="Star Color (hex or token)"
+          label="Csillag színe (hex vagy token)"
           type="text"
           value={reviews.card?.starColor ?? ""}
           onChange={(e) => updateCard("starColor", e.target.value)}
@@ -164,7 +164,7 @@ export function ReviewsEditor() {
 
       <div>
         <Input
-          label="Star Size (px)"
+          label="Csillag mérete (px)"
           type="number"
           value={reviews.card?.size ?? 6}
           onChange={(e) => updateCard("size", Number(e.target.value))}
@@ -173,7 +173,7 @@ export function ReviewsEditor() {
 
       <div>
         <Select
-          label="Author Color"
+          label="Szerző színe"
           selectedKeys={[reviews.card?.authorColor]}
           endContent={
             <span
@@ -190,7 +190,7 @@ export function ReviewsEditor() {
 
       <hr />
 
-      <h4>Reviews</h4>
+      <h4>Vélemények</h4>
       <div>
         {reviews.reviews?.map((review, index) => {
           return (
@@ -198,10 +198,10 @@ export function ReviewsEditor() {
               key={index}
               className="border border-muted rounded-md p-4 mb-4"
             >
-              <h5 className="font-semibold mb-2">Review {index + 1}</h5>
+              <h5 className="font-semibold mb-2">Vélemény {index + 1}</h5>
               <div className="mb-2">
                 <Textarea
-                  label="Review Text"
+                  label="Vélemény szöveg"
                   value={review.text || ""}
                   onChange={(e) =>
                     handleChange(`reviews.${index}.text`, e.target.value)
@@ -210,7 +210,7 @@ export function ReviewsEditor() {
               </div>
               <div className="mb-2">
                 <Input
-                  label="Stars (0-5)"
+                  label="Csillagok (0-5)"
                   type="number"
                   value={review.stars?.toString() || "0"}
                   onChange={(e) =>
@@ -223,7 +223,7 @@ export function ReviewsEditor() {
               </div>
               <div>
                 <Input
-                  label="Author Name"
+                  label="Szerző neve"
                   type="text"
                   value={review.name || ""}
                   onChange={(e) =>
@@ -242,7 +242,7 @@ export function ReviewsEditor() {
                   handleChange("reviews", updatedReviews);
                 }}
               >
-                Remove Review
+                Vélemény törlése
               </Button>
             </div>
           );
@@ -259,7 +259,7 @@ export function ReviewsEditor() {
           }}
           className="w-full"
         >
-          Add Review
+          Vélemény hozzáadása
         </Button>
       </div>
     </div>

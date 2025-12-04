@@ -30,11 +30,11 @@ export function EditToolbar() {
     >
       <div className="flex items-center gap-4 bg-primary-dark/90 text-white px-10 py-2 rounded-2xl shadow-lg backdrop-blur-sm pointer-events-auto">
         <div className="font-semibold tracking-wide text-sm mr-2">
-          <span className="text-center mr-2">Edit Mode</span>
+          <span className="text-center mr-2">Szerkesztő mód</span>
           <Chip
             size="sm"
             color="primary"
-            className={`border border-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} bg-${draftStatus === "Draft" ? "accent" : draftStatus === "Publishing..." ? "danger" : "success"} text-text-primary`}
+            className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} text-text-primary`}
           >
             {draftStatus}
           </Chip>
@@ -45,7 +45,7 @@ export function EditToolbar() {
           className="text-accent hover:text-white ml-10"
           onPress={undo}
         >
-          Undo
+          Visszavonás
         </Button>
         <Button
           variant="ghost"
@@ -53,14 +53,14 @@ export function EditToolbar() {
           className="text-accent hover:text-white"
           onPress={redo}
         >
-          Redo
+          Újra
         </Button>
         <Button
           variant="solid"
           size="sm"
           className="bg-accent text-primary-dark hover:bg-accent/80"
           onPress={async () => {
-            setDraftStatus("Publishing...");
+            setDraftStatus("Közzététel...");
             await publish.mutateAsync(
               {
                 pageId: "home",
@@ -70,7 +70,7 @@ export function EditToolbar() {
                 onSuccess: async () => {
                   queryClient.invalidateQueries({ queryKey: ["page", "home"] });
                   setIsEditMode(false);
-                  setDraftStatus("Published");
+                  setDraftStatus("Közzétéve");
                   setTimeout(() => {
                     window.location.reload();
                   }, 1000);
@@ -79,7 +79,7 @@ export function EditToolbar() {
             );
           }}
         >
-          Publish
+          Közzététel
         </Button>
         <Button
           variant="ghost"
@@ -88,7 +88,7 @@ export function EditToolbar() {
           onPress={toggleEditMode}
           color="secondary"
         >
-          Exit
+          Kilépés
         </Button>
         <button
           className="border p-1 px-3 rounded-[5px] cursor-pointer border-border"
