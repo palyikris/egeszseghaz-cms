@@ -15,6 +15,7 @@ import { useCreateService } from "@/hooks/useCreateService";
 import CreateServiceModal from "@/components/edit/CreateServiceModal";
 import ServiceList from "@/components/edit/ServiceList";
 import ServiceForm from "@/components/edit/ServiceForm";
+import ServiceSearch from "@/components/edit/ServiceSearch";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -27,6 +28,19 @@ export default function ServicesEditor(): JSX.Element {
 
   const [selected, setSelected] = useState<Service | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredServices = useMemo(() => {
+    if (!services) return [];
+    if (!searchQuery.trim()) return services;
+
+    const query = searchQuery.toLowerCase();
+    return services.filter(
+      (service) =>
+        service.name?.toLowerCase().includes(query) ||
+        service.desc?.toLowerCase().includes(query)
+    );
+  }, [services, searchQuery]);
 
   const cardTemplate = useMemo(() => {
     return {
@@ -94,7 +108,8 @@ export default function ServicesEditor(): JSX.Element {
 
   return (
     <div className="w-full flex gap-6 flex-col">
-      <div className="grid-2">
+      <div className="flex items-center justify-start gap-10">
+        <ServiceSearch value={searchQuery} onChange={setSearchQuery} />
         <Button color="primary" onPress={() => setShowCreateModal(true)}>
           Új szolgáltatás létrehozása
         </Button>
@@ -103,15 +118,16 @@ export default function ServicesEditor(): JSX.Element {
       <CreateServiceModal
         open={showCreateModal}
         onClose={() => setShowCreateModal(false)}
-        onCreate={async (id, coach, file) => {
+        onCreate={async (id, coach, file, description, phone) => {
           try {
             const payload: any = {
               name: id,
               coach,
-              desc: "",
+              desc: description,
               img: "",
-              phone: "",
+              phone,
             };
+
             if (file) {
               const imgRes = await upload.mutateAsync({ file, folder: id });
               payload.img = imgRes.url;
@@ -119,10 +135,13 @@ export default function ServicesEditor(): JSX.Element {
 
             const res = await createService.mutateAsync({ payload, id });
             const svc = { id: res.id ?? id, ...payload } as Service;
+
             setSelected(svc);
+
             return svc;
           } catch (err) {
             console.error(err);
+
             return null;
           }
         }}
@@ -130,10 +149,10 @@ export default function ServicesEditor(): JSX.Element {
 
       <div className="w-full flex justify-center items-center gap-4">
         <ServiceList
-          services={services as Service[] | undefined}
-          selectedId={selected?.id ?? null}
-          onSelect={onSelectService}
+          services={filteredServices as Service[] | undefined}
           cardTemplate={cardTemplate}
+          onSelect={onSelectService}
+          selectedId={selected?.id ?? null}
         />
 
         <div

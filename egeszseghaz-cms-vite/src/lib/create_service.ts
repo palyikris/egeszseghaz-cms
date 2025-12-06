@@ -8,12 +8,13 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/utils/firebase";
+import { createBannerForNewService } from "./create_banner_for_new_service";
+import { Service } from "@/types/services";
 
 // create a new service; if `id` is provided, use it as the document ID
-export async function createService(
-  payload: Record<string, any>,
-  id?: string
-) {
+export async function createService(payload: Record<string, any>, id?: string) {
+  let serviceId: string;
+
   if (id) {
     const ref = doc(db, "newreservation", id);
 
@@ -23,16 +24,24 @@ export async function createService(
       updatedAt: serverTimestamp(),
     });
 
-    return { id, ...payload };
+    serviceId = id;
+  } else {
+    const ref = collection(db, "newreservation");
+
+    const docRef = await addDoc(ref, {
+      ...payload,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+
+    serviceId = docRef.id;
   }
 
-  const ref = collection(db, "newreservation");
-
-  const docRef = await addDoc(ref, {
+  // Create banner for the new service
+  await createBannerForNewService({
+    id: serviceId,
     ...payload,
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
-  });
+  } as unknown as Service);
 
-  return { id: docRef.id, ...payload };
+  return { id: serviceId, ...payload };
 }

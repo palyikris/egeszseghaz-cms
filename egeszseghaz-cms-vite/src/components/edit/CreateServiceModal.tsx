@@ -11,13 +11,17 @@ type Props = {
   onCreate: (
     id: string,
     coach: string,
-    file: File | null
+    file: File | null,
+    description: string,
+    phone: string
   ) => Promise<Service | null>;
 };
 
 export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
   const [id, setId] = useState("");
   const [coach, setCoach] = useState("");
+  const [description, setDescription] = useState("");
+  const [phone, setPhone] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
   // Close on ESC
@@ -80,6 +84,21 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
             onChange={(e: any) => setCoach(e.target.value)}
           />
 
+          <Input
+            label="Telefonszám"
+            variant="bordered"
+            value={phone}
+            onChange={(e: any) => setPhone(e.target.value)}
+          />
+
+          <textarea
+            placeholder="Szolgáltatás leírása"
+            className="w-full px-3 py-2 border border-default rounded-lg text-sm"
+            value={description}
+            onChange={(e: any) => setDescription(e.target.value)}
+            rows={3}
+          />
+
           {/* FILE INPUT */}
           <div>
             <label
@@ -124,10 +143,19 @@ export default function CreateServiceModal({ open, onClose, onCreate }: Props) {
                 if (!id.trim())
                   return alert("Kérlek add meg a szolgáltatás azonosítóját");
 
-                const svc = await onCreate(id.trim(), coach, file);
+                const svc = await onCreate(
+                  id.trim(),
+                  coach,
+                  file,
+                  description,
+                  phone
+                );
+
                 if (svc) {
                   setId("");
                   setCoach("");
+                  setDescription("");
+                  setPhone("");
                   setFile(null);
                   onClose();
                 }

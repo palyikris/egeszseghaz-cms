@@ -37,8 +37,8 @@ export default function ServiceForm({ service, images, publishing, deleting, onC
         <Input
           id="service-id"
           type="text"
-          value={service.name ?? ""}
-          onChange={(e: any) => onChange({ ...service, name: e.target.value })}
+          value={service.id ?? ""}
+          onChange={(e: any) => onChange({ ...service, id: e.target.value })}
           label="Szolgáltatás neve (ID)"
         />
       </div>
@@ -47,8 +47,8 @@ export default function ServiceForm({ service, images, publishing, deleting, onC
         <Input
           id="service-coach"
           type="text"
-          value={(service as any).coach ?? ""}
-          onChange={(e: any) => onChange({ ...service, coach: e.target.value })}
+          value={service.name ?? ""}
+          onChange={(e: any) => onChange({ ...service, name: e.target.value })}
           label="Coach neve"
         />
       </div>

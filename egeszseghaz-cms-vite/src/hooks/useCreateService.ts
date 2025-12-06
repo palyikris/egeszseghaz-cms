@@ -18,6 +18,7 @@ export function useCreateService() {
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["services"] });
+      qc.invalidateQueries({ queryKey: ["newService"] });
     },
   });
 }
