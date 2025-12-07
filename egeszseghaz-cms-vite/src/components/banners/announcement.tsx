@@ -1,5 +1,9 @@
 /* eslint-disable prettier/prettier */
+import { useEditMode } from "@/context/edit/edit";
+import { usePublishAnnouncement } from "@/hooks/usePublishAnnouncement";
 import { AnnouncementSchema } from "@/templates/announcement/announcement_schema";
+import { Button } from "@heroui/button";
+import { useQueryClient } from "@tanstack/react-query";
 import { useState, useEffect } from "react";
 
 interface Props {
@@ -9,6 +13,9 @@ interface Props {
 export function Announcement({ data }: Props) {
   const [visible, setVisible] = useState(false);
   const [removed, setRemoved] = useState(false);
+  const { isEditMode } = useEditMode();
+  const editAnnouncement = usePublishAnnouncement();
+  const qc = useQueryClient();
 
   const themeStyles: Record<
     string,
@@ -114,35 +121,61 @@ export function Announcement({ data }: Props) {
               {data.description}
             </p>
 
-            {/* CTA */}
-            {data.cta.isVisible && data.cta.label && data.cta.url && (
-              <a
-                href={data.cta.url}
-                className={[
-                  "inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm",
-                  "shadow-[0_3px_10px_rgba(0,0,0,0.12)] transition-all active:scale-[0.97]",
-                  styles.cta,
-                  styles.ctaHover ?? "",
-                ].join(" ")}
-              >
-                {data.cta.label}
-                <svg
-                  width="15"
-                  height="15"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  className="opacity-90"
+            <div className="w-full flex items-center justify-start gap-6">
+              {/* CTA */}
+              {data.cta.isVisible && data.cta.label && data.cta.url && (
+                <a
+                  href={data.cta.url}
+                  className={[
+                    "inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm",
+                    "shadow-[0_3px_10px_rgba(0,0,0,0.12)] transition-all active:scale-[0.97]",
+                    styles.cta,
+                    styles.ctaHover ?? "",
+                  ].join(" ")}
                 >
-                  <path
-                    d="M5 12h14M13 6l6 6-6 6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </a>
-            )}
+                  {data.cta.label}
+                  <svg
+                    width="15"
+                    height="15"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    className="opacity-90"
+                  >
+                    <path
+                      d="M5 12h14M13 6l6 6-6 6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </a>
+              )}
+              {isEditMode && (
+                <Button
+                  color="primary"
+                  onPress={() => {
+                    editAnnouncement.mutateAsync(
+                      {
+                        publishedContent: {
+                          ...data,
+                          isDisplayed: false,
+                        },
+                      },
+                      {
+                        onSuccess: () => {
+                          qc.invalidateQueries({
+                            queryKey: ["announcement"],
+                          });
+                        },
+                      }
+                    );
+                  }}
+                >
+                  Eltüntetés
+                </Button>
+              )}
+            </div>
           </div>
         </div>
       </div>

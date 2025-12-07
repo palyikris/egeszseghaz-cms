@@ -5,6 +5,9 @@ import { Button } from "@heroui/button";
 import CustomDivider from "../divider";
 import { useNavigate } from "react-router-dom";
 import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
+import { useEditMode } from "@/context/edit/edit";
+import { usePublishNewService } from "@/hooks/usePublishNewService";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   data: NewServiceSchema;
@@ -16,6 +19,10 @@ export function NewServiceSection({ data, className }: Props) {
 
   const [visible, setVisible] = useState(false);
   const [removed, setRemoved] = useState(false);
+
+  const { isEditMode } = useEditMode();
+  const editNewService = usePublishNewService();
+  const qc = useQueryClient();
 
   const navigate = useNavigate();
 
@@ -187,6 +194,30 @@ export function NewServiceSection({ data, className }: Props) {
               >
                 {templateSource.secondaryButton?.label || "Nem érdekel"}
               </Button>
+              {isEditMode && (
+                <Button
+                  onPress={() => {
+                    editNewService.mutateAsync(
+                      {
+                        publishedContent: {
+                          ...data,
+                          isDisplayed: false,
+                        },
+                      },
+                      {
+                        onSuccess: () => {
+                          qc.invalidateQueries({
+                            queryKey: ["newService"],
+                          });
+                        },
+                      }
+                    );
+                  }}
+                  color="primary"
+                >
+                  Eltüntetés
+                </Button>
+              )}
             </div>
           </BlurFade>
         </div>
