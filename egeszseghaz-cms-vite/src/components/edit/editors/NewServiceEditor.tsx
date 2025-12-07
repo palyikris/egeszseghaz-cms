@@ -59,7 +59,7 @@ export function NewServiceEditor() {
         <Chip
           size="sm"
           color="primary"
-          className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} text-text-primary`}
+          className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "error" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "error" : "success"} text-text-primary`}
         >
           {draftStatus}
         </Chip>
@@ -166,14 +166,14 @@ export function NewServiceEditor() {
 
                 <div className="col-span-12 flex flex-col gap-2">
                   <Button
-                    className="btn btn-danger"
+                    className="btn btn-error"
                     onPress={() => {
                       const next = [...(service.gallery || [])];
 
                       next.splice(i, 1);
                       handleChange("gallery", next);
                     }}
-                    color="danger"
+                    color="error"
                     variant="ghost"
                   >
                     Eltávolítás

@@ -14,7 +14,7 @@ export const colorMap: ColorEntry[] = [
   { name: "text-primary", value: "#2E2E2E" },
   { name: "text-secondary", value: "#5C5C5C" },
   { name: "border", value: "#E2DAD1" },
-  { name: "danger", value: "#D35D5D" },
+  { name: "error", value: "#D35D5D" },
   { name: "success", value: "#4BA674" },
   { name: "warning", value: "#E6A655" },
   { name: "surface", value: "#FFFFFF" },

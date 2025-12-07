@@ -56,7 +56,7 @@ export function AnnouncementEditor() {
         <Chip
           size="sm"
           color="primary"
-          className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "danger" : "success"} text-text-primary`}
+          className={`border border-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "error" : "success"} bg-${draftStatus === "Vázlat" ? "accent" : draftStatus === "Közzététel..." ? "error" : "success"} text-text-primary`}
         >
           {draftStatus}
         </Chip>

@@ -102,7 +102,7 @@ export function NavbarEditor() {
             </div>
             <div className="col-span-12 flex items-end">
               <Button
-                color="danger"
+                color="error"
                 variant="ghost"
                 onPress={() => removeLink(idx)}
               >

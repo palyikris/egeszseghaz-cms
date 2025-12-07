@@ -182,7 +182,7 @@ export function AboutEditor() {
               </div>
               <div className="flex justify-end mt-2">
                 <Button
-                  className="text-sm text-danger w-full flex justify-center"
+                  className="text-sm text-error w-full flex justify-center"
                   onPress={() => removeFeature(idx)}
                   variant="ghost"
                 >
