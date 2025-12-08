@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Service } from "@/types/services";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";
+import { useNavigate } from "react-router-dom";
 
 export default function ServiceCard({
   service,
@@ -16,6 +17,8 @@ export default function ServiceCard({
   i: number;
   cardTemplate: any;
 }) {
+  const navigate = useNavigate();
+
   const headingColor = cardTemplate?.heading?.color;
   const headingResolved = resolveColor(headingColor, "text");
   const headingHoverResolved = resolveColor(
@@ -127,6 +130,9 @@ export default function ServiceCard({
               variant={cardTemplate.button.variant as any}
               color={cardTemplate.button.color as any}
               className="relative font-medium overflow-hidden transition-all duration-300"
+              onPress={() => {
+                navigate(`/service/${service.id}`);
+              }}
             >
               <span className={`relative z-10`}>
                 {cardTemplate.button.label}
