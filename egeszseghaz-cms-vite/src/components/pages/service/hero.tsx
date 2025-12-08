@@ -6,10 +6,17 @@ import { Service } from "@/types/services";
 import { useEditMode } from "@/context/edit/edit";
 import { useServiceDetail } from "@/hooks/useServiceDetail";
 import { DefaultServiceDetailTemplate } from "@/templates/service_detail/service_detail_template";
+import { useNavigate } from "react-router-dom";
 
-export default function ServiceHero({ service }: { service: Service | null | undefined }) {
+export default function ServiceHero({
+  service,
+}: {
+  service: Service | null | undefined;
+}) {
   const { isEditMode, draft } = useEditMode();
   const { data: serviceDetail } = useServiceDetail();
+
+  const navigate = useNavigate();
 
   if (!service) return null;
 
@@ -17,8 +24,14 @@ export default function ServiceHero({ service }: { service: Service | null | und
     ? draft?.serviceDetail?.styles || DefaultServiceDetailTemplate.styles
     : (serviceDetail as any)?.styles || DefaultServiceDetailTemplate.styles;
 
-  const titleResolved = resolveColor(styles?.hero?.titleColor || "primary-dark", "text");
-  const subtitleResolved = resolveColor(styles?.hero?.subtitleColor || "text-secondary", "text");
+  const titleResolved = resolveColor(
+    styles?.hero?.titleColor || "primary-dark",
+    "text"
+  );
+  const subtitleResolved = resolveColor(
+    styles?.hero?.subtitleColor || "text-secondary",
+    "text"
+  );
 
   return (
     <section
@@ -41,15 +54,27 @@ export default function ServiceHero({ service }: { service: Service | null | und
         <BlurFade
           delay={0.15}
           direction="right"
-          className={cn("max-w-xl", subtitleResolved.className)}
+          className={cn("max-w-2xl", subtitleResolved.className)}
           style={subtitleResolved.style}
         >
-          <p>{service.desc || "Szolgáltatás leírása hamarosan…"}</p>
+          <p className="line-clamp-2">
+            {service.desc || "Szolgáltatás leírása hamarosan…"}
+          </p>
         </BlurFade>
 
-        <div className="mt-8">
+        <div className="mt-8 flex justify-start items-center gap-4">
           <Button variant="solid" color="primary">
             Kapcsolat
+          </Button>
+
+          <Button
+            variant="ghost"
+            color="secondary"
+            onPress={() => {
+              navigate("/");
+            }}
+          >
+            Vissza
           </Button>
         </div>
       </div>

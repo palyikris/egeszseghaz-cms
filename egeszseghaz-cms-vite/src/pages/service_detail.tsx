@@ -15,8 +15,8 @@ import ServicePriceTable from "@/components/pages/service/price_table";
 import { EditableWrapper } from "@/components/edit/EditableWrapper";
 import { EditToolbar } from "@/components/edit/EditToolBar";
 import { EditSidebar } from "@/components/edit/EditSidebar";
-
 import { useServiceDetail } from "@/hooks/useServiceDetail";
+import ServiceDescription from "@/components/pages/service/description";
 
 export default function ServiceDetailPage() {
   const { serviceId } = useParams();
@@ -42,6 +42,8 @@ export default function ServiceDetailPage() {
       <EditableWrapper id="service-htmlblocks">
         <ServiceHtmlBlocks service={service!} />
       </EditableWrapper>
+
+      <ServiceDescription service={service!} />
 
       <EditableWrapper id="service-carousel">
         <ServiceCarousel service={service!} />
