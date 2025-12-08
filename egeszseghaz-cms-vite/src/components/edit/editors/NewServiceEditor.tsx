@@ -173,7 +173,7 @@ export function NewServiceEditor() {
                       next.splice(i, 1);
                       handleChange("gallery", next);
                     }}
-                    color="error"
+                    color="danger"
                     variant="ghost"
                   >
                     Eltávolítás

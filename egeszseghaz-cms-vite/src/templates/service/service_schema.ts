@@ -12,6 +12,7 @@ export interface ServiceSchema {
       id: string;
       label: string;
       price: string;
+      description?: string;
     }>;
     images: string[];
   };

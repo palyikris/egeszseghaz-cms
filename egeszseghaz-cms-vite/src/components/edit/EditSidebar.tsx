@@ -6,6 +6,7 @@ import ServicesEditor from "./editors/ServicesEditor";
 import ReviewsEditor from "./editors/ReviewsEditor";
 import FooterEditor from "./editors/FooterEditor";
 import NavbarEditor from "./editors/NavbarEditor";
+import ServiceDetailEditor from "./editors/ServiceDetailEditor";
 import { useState } from "react";
 
 type SidebarPosition = "left" | "right";
@@ -26,6 +27,11 @@ export function EditSidebar() {
     reviews: <ReviewsEditor />,
     footer: <FooterEditor />,
     navbar: <NavbarEditor />,
+    // Service detail editors
+    "service-hero": <ServiceDetailEditor />,
+    "service-htmlblocks": <ServiceDetailEditor />,
+    "service-carousel": <ServiceDetailEditor />,
+    "service-pricetable": <ServiceDetailEditor />,
   };
 
   const editorComponent = selectedId ? componentMap[selectedId] : null;

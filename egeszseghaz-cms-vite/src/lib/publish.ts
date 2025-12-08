@@ -43,3 +43,13 @@ export async function publishService(serviceId: string, publishedContent: any) {
 
   return serviceSnap;
 }
+
+export async function publishServiceDetail(publishedContent: any) {
+  const serviceRef = doc(db, "template", "serviceDetail");
+  const serviceSnap = await updateDoc(serviceRef, {
+    ...publishedContent,
+    updatedAt: new Date(),
+  } as Partial<PageDoc>);
+
+  return serviceSnap;
+}

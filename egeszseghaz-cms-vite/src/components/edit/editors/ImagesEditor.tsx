@@ -105,7 +105,7 @@ export default function ImagesEditor() {
 
                 <div className="flex justify-end">
                   <Button
-                    color="error"
+                    color="danger"
                     variant="solid"
                     className="h-10 w-10 rounded-md p-0 backdrop-blur-md"
                     onPress={() => handleDelete(img.name)}

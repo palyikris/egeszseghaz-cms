@@ -98,7 +98,7 @@ export default function ServiceForm({ service, images, publishing, deleting, onC
         <hr className="my-4" />
         <Button
           className="w-full"
-          color="error"
+          color="danger"
           onPress={onDelete}
           variant="ghost"
         >

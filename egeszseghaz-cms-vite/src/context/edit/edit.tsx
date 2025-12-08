@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
 import { usePage } from "@/hooks/usePage";
+import { useServiceDetail } from "@/hooks/useServiceDetail";
 import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
-
 
 type DraftStatus = "Vázlat" | "Közzétéve" | "Közzététel...";
 
@@ -38,6 +38,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const { data: isAuthed, isLoading } = useIsUserAuthenticated();
   const page = usePage("home");
+  const serviceDetailPage = useServiceDetail();
 
   const toggleEditMode = () => {
     if (!isEditMode && page.data) {
@@ -46,8 +47,12 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
       // populated after publishing (which can happen if the provider's
       // `page.data` hasn't updated synchronously yet).
       if (page.data !== draft) {
-        console.log(page.data.hero.mainImageUrl);
-        setDraft(page.data || {});
+        // Merge home page data and serviceDetail template (if present)
+        const merged = {
+          ...(page.data || {}),
+          serviceDetail: serviceDetailPage?.data || undefined,
+        };
+        setDraft(merged);
       }
     }
     setIsEditMode((prev) => !prev);
@@ -96,6 +101,7 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
     }
 
     const handleKey = (e: KeyboardEvent) => {
+      // Enter edit mode with `e` (preserve existing behaviour)
       if (e.key.toLowerCase() === "e" && !e.metaKey && !e.ctrlKey) {
         if (!isEditMode) {
           toggleEditMode();
@@ -106,6 +112,15 @@ export const EditModeProvider: React.FC<{ children: React.ReactNode }> = ({
         if (isEditMode) {
           console.log("Already in edit mode");
           return;
+        }
+      }
+
+      // Exit edit mode with Escape
+      if (e.key === "Escape" || e.key === "Esc") {
+        if (isEditMode) {
+          setIsEditMode(false);
+          setSelectedId(null);
+          setDraftStatus("Vázlat");
         }
       }
     };

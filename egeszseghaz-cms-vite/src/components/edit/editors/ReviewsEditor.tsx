@@ -233,7 +233,7 @@ export function ReviewsEditor() {
               </div>
               <Button
                 variant="ghost"
-                color="error"
+                color="danger"
                 className="mt-2"
                 onPress={() => {
                   const updatedReviews = reviews.reviews?.filter(

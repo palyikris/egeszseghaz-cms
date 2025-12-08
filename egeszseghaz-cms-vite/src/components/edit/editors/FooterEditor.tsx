@@ -152,7 +152,7 @@ export function FooterEditor() {
             </div>
             <div className="col-span-2 flex items-end">
               <Button
-                color="error"
+                color="danger"
                 variant="ghost"
                 onPress={() => removeLink(idx)}
               >
@@ -254,7 +254,7 @@ export function FooterEditor() {
           <div className="col-span-2 flex items-center justify-center">
             <Button
               variant="ghost"
-              color="error"
+              color="danger"
               onPress={() => removeOpeningHour(idx)}
             >
               Törlés

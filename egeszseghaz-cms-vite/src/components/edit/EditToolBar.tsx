@@ -5,6 +5,7 @@ import { useEditMode } from "@/context/edit/edit";
 import { useState } from "react";
 import { Chip } from "@heroui/chip";
 import { usePublishSite } from "@/hooks/usePublishSite";
+import { usePublishServiceDetail } from "@/hooks/usePublishServiceDetail";
 import { useQueryClient } from "@tanstack/react-query";
 
 export function EditToolbar() {
@@ -20,6 +21,7 @@ export function EditToolbar() {
   } = useEditMode();
   const [isTop, setIsTop] = useState(true);
   const publish = usePublishSite();
+  const publishServiceDetail = usePublishServiceDetail();
   const queryClient = useQueryClient();
 
   return (
@@ -61,22 +63,38 @@ export function EditToolbar() {
           className="bg-accent text-primary-dark hover:bg-accent/80"
           onPress={async () => {
             setDraftStatus("Közzététel...");
-            await publish.mutateAsync(
-              {
-                pageId: "home",
-                publishedContent: draft,
-              },
-              {
-                onSuccess: async () => {
-                  queryClient.invalidateQueries({ queryKey: ["page", "home"] });
-                  setIsEditMode(false);
-                  setDraftStatus("Közzétéve");
-                  setTimeout(() => {
-                    window.location.reload();
-                  }, 1000);
-                },
+            try {
+              // Publish home draft and serviceDetail (if present) in parallel
+              const tasks: Promise<unknown>[] = [];
+
+              tasks.push(
+                publish.mutateAsync({ pageId: "home", publishedContent: draft })
+              );
+
+              if (draft?.serviceDetail) {
+                tasks.push(
+                  publishServiceDetail.mutateAsync(draft.serviceDetail)
+                );
               }
-            );
+
+              await Promise.all(tasks);
+
+              queryClient.invalidateQueries({ queryKey: ["page", "home"] });
+              if (draft?.serviceDetail) {
+                queryClient.invalidateQueries({
+                  queryKey: ["page", "serviceDetail"],
+                });
+              }
+
+              setIsEditMode(false);
+              setDraftStatus("Közzétéve");
+              setTimeout(() => {
+                window.location.reload();
+              }, 1000);
+            } catch (err) {
+              console.error("Publish failed:", err);
+              setDraftStatus("Vázlat");
+            }
           }}
         >
           Közzététel

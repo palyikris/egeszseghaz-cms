@@ -1,7 +1,9 @@
 /* eslint-disable prettier/prettier */
-import { useAnnouncement } from "@/hooks/useAnnouncement";
-import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
+
+import { useAnnouncement } from "@/hooks/useAnnouncement";
+import { useEditMode } from "@/context/edit/edit";
+import { setAtPath } from "@/lib/edit";
 
 type DraftStatus = "Vázlat" | "Közzétéve" | "Közzététel...";
 
@@ -29,6 +31,7 @@ export const AnnouncementEditProvider: React.FC<{
   const [draftStatus, setDraftStatus] = useState<DraftStatus>("Vázlat");
 
   const announcement = useAnnouncement();
+  const { setIsEditMode } = useEditMode();
 
   useEffect(() => {
     if (announcement.data) {
@@ -41,6 +44,23 @@ export const AnnouncementEditProvider: React.FC<{
       });
     }
   }, [announcement.data]);
+
+  // Close global edit mode when pressing Escape while focused in announcement editor
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape" || e.key === "Esc") {
+        try {
+          setIsEditMode(false);
+        } catch {
+          // ignore if not available
+        }
+      }
+    };
+
+    window.addEventListener("keydown", handleEscape);
+
+    return () => window.removeEventListener("keydown", handleEscape);
+  }, [setIsEditMode]);
 
   const updateDraft = (key: string, value: any) => {
     setUndoStack((prev) => [...prev, draft]);
