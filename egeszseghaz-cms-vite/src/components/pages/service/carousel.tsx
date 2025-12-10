@@ -49,7 +49,7 @@ export default function ServiceCarousel({ service }: { service: Service }) {
         <div className="absolute -top-40 -left-40 w-72 h-72 sm:w-96 sm:h-96 bg-secondary/20 rounded-full blur-[100px]" />
         <div className="absolute -bottom-40 -right-40 w-72 h-72 sm:w-96 sm:h-96 bg-accent/20 rounded-full blur-[100px]" />
 
-        <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-6 md:gap-14 z-10">
+        <div className="relative max-w-6xl mx-auto flex flex-col items-center gap-2 xl:gap-14 z-10">
           {/* Navigation */}
           <div className="flex items-center justify-between w-full max-w-xs sm:max-w-sm md:max-w-xl">
             <Button
