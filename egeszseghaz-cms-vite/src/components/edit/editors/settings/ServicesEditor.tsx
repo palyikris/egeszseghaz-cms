@@ -58,7 +58,7 @@ export default function ServicesEditor(): JSX.Element {
         bgColor: "primary",
         backdropBlur: "",
       },
-      button: { variant: "ghost", color: "primary", label: "Edit" },
+      button: { variant: "ghost", color: "primary", label: "Szerkesztés" },
     };
   }, []);
 
