@@ -14,6 +14,9 @@ export interface ServiceSchema {
       price: string;
       description?: string;
     }>;
-    images: string[];
+    images: Array<{
+      url: string;
+      name: string;
+    }>;
   };
 }

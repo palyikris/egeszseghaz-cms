@@ -17,6 +17,7 @@ import { EditToolbar } from "@/components/edit/EditToolBar";
 import { EditSidebar } from "@/components/edit/EditSidebar";
 import { useServiceDetail } from "@/hooks/useServiceDetail";
 import ServiceDescription from "@/components/pages/service/description";
+import CustomDivider from "@/components/divider";
 
 export default function ServiceDetailPage() {
   const { serviceId } = useParams();
@@ -39,11 +40,13 @@ export default function ServiceDetailPage() {
         <ServiceHero service={service} />
       </EditableWrapper>
 
+      <ServiceDescription service={service!} />
+
+      {service && service.desc && <CustomDivider className="my-10" />}
+
       <EditableWrapper id="service-htmlblocks">
         <ServiceHtmlBlocks service={service!} />
       </EditableWrapper>
-
-      <ServiceDescription service={service!} />
 
       <EditableWrapper id="service-carousel">
         <ServiceCarousel service={service!} />

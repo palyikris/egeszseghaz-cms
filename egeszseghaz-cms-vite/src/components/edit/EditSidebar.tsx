@@ -1,12 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { useEditMode } from "@/context/edit/edit";
-import { HeroEditor } from "./editors/HeroEditor";
-import AboutEditor from "./editors/AboutEditor";
-import ServicesEditor from "./editors/ServicesEditor";
-import ReviewsEditor from "./editors/ReviewsEditor";
-import FooterEditor from "./editors/FooterEditor";
-import NavbarEditor from "./editors/NavbarEditor";
-import ServiceDetailEditor from "./editors/ServiceDetailEditor";
+import { HeroEditor } from "./editors/home/HeroEditor";
+import AboutEditor from "./editors/home/AboutEditor";
+import ServicesEditor from "./editors/settings/ServicesEditor";
+import ReviewsEditor from "./editors/home/ReviewsEditor";
+import FooterEditor from "./editors/home/FooterEditor";
+import NavbarEditor from "./editors/home/NavbarEditor";
+import ServiceDetailEditor from "./editors/service/ServiceDetailEditor";
 import { useState } from "react";
 
 type SidebarPosition = "left" | "right";

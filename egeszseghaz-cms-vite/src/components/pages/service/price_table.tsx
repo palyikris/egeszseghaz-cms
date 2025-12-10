@@ -1,44 +1,68 @@
 /* eslint-disable prettier/prettier */
+import CustomDivider from "@/components/divider";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Service } from "@/types/services";
-import { useEditMode } from "@/context/edit/edit";
-import { useServiceDetail } from "@/hooks/useServiceDetail";
-import { DefaultServiceDetailTemplate } from "@/templates/service_detail/service_detail_template";
-import { resolveColor, cn } from "@/lib/utils";
 
 export default function ServicePriceTable({ service }: { service: Service }) {
-  const { isEditMode, draft } = useEditMode();
-  const { data: serviceDetail } = useServiceDetail();
-
-  const styles = isEditMode
-    ? draft?.serviceDetail?.styles || DefaultServiceDetailTemplate.styles
-    : (serviceDetail as any)?.styles || DefaultServiceDetailTemplate.styles;
-
   const prices = service.content?.priceTable || [];
-
   if (!prices.length) return null;
 
-  const headingResolved = resolveColor(styles?.priceTable?.headingColor, "text");
-  const priceResolved = resolveColor(styles?.priceTable?.priceColor, "text");
-  const rowBg = styles?.priceTable?.rowBg || "bg-white";
-
   return (
-    <section className="py-20 px-6 sm:px-12 bg-background-light">
-      <h2 className={cn("text-3xl font-semibold text-center mb-12", headingResolved.className)} style={headingResolved.style}>
-        Árak és kezelések
-      </h2>
+    <section className="py-20 px-6 sm:px-12">
+      {/* Heading */}
+      <BlurFade delay={0.1} direction="up">
+        <h2 className="text-4xl font-semibold text-center mb-16 text-primary-dark">
+          Árak és Kezelések
+        </h2>
+      </BlurFade>
 
-      <div className="max-w-4xl mx-auto grid sm:grid-cols-2 gap-8">
+      {/* Grid */}
+      <div
+        className="
+          max-w-5xl mx-auto 
+          grid gap-8
+          sm:grid-cols-2
+          lg:grid-cols-3
+        "
+      >
         {prices.map((row, i) => (
           <BlurFade key={row.id} delay={0.1 * (i + 1)} direction="up">
-            <div className={cn("p-6 rounded-xl shadow-md border", rowBg)}>
-              <h3 className={cn("text-xl font-semibold mb-1", headingResolved.className)} style={headingResolved.style}>
+            <div
+              className="
+              group relative p-8 rounded-3xl
+              bg-background backdrop-blur-md border border-primary-light/30
+              shadow-md hover:shadow-lg
+              transition-all duration-300 hover:-translate-y-1
+              h-full
+              "
+            >
+              {/* Title */}
+              <h3 className="text-2xl font-semibold text-primary-dark mb-2">
                 {row.label}
               </h3>
-              {row.description && (
-                <p className="text-text-secondary text-sm mb-3">{row.description}</p>
-              )}
-              <p className={cn("text-2xl font-bold", priceResolved.className)} style={priceResolved.style}>{row.price}</p>
+
+              {/* Description */}
+              <p
+                className={`text-text-secondary text-sm leading-relaxed mb-4 ${!row.description && "min-h-[1.5em]"}`}
+              >
+                {row.description || " "}
+              </p>
+
+              <CustomDivider iconSize={4} className="my-6" />
+
+              {/* Price */}
+              <div>
+                <p
+                  className="
+                text-3xl font-bold text-secondary-dark 
+                transition-transform duration-300
+                group-hover:scale-[1.08]
+                h-full
+              "
+                >
+                  {row.price}
+                </p>
+              </div>
             </div>
           </BlurFade>
         ))}

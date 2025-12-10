@@ -8,7 +8,10 @@ export interface Service {
       price: string;
       description?: string;
     }>;
-    images: string[];
+    images: Array<{
+      url: string;
+      name: string;
+    }>;
   };
   id: string;
   name: string;

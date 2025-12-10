@@ -17,7 +17,7 @@ export function useUpdateService() {
       id: string;
       data: Partial<Service>;
     }) => {
-      await updateDoc(doc(db, "services", id), data);
+      await updateDoc(doc(db, "newreservation", id), data);
     },
     onSuccess: (_, { id }) => {
       qc.invalidateQueries({ queryKey: ["service", id] });

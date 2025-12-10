@@ -9,7 +9,10 @@ export default function ServiceDescription({ service }: { service: Service }) {
   if (!text) return null;
 
   return (
-    <section className="py-16 px-6 sm:px-12 md:px-20 bg-background-light">
+    <section
+      className="py-16 px-6 sm:px-12 md:px-20 bg-background-light"
+      id="contact"
+    >
       <div className="max-w-3xl mx-auto">
         <BlurFade delay={0.1}>
           <p className="text-lg leading-relaxed text-text-secondary">{text}</p>
@@ -20,7 +23,7 @@ export default function ServiceDescription({ service }: { service: Service }) {
             <BlurFade delay={0.2}>
               <a
                 href={`tel:${contact}`}
-                className="text-primary-dark font-semibold hover:underline" 
+                className="text-primary-dark font-semibold hover:underline"
               >
                 Kapcsolat: {contact}
               </a>

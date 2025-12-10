@@ -63,7 +63,13 @@ export default function ServiceHero({
         </BlurFade>
 
         <div className="mt-8 flex justify-start items-center gap-4">
-          <Button variant="solid" color="primary">
+          <Button
+            variant="solid"
+            color="primary"
+            onPress={() => {
+              navigate(`/service/${service.id}/#contact`);
+            }}
+          >
             Kapcsolat
           </Button>
 
