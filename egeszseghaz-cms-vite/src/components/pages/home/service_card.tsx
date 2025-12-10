@@ -12,10 +12,12 @@ export default function ServiceCard({
   service,
   i,
   cardTemplate,
+  onPress,
 }: {
   service: Service;
   i: number;
   cardTemplate: any;
+  onPress?: () => void;
 }) {
   const navigate = useNavigate();
 
@@ -130,9 +132,7 @@ export default function ServiceCard({
               variant={cardTemplate.button.variant as any}
               color={cardTemplate.button.color as any}
               className="relative font-medium overflow-hidden transition-all duration-300"
-              onPress={() => {
-                navigate(`/service/${service.id}`);
-              }}
+              onPress={onPress || (() => navigate(`/service/${service.id}`))}
             >
               <span className={`relative z-10`}>
                 {cardTemplate.button.label}

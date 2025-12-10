@@ -35,6 +35,7 @@ export default function ServicesEditor(): JSX.Element {
     if (!searchQuery.trim()) return services;
 
     const query = searchQuery.toLowerCase();
+
     return services.filter(
       (service) =>
         service.name?.toLowerCase().includes(query) ||
@@ -57,7 +58,7 @@ export default function ServicesEditor(): JSX.Element {
         bgColor: "primary",
         backdropBlur: "",
       },
-      button: { variant: "default", color: "primary", label: "" },
+      button: { variant: "ghost", color: "primary", label: "Edit" },
     };
   }, []);
 
