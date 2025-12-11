@@ -34,9 +34,7 @@ export async function uploadImageToFirebase(
   file: File,
   folder: string = "media"
 ): Promise<ImageInfo> {
-  // create a unique name to avoid collisions
-  const timestamp = Date.now();
-  const name = `${timestamp}_${file.name}`;
+  const name = file.name;
   const fileRef = ref(storage, `${folder}/${name}`);
 
   await uploadBytes(fileRef, file);

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
@@ -13,6 +13,10 @@ export default function HtmlBlocksEditor({
   onSave: (updated: Array<{ id: string; html: string }>) => void;
 }) {
   const [state, setState] = useState(blocks);
+
+  useEffect(() => {
+    setState(blocks);
+  }, [blocks]);
 
   const updateBlock = (id: string, html: string) => {
     setState((prev) => prev.map((b) => (b.id === id ? { ...b, html } : b)));
@@ -28,8 +32,10 @@ export default function HtmlBlocksEditor({
 
   const moveBlock = (index: number, direction: -1 | 1) => {
     const newIndex = index + direction;
+
     if (newIndex < 0 || newIndex >= state.length) return;
     const arr = [...state];
+
     [arr[index], arr[newIndex]] = [arr[newIndex], arr[index]];
     setState(arr);
   };

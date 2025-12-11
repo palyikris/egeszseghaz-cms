@@ -20,7 +20,7 @@ export function useUpdateService() {
       await updateDoc(doc(db, "newreservation", id), data);
     },
     onSuccess: (_, { id }) => {
-      qc.invalidateQueries({ queryKey: ["service", id] });
+      qc.refetchQueries({ queryKey: ["service", id] });
       qc.invalidateQueries({ queryKey: ["services"] });
     },
   });

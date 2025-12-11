@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
@@ -11,19 +11,24 @@ export default function CarouselImagesEditor({
   images,
   onSave,
 }: {
-    images: Array<{
-      url: string;
-      name: string;
+  images: Array<{
+    url: string;
+    name: string;
   }>;
-    onSave: (updated: Array<{
+  onSave: (
+    updated: Array<{
       url: string;
       name: string;
-    }>) => void;
-
+    }>
+  ) => void;
 }) {
   const [state, setState] = useState(images);
   const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    setState(images);
+  }, [images]);
 
   const handleUpload = async (file: File) => {
     setLoading(true);
@@ -39,7 +44,6 @@ export default function CarouselImagesEditor({
   const deleteImage = async (name: string) => {
     setLoading(true);
     try {
-      
       await deleteImageFromFirebase(name);
       setState((prev) => prev.filter((u) => u.name !== name));
     } finally {
@@ -84,25 +88,28 @@ export default function CarouselImagesEditor({
         }}
       />
 
-      {/* Upload button */}
-      <Button
-        color="primary"
-        onPress={() => inputRef.current?.click()}
-        disabled={loading}
-        className="font-medium max-w-xl"
-      >
-        {loading ? (
-          <div className="flex items-center gap-2">
-            <Spinner size="sm" color="current" />
-            Feltöltés...
-          </div>
-        ) : (
-          "+ Kép feltöltése"
-        )}
-      </Button>
-
       {/* Images list */}
       <div className="grid grid-cols-3 gap-6 mt-10">
+        {/* Upload card */}
+        <button
+          onClick={() => inputRef.current?.click()}
+          className="cursor-pointer h-full rounded-xl border-2 border-dashed border-primary/40 bg-white/40 backdrop-blur-sm flex flex-col items-center justify-center text-primary-dark hover:border-primary hover:bg-white/60 transition-all duration-200"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            className="w-10 h-10 mb-2 opacity-70"
+          >
+            <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+            <polyline points="7 9 12 4 17 9" />
+            <line x1="12" y1="4" x2="12" y2="16" />
+          </svg>
+
+          <p className="font-medium opacity-80">Kép feltöltése</p>
+        </button>
         {state.map((image, i) => (
           <Card
             key={image.url + image.name}
@@ -114,7 +121,11 @@ export default function CarouselImagesEditor({
             "
           >
             <div className="overflow-hidden rounded-lg h-64 mb-3">
-              <img src={image.url} className="w-full h-full object-contain" alt="" />
+              <img
+                src={image.url}
+                className="w-full h-full object-contain"
+                alt=""
+              />
             </div>
 
             <div className="flex justify-between items-center gap-2 border-t border-primary-dark/30 pt-2">
@@ -156,7 +167,9 @@ export default function CarouselImagesEditor({
           color="secondary"
           className="font-medium"
           disabled={loading}
-          onPress={() => onSave(state)}
+          onPress={() => {
+            onSave(state);
+          }}
         >
           {loading ? (
             <div className="flex items-center gap-2">

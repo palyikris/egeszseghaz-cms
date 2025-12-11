@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
@@ -26,6 +26,10 @@ export default function PriceTableEditor({
   ) => void;
 }) {
   const [state, setState] = useState(rows);
+
+  useEffect(() => {
+    setState(rows);
+  }, [rows]);
 
   const updateRow = (id: string, key: string, value: string) => {
     setState((prev) =>

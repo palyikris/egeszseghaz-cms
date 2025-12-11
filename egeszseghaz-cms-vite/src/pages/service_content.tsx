@@ -35,7 +35,7 @@ export default function ServiceContentEditorPage() {
       <Navbar navbar={homePage?.navbar} />
 
       <div className="bg-gradient-to-tl from-primary-light to-secondary-light py-15 px-6 pt-30">
-        <h1 className="text-3xl font-semibold mb-10">
+        <h1 className="text-3xl font-semibold mb-10 text-primary-dark">
           Tartalom szerkesztése: {service.id.toUpperCase()}
         </h1>
       </div>

@@ -19,6 +19,7 @@ export default function ServiceCarousel({ service }: { service: Service }) {
 
     if (images.length === 2) {
       const other = index === 0 ? 1 : 0;
+
       return [
         { i: index, pos: "center" as const },
         { i: other, pos: "side" as const },
@@ -39,7 +40,7 @@ export default function ServiceCarousel({ service }: { service: Service }) {
       {/* ---------------------- */}
       <section
         className="
-          relative py-20 px-4 sm:px-8 md:px-12 lg:px-16 my-20 md:my-28
+          relative py-20 px-4 sm:px-8 md:px-12 lg:px-16
           rounded-none md:rounded-[6%]
           bg-gradient-to-tl from-primary-light via-primary-light/70 to-secondary-light
           overflow-hidden
