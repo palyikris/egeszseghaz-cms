@@ -38,6 +38,7 @@ export default function ServiceHero({
       className={cn(
         "relative flex flex-col md:flex-row items-center justify-between px-6 md:px-16 py-40 pb-30 rounded-none md:rounded-bl-[10%] md:rounded-br-[10%] mb-12 bg-gradient-to-br from-primary-light via-primary-light/90 to-secondary-light"
       )}
+      id="hero"
     >
       <div className="w-full md:w-1/2 z-10">
         <BlurFade
