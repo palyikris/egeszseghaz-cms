@@ -43,7 +43,7 @@ export default function ServiceCarousel({ service }: { service: Service }) {
           relative py-20 px-4 sm:px-8 md:px-12 lg:px-16
           rounded-none md:rounded-[6%]
           bg-gradient-to-tl from-primary-light via-primary-light/70 to-secondary-light
-          overflow-hidden
+          overflow-hidden mb-8
         "
       >
         {/* Ambient accent orbs */}
