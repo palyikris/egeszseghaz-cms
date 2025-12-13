@@ -4,7 +4,13 @@ import { Button } from "@heroui/button";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Service } from "@/types/services";
 
-export default function ServiceCarousel({ service }: { service: Service }) {
+export default function ServiceCarousel({
+  service,
+  className,
+}: {
+  service: Service;
+  className?: string;
+}) {
   const images = service.content?.images || [];
   const [index, setIndex] = useState(0);
   const [preview, setPreview] = useState<string | null>(null);
@@ -39,12 +45,12 @@ export default function ServiceCarousel({ service }: { service: Service }) {
       {/*  MAIN CAROUSEL SECTION */}
       {/* ---------------------- */}
       <section
-        className="
+        className={`
           relative py-20 px-4 sm:px-8 md:px-12 lg:px-16
           rounded-none md:rounded-[6%]
           bg-gradient-to-tl from-primary-light via-primary-light/70 to-secondary-light
-          overflow-hidden mb-8
-        "
+          overflow-hidden${className || ""}
+        `}
       >
         {/* Ambient accent orbs */}
         <div className="absolute -top-40 -left-40 w-72 h-72 sm:w-96 sm:h-96 bg-secondary/20 rounded-full blur-[100px]" />

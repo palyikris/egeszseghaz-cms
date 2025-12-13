@@ -49,7 +49,15 @@ export default function ServiceDetailPage() {
       </EditableWrapper>
 
       <EditableWrapper id="service-carousel">
-        <ServiceCarousel service={service!} />
+        <ServiceCarousel
+          service={service!}
+          className={
+            service?.content?.priceTable?.length &&
+            service?.content?.priceTable?.length > 1
+              ? ""
+              : "mb-20"
+          }
+        />
       </EditableWrapper>
 
       <EditableWrapper id="service-pricetable">
