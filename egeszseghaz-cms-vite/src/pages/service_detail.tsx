@@ -55,7 +55,7 @@ export default function ServiceDetailPage() {
             service?.content?.priceTable?.length &&
             service?.content?.priceTable?.length > 1
               ? ""
-              : "mb-20"
+              : " mb-20"
           }
         />
       </EditableWrapper>
