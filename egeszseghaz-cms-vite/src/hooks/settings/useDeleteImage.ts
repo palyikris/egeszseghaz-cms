@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { deleteImageFromFirebase } from "@/lib/media";
+import { deleteImageFromFirebase } from "@/lib/settings/media";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type DeleteVariables = {

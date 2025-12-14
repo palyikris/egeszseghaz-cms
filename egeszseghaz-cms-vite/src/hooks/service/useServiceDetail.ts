@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from "@tanstack/react-query";
-import { fetchServiceDetailTemplate } from "@/lib/fetch_service_detail";
+import { fetchServiceDetailTemplate } from "@/lib/service/fetch_service_detail";
 
 export function useServiceDetail() {
   return useQuery({

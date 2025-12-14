@@ -4,8 +4,8 @@ import { Button } from "@heroui/button";
 import { useEditMode } from "@/context/edit/edit";
 import { useState } from "react";
 import { Chip } from "@heroui/chip";
-import { usePublishSite } from "@/hooks/usePublishSite";
-import { usePublishServiceDetail } from "@/hooks/usePublishServiceDetail";
+import { usePublishSite } from "@/hooks/pages/usePublishSite";
+import { usePublishServiceDetail } from "@/hooks/pages/usePublishServiceDetail";
 import { useQueryClient } from "@tanstack/react-query";
 
 export function EditToolbar() {
@@ -23,6 +23,10 @@ export function EditToolbar() {
   const publish = usePublishSite();
   const publishServiceDetail = usePublishServiceDetail();
   const queryClient = useQueryClient();
+
+  const isScreenTabletOrSmaller = window.innerWidth <= 1024;
+
+  if (!isEditMode || isScreenTabletOrSmaller) return null;
 
   return (
     <div

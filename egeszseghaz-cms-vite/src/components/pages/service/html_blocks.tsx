@@ -2,7 +2,7 @@
 import { BlurFade } from "@/components/ui/blur-fade";
 import { Service } from "@/types/services";
 import { useEditMode } from "@/context/edit/edit";
-import { useServiceDetail } from "@/hooks/useServiceDetail";
+import { useServiceDetail } from "@/hooks/service/useServiceDetail";
 import { DefaultServiceDetailTemplate } from "@/templates/service_detail/service_detail_template";
 import { resolveColor, cn } from "@/lib/utils";
 import CustomDivider from "@/components/divider";

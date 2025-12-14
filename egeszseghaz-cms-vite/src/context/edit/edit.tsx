@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { useIsUserAuthenticated } from "@/hooks/useIsUserAuthenticated";
-import { usePage } from "@/hooks/usePage";
-import { useServiceDetail } from "@/hooks/useServiceDetail";
+import { usePage } from "@/hooks/pages/usePage";
+import { useServiceDetail } from "@/hooks/service/useServiceDetail";
 import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
 

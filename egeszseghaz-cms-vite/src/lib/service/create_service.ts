@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/utils/firebase";
-import { createBannerForNewService } from "./create_banner_for_new_service";
+import { createBannerForNewService } from "./banner/create_banner_for_new_service";
 import { Service } from "@/types/services";
 
 // create a new service; if `id` is provided, use it as the document ID

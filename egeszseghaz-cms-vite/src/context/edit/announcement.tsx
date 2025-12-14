@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-import { useAnnouncement } from "@/hooks/useAnnouncement";
+import { useAnnouncement } from "@/hooks/banner/useAnnouncement";
 import { useEditMode } from "@/context/edit/edit";
 import { setAtPath } from "@/lib/edit";
 

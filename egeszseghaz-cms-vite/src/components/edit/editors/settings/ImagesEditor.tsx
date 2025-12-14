@@ -4,9 +4,9 @@ import { Trash2, Upload } from "lucide-react";
 import { Button } from "@heroui/button";
 
 import CustomLoader from "@/components/loader";
-import { useImages } from "@/hooks/useImages";
-import { useUploadImage } from "@/hooks/useUploadImage";
-import { useDeleteImage } from "@/hooks/useDeleteImage";
+import { useImages } from "@/hooks/settings/useImages";
+import { useUploadImage } from "@/hooks/settings/useUploadImage";
+import { useDeleteImage } from "@/hooks/settings/useDeleteImage";
 
 export default function ImagesEditor() {
   const { data: images, isLoading } = useImages();

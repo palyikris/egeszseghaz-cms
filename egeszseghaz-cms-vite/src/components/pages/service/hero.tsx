@@ -4,7 +4,7 @@ import { Button } from "@heroui/button";
 import { resolveColor, cn } from "@/lib/utils";
 import { Service } from "@/types/services";
 import { useEditMode } from "@/context/edit/edit";
-import { useServiceDetail } from "@/hooks/useServiceDetail";
+import { useServiceDetail } from "@/hooks/service/useServiceDetail";
 import { DefaultServiceDetailTemplate } from "@/templates/service_detail/service_detail_template";
 import { useNavigate } from "react-router-dom";
 

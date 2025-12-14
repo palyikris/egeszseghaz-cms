@@ -7,7 +7,7 @@ import { Checkbox } from "@heroui/checkbox";
 import { Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 import { colorMap } from "@/types/edit";
-import { useImages } from "@/hooks/useImages";
+import { useImages } from "@/hooks/settings/useImages";
 import CustomLoader from "@/components/loader";
 
 export function HeroEditor() {

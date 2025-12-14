@@ -5,12 +5,12 @@ import { Select, SelectItem } from "@heroui/select";
 import { Checkbox } from "@heroui/checkbox";
 
 import { useNewServiceEdit } from "@/context/edit/newService";
-import { useImages } from "@/hooks/useImages";
+import { useImages } from "@/hooks/settings/useImages";
 import CustomLoader from "@/components/loader";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePublishNewService } from "@/hooks/usePublishNewService";
+import { usePublishNewService } from "@/hooks/banner/usePublishNewService";
 
 export function NewServiceEditor() {
   const { draft, updateDraft, undo, redo, draftStatus, setDraftStatus } =

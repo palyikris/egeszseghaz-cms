@@ -4,7 +4,10 @@ import { Button } from "@heroui/button";
 import { Card } from "@heroui/card";
 import { Divider } from "@heroui/divider";
 import { Spinner } from "@heroui/spinner";
-import { deleteImageFromFirebase, uploadImageToFirebase } from "@/lib/media";
+import {
+  deleteImageFromFirebase,
+  uploadImageToFirebase,
+} from "@/lib/settings/media";
 import CustomLoader from "@/components/loader";
 
 export default function CarouselImagesEditor({

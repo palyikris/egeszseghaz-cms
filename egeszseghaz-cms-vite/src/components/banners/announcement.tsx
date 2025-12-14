@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useEditMode } from "@/context/edit/edit";
-import { usePublishAnnouncement } from "@/hooks/usePublishAnnouncement";
+import { usePublishAnnouncement } from "@/hooks/banner/usePublishAnnouncement";
 import { AnnouncementSchema } from "@/templates/announcement/announcement_schema";
 import { Button } from "@heroui/button";
 import { useQueryClient } from "@tanstack/react-query";

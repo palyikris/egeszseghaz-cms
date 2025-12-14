@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from "@tanstack/react-query";
-import { fetchServiceById } from "@/lib/fetch_service";
+import { fetchServiceById } from "@/lib/service/fetch_service";
 
 
 type ServiceVariables = {

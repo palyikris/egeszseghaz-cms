@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { useQuery } from "@tanstack/react-query";
-import { fetchAnnouncement } from "@/lib/announcement";
+import { fetchAnnouncement } from "@/lib/banner/announcement";
 
 
 export function useAnnouncement() {

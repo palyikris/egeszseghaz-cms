@@ -7,8 +7,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { EditModeProvider } from "./context/edit/edit";
 import { useEffect } from "react";
 import { useTheme } from "@heroui/use-theme";
-import { usePalette } from "@/hooks/usePalette";
-import { applyPalette } from "@/hooks/useApplyPalette";
+import { usePalette } from "@/hooks/settings/usePalette";
+import { applyPalette } from "@/hooks/settings/useApplyPalette";
 import { AnnouncementEditProvider } from "./context/edit/announcement";
 import { NewServiceEditProvider } from "./context/edit/newService";
 

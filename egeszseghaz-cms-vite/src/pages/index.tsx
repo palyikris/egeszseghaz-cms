@@ -1,11 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { usePage } from "@/hooks/usePage";
+import { usePage } from "@/hooks/pages/usePage";
 import HeroSection from "@/components/pages/home/hero";
 import AboutSection from "@/components/pages/home/about";
 import ServicesSection from "@/components/pages/home/services";
 import ReviewsSection from "@/components/pages/home/reviews";
 import CustomDivider from "@/components/divider";
-import { useServices } from "@/hooks/useServices";
+import { useServices } from "@/hooks/service/useServices";
 import CustomLoader from "@/components/loader";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
@@ -14,8 +14,8 @@ import { EditSidebar } from "@/components/edit/EditSidebar";
 import { EditableWrapper } from "@/components/edit/EditableWrapper";
 import { Announcement } from "@/components/banners/announcement";
 import { NewServiceSection } from "@/components/banners/new_service";
-import { useNewService } from "@/hooks/useNewService";
-import { useAnnouncement } from "@/hooks/useAnnouncement";
+import { useNewService } from "@/hooks/banner/useNewService";
+import { useAnnouncement } from "@/hooks/banner/useAnnouncement";
 
 export default function HomePage() {
   const { data: pageData, isLoading: pageLoading } = usePage("home");

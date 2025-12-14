@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { uploadImageToFirebase, type ImageInfo } from "@/lib/media";
+import { uploadImageToFirebase, type ImageInfo } from "@/lib/settings/media";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type UploadVariables = {

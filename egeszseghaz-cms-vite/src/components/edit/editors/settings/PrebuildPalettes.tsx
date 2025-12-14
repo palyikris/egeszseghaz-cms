@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { PALETTES } from "@/palettes/themes";
-import { usePalette } from "@/hooks/usePalette";
-import { useUpdatePalette } from "@/hooks/useUpdatePalette";
+import { usePalette } from "@/hooks/settings/usePalette";
+import { useUpdatePalette } from "@/hooks/settings/useUpdatePalette";
 import { Button } from "@heroui/button";
 
 export default function PrebuiltPalettes() {

@@ -7,7 +7,7 @@ import { Checkbox } from "@heroui/checkbox";
 import { useAnnouncementEdit } from "@/context/edit/announcement";
 import { Button } from "@heroui/button";
 import { Chip } from "@heroui/chip";
-import { usePublishAnnouncement } from "@/hooks/usePublishAnnouncement";
+import { usePublishAnnouncement } from "@/hooks/banner/usePublishAnnouncement";
 import { useQueryClient } from "@tanstack/react-query";
 import CustomLoader from "@/components/loader";
 

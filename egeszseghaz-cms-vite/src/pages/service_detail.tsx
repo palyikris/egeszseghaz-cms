@@ -4,8 +4,8 @@ import Footer from "@/components/footer";
 import CustomLoader from "@/components/loader";
 import Navbar from "@/components/navbar";
 import ServiceHero from "@/components/pages/service/hero";
-import { usePage } from "@/hooks/usePage";
-import { useService } from "@/hooks/useService";
+import { usePage } from "@/hooks/pages/usePage";
+import { useService } from "@/hooks/service/useService";
 import ServiceLayout from "@/layouts/service";
 
 import { useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ import ServicePriceTable from "@/components/pages/service/price_table";
 import { EditableWrapper } from "@/components/edit/EditableWrapper";
 import { EditToolbar } from "@/components/edit/EditToolBar";
 import { EditSidebar } from "@/components/edit/EditSidebar";
-import { useServiceDetail } from "@/hooks/useServiceDetail";
+import { useServiceDetail } from "@/hooks/service/useServiceDetail";
 import ServiceDescription from "@/components/pages/service/description";
 import CustomDivider from "@/components/divider";
 

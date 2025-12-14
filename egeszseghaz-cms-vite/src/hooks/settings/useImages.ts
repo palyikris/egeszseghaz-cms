@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { getImagesFromFirebase } from "@/lib/media";
+import { getImagesFromFirebase } from "@/lib/settings/media";
 import { useQuery } from "@tanstack/react-query";
 
 

@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { useService } from "@/hooks/useService";
-import { useUpdateService } from "@/hooks/useUpdateService";
+import { useService } from "@/hooks/service/useService";
+import { useUpdateService } from "@/hooks/service/useUpdateService";
 import CustomLoader from "@/components/loader";
 
 import { useParams } from "react-router-dom";
@@ -10,7 +10,7 @@ import PriceTableEditor from "@/components/edit/editors/service/PriceTableEditor
 import CarouselImagesEditor from "@/components/edit/editors/service/CarouselImagesEditor";
 import ServiceLayout from "@/layouts/service";
 import Navbar from "@/components/navbar";
-import { usePage } from "@/hooks/usePage";
+import { usePage } from "@/hooks/pages/usePage";
 
 export default function ServiceContentEditorPage() {
   const { serviceId } = useParams();

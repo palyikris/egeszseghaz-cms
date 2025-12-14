@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useNewService } from "@/hooks/useNewService";
+import { useNewService } from "@/hooks/banner/useNewService";
 import { setAtPath } from "@/lib/edit";
 import React, { createContext, useContext, useEffect, useState } from "react";
 

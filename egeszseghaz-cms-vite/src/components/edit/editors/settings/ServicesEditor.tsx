@@ -3,19 +3,22 @@ import { useState, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@heroui/button";
 
-import { useServices } from "@/hooks/useServices";
-import { useImages } from "@/hooks/useImages";
-import { usePublishService } from "@/hooks/usePublishService";
-import { useUploadImage } from "@/hooks/useUploadImage";
+import { useServices } from "@/hooks/service/useServices";
+import { useImages } from "@/hooks/settings/useImages";
+import { usePublishService } from "@/hooks/service/usePublishService";
+import { useUploadImage } from "@/hooks/settings/useUploadImage";
 import type { Service } from "@/types/services";
 import CustomLoader from "@/components/loader";
-import { useDeleteService } from "@/hooks/useDeleteService";
-import { useCreateService } from "@/hooks/useCreateService";
+import { useDeleteService } from "@/hooks/service/useDeleteService";
+import { useCreateService } from "@/hooks/service/useCreateService";
 
 import CreateServiceModal from "@/components/edit/CreateServiceModal";
 import ServiceList from "@/components/edit/ServiceList";
 import ServiceForm from "@/components/edit/ServiceForm";
 import ServiceSearch from "@/components/edit/ServiceSearch";
+import { useDeleteOccurrence } from "@/hooks/settings/useDeleteOccurance";
+import { CalendarEvent } from "@/types/calendar";
+import { DeleteOccurrenceConfirm } from "./DeleteOccuranceConfirm";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -29,6 +32,33 @@ export default function ServicesEditor(): JSX.Element {
   const [selected, setSelected] = useState<Service | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const deleteOccurrence = useDeleteOccurrence();
+  const [pendingDelete, setPendingDelete] = useState<CalendarEvent | null>(
+    null
+  );
+
+  function onDeleteEvent(event: CalendarEvent) {
+    deleteOccurrence.mutate({
+      serviceId: event.serviceId,
+      scheduleId: event.scheduleId,
+      occurrenceId: event.id,
+    });
+  }
+  function confirmDelete() {
+    if (!pendingDelete) return;
+
+    deleteOccurrence.mutate(
+      {
+        serviceId: pendingDelete.serviceId,
+        scheduleId: pendingDelete.scheduleId,
+        occurrenceId: pendingDelete.id,
+      },
+      {
+        onSuccess: () => setPendingDelete(null),
+      }
+    );
+  }
 
   const filteredServices = useMemo(() => {
     if (!services) return [];
@@ -110,6 +140,13 @@ export default function ServicesEditor(): JSX.Element {
   return (
     <div className="w-full flex gap-6 flex-col">
       <div className="flex items-center justify-start gap-10">
+        <DeleteOccurrenceConfirm
+          open={!!pendingDelete}
+          onCancel={() => setPendingDelete(null)}
+          onConfirm={confirmDelete}
+          isLoading={deleteOccurrence.isPending}
+        />
+
         <ServiceSearch value={searchQuery} onChange={setSearchQuery} />
         <Button color="primary" onPress={() => setShowCreateModal(true)}>
           Új szolgáltatás létrehozása

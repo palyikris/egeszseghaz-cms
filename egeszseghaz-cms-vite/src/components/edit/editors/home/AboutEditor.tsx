@@ -7,7 +7,7 @@ import { useEditMode } from "@/context/edit/edit";
 import { AboutSchema } from "@/templates/home/home_schema";
 import { colorMap } from "@/types/edit";
 import { Button } from "@heroui/button";
-import { useImages } from "@/hooks/useImages";
+import { useImages } from "@/hooks/settings/useImages";
 import CustomLoader from "@/components/loader";
 
 export function AboutEditor() {

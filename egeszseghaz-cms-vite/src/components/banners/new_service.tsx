@@ -6,7 +6,7 @@ import CustomDivider from "../divider";
 import { useNavigate } from "react-router-dom";
 import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
 import { useEditMode } from "@/context/edit/edit";
-import { usePublishNewService } from "@/hooks/usePublishNewService";
+import { usePublishNewService } from "@/hooks/banner/usePublishNewService";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {

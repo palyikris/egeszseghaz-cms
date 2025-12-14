@@ -1,22 +1,5 @@
 /* eslint-disable prettier/prettier */
-export interface ServiceSchema {
-  id: string;
-  name: string;
-  img: string;
-  desc: string;
-  phone: string;
+import { Service } from "@/types/services";
 
-  content: {
-    htmlBlocks: Array<{ id: string; html: string }>;
-    priceTable: Array<{
-      id: string;
-      label: string;
-      price: string;
-      description?: string;
-    }>;
-    images: Array<{
-      url: string;
-      name: string;
-    }>;
-  };
-}
+/* eslint-disable prettier/prettier */
+export interface ServiceSchema extends Service {}
