@@ -8,8 +8,8 @@ import {
 } from "firebase/firestore";
 
 import { db } from "@/utils/firebase";
-import { createBannerForNewService } from "./banner/create_banner_for_new_service";
 import { Service } from "@/types/services";
+import { createBannerForNewService } from "../banner/create_banner_for_new_service";
 
 // create a new service; if `id` is provided, use it as the document ID
 export async function createService(payload: Record<string, any>, id?: string) {

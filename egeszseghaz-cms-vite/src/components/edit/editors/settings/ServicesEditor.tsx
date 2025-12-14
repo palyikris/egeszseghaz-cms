@@ -7,18 +7,22 @@ import { useServices } from "@/hooks/service/useServices";
 import { useImages } from "@/hooks/settings/useImages";
 import { usePublishService } from "@/hooks/service/usePublishService";
 import { useUploadImage } from "@/hooks/settings/useUploadImage";
-import type { Service } from "@/types/services";
+import type { Service, ServiceSchedule } from "@/types/services";
 import CustomLoader from "@/components/loader";
 import { useDeleteService } from "@/hooks/service/useDeleteService";
 import { useCreateService } from "@/hooks/service/useCreateService";
 
 import CreateServiceModal from "@/components/edit/CreateServiceModal";
-import ServiceList from "@/components/edit/ServiceList";
-import ServiceForm from "@/components/edit/ServiceForm";
-import ServiceSearch from "@/components/edit/ServiceSearch";
+import ServiceList from "@/components/edit/service/ServiceList";
+import ServiceForm from "@/components/edit/service/ServiceForm";
+import ServiceSearch from "@/components/edit/service/ServiceSearch";
 import { useDeleteOccurrence } from "@/hooks/settings/useDeleteOccurance";
 import { CalendarEvent } from "@/types/calendar";
 import { DeleteOccurrenceConfirm } from "./DeleteOccuranceConfirm";
+import { ScheduleList } from "../../schedule/ScheduleList";
+import { DeleteScheduleConfirm } from "../../schedule/DeleteScheduleConfirm";
+import { useUpdateService } from "@/hooks/service/useUpdateService";
+import ScheduleEditor from "./ScheduleEditor";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -38,12 +42,40 @@ export default function ServicesEditor(): JSX.Element {
     null
   );
 
+  const [editing, setEditing] = useState<ServiceSchedule | null>(null);
+  const [deleting, setDeleting] = useState<ServiceSchedule | null>(null);
+
+  const [scheduleToDelete, setScheduleToDelete] =
+    useState<ServiceSchedule | null>(null);
+
+  const updateService = useUpdateService();
+
   function onDeleteEvent(event: CalendarEvent) {
     deleteOccurrence.mutate({
       serviceId: event.serviceId,
       scheduleId: event.scheduleId,
       occurrenceId: event.id,
     });
+  }
+  function confirmDeleteSchedule() {
+    if (!scheduleToDelete) return;
+
+    const updatedSchedules = (selected?.schedules ?? []).filter(
+      (s) => s.id !== scheduleToDelete.id
+    );
+
+    updateService.mutate(
+      {
+        id: selected?.id || "",
+        data: {
+          ...selected,
+          schedules: updatedSchedules,
+        },
+      },
+      {
+        onSuccess: () => setScheduleToDelete(null),
+      }
+    );
   }
   function confirmDelete() {
     if (!pendingDelete) return;
@@ -140,18 +172,26 @@ export default function ServicesEditor(): JSX.Element {
   return (
     <div className="w-full flex gap-6 flex-col">
       <div className="flex items-center justify-start gap-10">
-        <DeleteOccurrenceConfirm
-          open={!!pendingDelete}
-          onCancel={() => setPendingDelete(null)}
-          onConfirm={confirmDelete}
-          isLoading={deleteOccurrence.isPending}
-        />
-
         <ServiceSearch value={searchQuery} onChange={setSearchQuery} />
         <Button color="primary" onPress={() => setShowCreateModal(true)}>
           Új szolgáltatás létrehozása
         </Button>
       </div>
+
+      <DeleteScheduleConfirm
+        open={!!scheduleToDelete}
+        schedule={scheduleToDelete}
+        onCancel={() => setScheduleToDelete(null)}
+        onConfirm={confirmDeleteSchedule}
+        isLoading={updateService.isPending}
+      />
+
+      <DeleteOccurrenceConfirm
+        open={!!pendingDelete}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+        isLoading={deleteOccurrence.isPending}
+      />
 
       <CreateServiceModal
         open={showCreateModal}
@@ -207,6 +247,21 @@ export default function ServicesEditor(): JSX.Element {
             onChange={(s) => setSelected(s)}
             onPublish={handlePublish}
             onDelete={handleDelete}
+          />
+          <ScheduleEditor
+            value={
+              editing ?? {
+                id: editing?.id,
+                weekdays: editing?.weekdays,
+                startTime: editing.startTime,
+                endTime: editing.endTime,
+              }
+            }
+          />
+          <ScheduleList
+            schedules={selected?.schedules ?? []}
+            onEdit={setEditing}
+            onDelete={setDeleting}
           />
         </div>
       </div>

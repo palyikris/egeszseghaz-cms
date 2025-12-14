@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { deleteService } from "@/lib/service/delete_service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteService } from "@/lib/delete_service";
 
 export function useDeleteService() {
 

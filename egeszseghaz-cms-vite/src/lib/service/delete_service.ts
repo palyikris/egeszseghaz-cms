@@ -3,8 +3,9 @@
 import { db } from "@/utils/firebase";
 
 import { deleteDoc, doc } from "firebase/firestore";
-import { createAnnouncementOnServDelete } from "./banner/create_announcement_on_serv_delete";
-import { editNewService, fetchNewService } from "./banner/new_service";
+import { createAnnouncementOnServDelete } from "../banner/create_announcement_on_serv_delete";
+import { editNewService, fetchNewService } from "../banner/new_service";
+
 
 export async function deleteService(serviceId: string): Promise<void> {
   const serviceRef = doc(db, "newreservation", serviceId);

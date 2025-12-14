@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { createService } from "@/lib/service/create_service";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createService } from "@/lib/create_service";
 
 type CreateVariables = {
   payload: any;
