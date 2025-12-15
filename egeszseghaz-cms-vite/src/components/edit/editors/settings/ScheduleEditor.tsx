@@ -4,6 +4,7 @@ import dayjs from "dayjs";
 import { Button } from "@heroui/button";
 import { DatePicker } from "@heroui/date-picker";
 import { TimeInput } from "@heroui/date-input";
+import { parseAbsoluteToLocal, parseDate } from "@internationalized/date";
 
 import { ScheduleEditorModel } from "@/types/schedule_editor";
 
@@ -25,7 +26,7 @@ const DAYS = [
   { label: "Sun", value: 0 },
 ];
 
-export function ScheduleEditor({
+export default function ScheduleEditor({
   value,
   onChange,
   onCancel,
@@ -83,11 +84,11 @@ export function ScheduleEditor({
           <TimeInput
             label="Start"
             hourCycle={24}
-            value={dayjs(`1970-01-01T${value.startTime}`).toDate(}
+            value={parseAbsoluteToLocal(value.startTime)}
             onChange={(date) =>
               onChange({
                 ...value,
-                startTime: dayjs(date).format("HH:mm"),
+                startTime: dayjs(date?.toAbsoluteString()).format("HH:mm"),
               })
             }
           />
@@ -95,11 +96,11 @@ export function ScheduleEditor({
           <TimeInput
             label="End"
             hourCycle={24}
-            value={dayjs(`1970-01-01T${value.endTime}`).toDate()}
-            onChange={(date: Date) =>
+            value={parseAbsoluteToLocal(value.endTime)}
+            onChange={(date) =>
               onChange({
                 ...value,
-                endTime: dayjs(date).format("HH:mm"),
+                endTime: dayjs(date?.toAbsoluteString()).format("HH:mm"),
               })
             }
           />
@@ -108,32 +109,31 @@ export function ScheduleEditor({
 
       {/* Date range */}
       <div>
-        <h3 className="block text-sm font-medium mb-2">
-          Active date range
-        </h3>
+        <h3 className="block text-sm font-medium mb-2">Active date range</h3>
 
         <div className="grid grid-cols-2 gap-3">
           <DatePicker
             label="Start date"
-            value={dayjs(value.startDate).toDate()}
-            onChange={(date: Date) =>
+            value={parseDate(value.startDate)}
+            onChange={(date) =>
               onChange({
                 ...value,
-                startDate: dayjs(date).format("YYYY-MM-DD"),
+                startDate: dayjs(date?.toString()).format("YYYY-MM-DD"),
               })
             }
           />
 
           <DatePicker
             label="End date"
-            value={value.endDate ? dayjs(value.endDate).toDate() : null}
+            value={parseDate(value.endDate || "")}
             onChange={(date) =>
               onChange({
                 ...value,
-                endDate: date ? dayjs(date).format("YYYY-MM-DD") : undefined,
+                endDate: date
+                  ? dayjs(date.toString()).format("YYYY-MM-DD")
+                  : undefined,
               })
             }
-            isClearable
           />
         </div>
       </div>

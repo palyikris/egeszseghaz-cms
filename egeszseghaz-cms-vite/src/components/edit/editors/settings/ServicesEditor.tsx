@@ -22,7 +22,10 @@ import { DeleteOccurrenceConfirm } from "./DeleteOccuranceConfirm";
 import { ScheduleList } from "../../schedule/ScheduleList";
 import { DeleteScheduleConfirm } from "../../schedule/DeleteScheduleConfirm";
 import { useUpdateService } from "@/hooks/service/useUpdateService";
-import ScheduleEditor from "./ScheduleEditor";
+import { ScheduleEditorModel } from "@/types/schedule_editor";
+import dayjs from "dayjs";
+import { mapEditorToSchedule } from "@/lib/settings/map_editor_to_schedule";
+import { ScheduleEditorModal } from "./ScheduleModal";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -45,10 +48,46 @@ export default function ServicesEditor(): JSX.Element {
   const [editing, setEditing] = useState<ServiceSchedule | null>(null);
   const [deleting, setDeleting] = useState<ServiceSchedule | null>(null);
 
+  const [createOpen, setCreateOpen] = useState(false);
+  const [draft, setDraft] = useState<ScheduleEditorModel | null>(null);
+
   const [scheduleToDelete, setScheduleToDelete] =
     useState<ServiceSchedule | null>(null);
 
   const updateService = useUpdateService();
+
+  function startCreate() {
+    setDraft({
+      id: crypto.randomUUID(),
+      weekdays: [],
+      startTime: "09:00",
+      endTime: "10:00",
+      startDate: dayjs().format("YYYY-MM-DD"),
+    });
+    setCreateOpen(true);
+  }
+
+  function saveCreate() {
+    if (!draft) return;
+
+    const newSchedule = mapEditorToSchedule(draft);
+
+    updateService.mutate(
+      {
+        id: selected?.id || "",
+        data: {
+          ...selected,
+          schedules: [...(selected?.schedules || []), newSchedule],
+        },
+      },
+      {
+        onSuccess: () => {
+          setCreateOpen(false);
+          setDraft(null);
+        },
+      }
+    );
+  }
 
   function onDeleteEvent(event: CalendarEvent) {
     deleteOccurrence.mutate({
@@ -57,6 +96,7 @@ export default function ServicesEditor(): JSX.Element {
       occurrenceId: event.id,
     });
   }
+
   function confirmDeleteSchedule() {
     if (!scheduleToDelete) return;
 
@@ -77,6 +117,7 @@ export default function ServicesEditor(): JSX.Element {
       }
     );
   }
+
   function confirmDelete() {
     if (!pendingDelete) return;
 
@@ -178,6 +219,21 @@ export default function ServicesEditor(): JSX.Element {
         </Button>
       </div>
 
+      {draft && (
+        <ScheduleEditorModal
+          open={createOpen}
+          title="Create schedule"
+          value={draft}
+          onChange={setDraft}
+          onCancel={() => {
+            setCreateOpen(false);
+            setDraft(null);
+          }}
+          onSave={saveCreate}
+          isSaving={updateService.isPending}
+        />
+      )}
+
       <DeleteScheduleConfirm
         open={!!scheduleToDelete}
         schedule={scheduleToDelete}
@@ -248,16 +304,9 @@ export default function ServicesEditor(): JSX.Element {
             onPublish={handlePublish}
             onDelete={handleDelete}
           />
-          <ScheduleEditor
-            value={
-              editing ?? {
-                id: editing?.id,
-                weekdays: editing?.weekdays,
-                startTime: editing.startTime,
-                endTime: editing.endTime,
-              }
-            }
-          />
+
+          <Button onPress={startCreate}>Új időpont hozzáadása</Button>
+
           <ScheduleList
             schedules={selected?.schedules ?? []}
             onEdit={setEditing}
