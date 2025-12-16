@@ -21,7 +21,7 @@ export function ScheduleList({ schedules, onEdit, onDelete }: Props) {
       {schedules.map((schedule) => (
         <div
           key={schedule.id}
-          className="flex items-center justify-between rounded border border-primary p-3 bg-primary/40"
+          className="flex items-center justify-between rounded border border-primary p-3 bg-primary/40 gap-4"
         >
           <div>
             <div className="font-medium">{formatScheduleSummary(schedule)}</div>
@@ -32,7 +32,7 @@ export function ScheduleList({ schedules, onEdit, onDelete }: Props) {
             </div>
           </div>
 
-          <div className="flex gap-2">
+          <div className="flex flex-col gap-2 xl:flex-row">
             <Button size="sm" color="primary" onPress={() => onEdit(schedule)}>
               Szerkesztés
             </Button>
