@@ -136,7 +136,7 @@ export default function HeroSection({ hero }: HeroSectionProps) {
         direction="up"
       >
         <div className="w-full md:w-2/3 sm:w-5/6 bg-background-light rounded-lg p-1">
-          <div className="flex items-center justify-between gap-4 bg-primary w-full rounded-lg">
+          <div className="flex items-center justify-between gap-4 bg-primary w-full rounded-sm">
             <div className="w-full md:w-1/3 flex items-center justify-center gap-4 p-4 text-background-light">
               <svg
                 className="w-6 h-6"
