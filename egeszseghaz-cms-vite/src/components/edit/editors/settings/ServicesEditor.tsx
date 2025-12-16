@@ -253,7 +253,7 @@ export default function ServicesEditor(): JSX.Element {
       {draft && (
         <ScheduleEditorModal
           open={createOpen}
-          title="Create schedule"
+          title="Ütemezés szerkesztése"
           value={draft}
           onChange={setDraft}
           onCancel={() => {
@@ -335,15 +335,19 @@ export default function ServicesEditor(): JSX.Element {
             onDelete={handleDeleteService}
           />
 
-          <Button onPress={startCreate} color="primary">
-            Új időpont hozzáadása
-          </Button>
+          {selected && (
+            <>
+              <Button onPress={startCreate} color="primary">
+                Új időpont hozzáadása
+              </Button>
 
-          <ScheduleList
-            schedules={selected?.schedules ?? []}
-            onEdit={startEdit}
-            onDelete={setScheduleToDelete}
-          />
+              <ScheduleList
+                schedules={selected?.schedules ?? []}
+                onEdit={startEdit}
+                onDelete={setScheduleToDelete}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>
