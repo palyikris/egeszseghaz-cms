@@ -21,29 +21,29 @@ export function ScheduleList({ schedules, onEdit, onDelete }: Props) {
       {schedules.map((schedule) => (
         <div
           key={schedule.id}
-          className="flex items-center justify-between rounded border p-3"
+          className="flex items-center justify-between rounded border border-primary p-3 bg-primary/40"
         >
           <div>
             <div className="font-medium">{formatScheduleSummary(schedule)}</div>
 
-            <div className="text-xs text-muted">
-              Active from {schedule.startDate}
-              {schedule.endDate ? ` to ${schedule.endDate}` : ""}
+            <div className="text-xs text-text-secondary">
+              Időtartam: {schedule.startDate}
+              {schedule.endDate ? ` – ${schedule.endDate}` : ""}
             </div>
           </div>
 
           <div className="flex gap-2">
-            <Button size="sm" variant="light" onPress={() => onEdit(schedule)}>
-              Edit
+            <Button size="sm" color="primary" onPress={() => onEdit(schedule)}>
+              Szerkesztés
             </Button>
 
             <Button
               size="sm"
               color="danger"
-              variant="light"
+              variant="ghost"
               onPress={() => onDelete(schedule)}
             >
-              Delete
+              Törlés
             </Button>
           </div>
         </div>

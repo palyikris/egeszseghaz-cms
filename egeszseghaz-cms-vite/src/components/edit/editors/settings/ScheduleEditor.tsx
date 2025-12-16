@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { Button } from "@heroui/button";
 import { DatePicker } from "@heroui/date-picker";
 import { TimeInput } from "@heroui/date-input";
-import { parseAbsoluteToLocal, parseDate } from "@internationalized/date";
+import { parseDate, Time } from "@internationalized/date";
 
 import { ScheduleEditorModel } from "@/types/schedule_editor";
 
@@ -17,14 +17,30 @@ type Props = {
 };
 
 const DAYS = [
-  { label: "Mon", value: 1 },
-  { label: "Tue", value: 2 },
-  { label: "Wed", value: 3 },
-  { label: "Thu", value: 4 },
-  { label: "Fri", value: 5 },
-  { label: "Sat", value: 6 },
-  { label: "Sun", value: 0 },
+  { label: "Hét", value: 1 },
+  { label: "Kedd", value: 2 },
+  { label: "Szer", value: 3 },
+  { label: "Csüt", value: 4 },
+  { label: "Pén", value: 5 },
+  { label: "Szom", value: 6 },
+  { label: "Vas", value: 0 },
 ];
+
+function stringToTime(value: string | null): Time | null {
+  if (!value) return null;
+
+  const [h, m] = value.split(":").map(Number);
+
+  return new Time(h, m);
+}
+
+function timeToString(time: Time | null): string | null {
+  if (!time) return null;
+
+  return `${time.hour.toString().padStart(2, "0")}:${time.minute
+    .toString()
+    .padStart(2, "0")}`;
+}
 
 export default function ScheduleEditor({
   value,
@@ -42,7 +58,7 @@ export default function ScheduleEditor({
     <div className="space-y-6">
       {/* Weekdays */}
       <div>
-        <h2 className="block text-sm font-medium mb-2">Days of week</h2>
+        <h2 className="block text-sm font-medium mb-2">A hét napjai:</h2>
 
         <div className="flex gap-2 flex-wrap">
           {DAYS.map((d) => {
@@ -78,42 +94,48 @@ export default function ScheduleEditor({
 
       {/* Time range */}
       <div>
-        <h2 className="block text-sm font-medium mb-2">Time</h2>
+        <h2 className="block text-sm font-medium mb-2">Időpont</h2>
 
         <div className="grid grid-cols-2 gap-3">
           <TimeInput
-            label="Start"
+            label="Kezdet"
             hourCycle={24}
-            value={parseAbsoluteToLocal(value.startTime)}
+            value={stringToTime(value.startTime)}
             onChange={(date) =>
               onChange({
                 ...value,
-                startTime: dayjs(date?.toAbsoluteString()).format("HH:mm"),
+                startTime: timeToString(date) || "06:00",
               })
             }
+            maxValue={new Time(20)}
+            minValue={new Time(6)}
+            hideTimeZone
           />
 
           <TimeInput
-            label="End"
+            label="Vége"
             hourCycle={24}
-            value={parseAbsoluteToLocal(value.endTime)}
+            value={stringToTime(value.endTime)}
             onChange={(date) =>
               onChange({
                 ...value,
-                endTime: dayjs(date?.toAbsoluteString()).format("HH:mm"),
+                endTime: timeToString(date) || "18:00",
               })
             }
+            maxValue={new Time(22)}
+            minValue={new Time(8)}
+            hideTimeZone
           />
         </div>
       </div>
 
       {/* Date range */}
       <div>
-        <h3 className="block text-sm font-medium mb-2">Active date range</h3>
+        <h3 className="block text-sm font-medium mb-2">Dátum tartomány:</h3>
 
         <div className="grid grid-cols-2 gap-3">
           <DatePicker
-            label="Start date"
+            label="Kezdő dátum"
             value={parseDate(value.startDate)}
             onChange={(date) =>
               onChange({
@@ -124,8 +146,8 @@ export default function ScheduleEditor({
           />
 
           <DatePicker
-            label="End date"
-            value={parseDate(value.endDate || "")}
+            label="Záró dátum"
+            value={value.endDate ? parseDate(value.endDate) : undefined}
             onChange={(date) =>
               onChange({
                 ...value,
@@ -134,14 +156,20 @@ export default function ScheduleEditor({
                   : undefined,
               })
             }
+            minValue={parseDate(value.startDate)}
           />
         </div>
       </div>
 
       {/* Actions */}
       <div className="flex justify-end gap-2 pt-4 border-t">
-        <Button variant="light" onPress={onCancel} isDisabled={isSaving}>
-          Cancel
+        <Button
+          variant="ghost"
+          color="secondary"
+          onPress={onCancel}
+          isDisabled={isSaving}
+        >
+          Mégse
         </Button>
 
         <Button
@@ -150,7 +178,7 @@ export default function ScheduleEditor({
           isDisabled={!isValid}
           isLoading={isSaving}
         >
-          Save schedule
+          Időpont mentése
         </Button>
       </div>
     </div>

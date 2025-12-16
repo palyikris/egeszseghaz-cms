@@ -18,7 +18,7 @@ import ServiceForm from "@/components/edit/service/ServiceForm";
 import ServiceSearch from "@/components/edit/service/ServiceSearch";
 import { useDeleteOccurrence } from "@/hooks/settings/useDeleteOccurance";
 import { CalendarEvent } from "@/types/calendar";
-import { DeleteOccurrenceConfirm } from "./DeleteOccuranceConfirm";
+import { DeleteOccurrenceConfirm } from "../../schedule/DeleteOccuranceConfirm";
 import { ScheduleList } from "../../schedule/ScheduleList";
 import { DeleteScheduleConfirm } from "../../schedule/DeleteScheduleConfirm";
 import { useUpdateService } from "@/hooks/service/useUpdateService";
@@ -26,6 +26,7 @@ import { ScheduleEditorModel } from "@/types/schedule_editor";
 import dayjs from "dayjs";
 import { mapEditorToSchedule } from "@/lib/settings/map_editor_to_schedule";
 import { ScheduleEditorModal } from "./ScheduleModal";
+import { mapScheduleToEditor } from "@/lib/settings/map_schedule_to_editor";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -35,8 +36,10 @@ export default function ServicesEditor(): JSX.Element {
   const deleteService = useDeleteService();
   const createService = useCreateService();
   const upload = useUploadImage();
+  const updateService = useUpdateService();
 
-  const [selected, setSelected] = useState<Service | null>(null);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -45,93 +48,11 @@ export default function ServicesEditor(): JSX.Element {
     null
   );
 
-  const [editing, setEditing] = useState<ServiceSchedule | null>(null);
-  const [deleting, setDeleting] = useState<ServiceSchedule | null>(null);
-
   const [createOpen, setCreateOpen] = useState(false);
   const [draft, setDraft] = useState<ScheduleEditorModel | null>(null);
 
   const [scheduleToDelete, setScheduleToDelete] =
     useState<ServiceSchedule | null>(null);
-
-  const updateService = useUpdateService();
-
-  function startCreate() {
-    setDraft({
-      id: crypto.randomUUID(),
-      weekdays: [],
-      startTime: "09:00",
-      endTime: "10:00",
-      startDate: dayjs().format("YYYY-MM-DD"),
-    });
-    setCreateOpen(true);
-  }
-
-  function saveCreate() {
-    if (!draft) return;
-
-    const newSchedule = mapEditorToSchedule(draft);
-
-    updateService.mutate(
-      {
-        id: selected?.id || "",
-        data: {
-          ...selected,
-          schedules: [...(selected?.schedules || []), newSchedule],
-        },
-      },
-      {
-        onSuccess: () => {
-          setCreateOpen(false);
-          setDraft(null);
-        },
-      }
-    );
-  }
-
-  function onDeleteEvent(event: CalendarEvent) {
-    deleteOccurrence.mutate({
-      serviceId: event.serviceId,
-      scheduleId: event.scheduleId,
-      occurrenceId: event.id,
-    });
-  }
-
-  function confirmDeleteSchedule() {
-    if (!scheduleToDelete) return;
-
-    const updatedSchedules = (selected?.schedules ?? []).filter(
-      (s) => s.id !== scheduleToDelete.id
-    );
-
-    updateService.mutate(
-      {
-        id: selected?.id || "",
-        data: {
-          ...selected,
-          schedules: updatedSchedules,
-        },
-      },
-      {
-        onSuccess: () => setScheduleToDelete(null),
-      }
-    );
-  }
-
-  function confirmDelete() {
-    if (!pendingDelete) return;
-
-    deleteOccurrence.mutate(
-      {
-        serviceId: pendingDelete.serviceId,
-        scheduleId: pendingDelete.scheduleId,
-        occurrenceId: pendingDelete.id,
-      },
-      {
-        onSuccess: () => setPendingDelete(null),
-      }
-    );
-  }
 
   const filteredServices = useMemo(() => {
     if (!services) return [];
@@ -145,6 +66,12 @@ export default function ServicesEditor(): JSX.Element {
         service.desc?.toLowerCase().includes(query)
     );
   }, [services, searchQuery]);
+
+  const selected = useMemo(() => {
+    if (!services || !selectedId) return null;
+
+    return services.find((s) => s.id === selectedId) ?? null;
+  }, [services, selectedId]);
 
   const cardTemplate = useMemo(() => {
     return {
@@ -165,7 +92,91 @@ export default function ServicesEditor(): JSX.Element {
     };
   }, []);
 
-  const onSelectService = (svc: Service) => setSelected(svc);
+  function startCreate() {
+    setDraft({
+      id: crypto.randomUUID(),
+      weekdays: [],
+      startTime: "09:00",
+      endTime: "10:00",
+      startDate: dayjs().format("YYYY-MM-DD"),
+    });
+    setCreateOpen(true);
+  }
+
+  function startEdit(schedule: ServiceSchedule) {
+    setDraft(mapScheduleToEditor(schedule));
+    setCreateOpen(true);
+  }
+
+  function saveDraft() {
+    if (!draft || !selected) return;
+
+    const next = mapEditorToSchedule(draft);
+
+    const schedules = selected.schedules?.some((s) => s.id === next.id)
+      ? selected.schedules.map((s) => (s.id === next.id ? next : s))
+      : [...(selected.schedules ?? []), next];
+
+    updateService.mutate(
+      {
+        id: selected.id,
+        data: { ...selected, schedules },
+      },
+      {
+        onSuccess: async (_, { id }) => {
+          await queryClient.invalidateQueries({ queryKey: ["service", id] });
+          await queryClient.invalidateQueries({ queryKey: ["services"] });
+          setDraft(null);
+          setCreateOpen(false);
+        },
+      }
+    );
+  }
+
+  // function onDeleteEvent(event: CalendarEvent) {
+  //   deleteOccurrence.mutate({
+  //     serviceId: event.serviceId,
+  //     scheduleId: event.scheduleId,
+  //     occurrenceId: event.id,
+  //   });
+  // }
+
+  function confirmDeleteSchedule() {
+    if (!scheduleToDelete || !selected) return;
+
+    const schedules = (selected.schedules ?? []).filter(
+      (s) => s.id !== scheduleToDelete.id
+    );
+
+    updateService.mutate(
+      {
+        id: selected.id,
+        data: { ...selected, schedules },
+      },
+      {
+        onSuccess: async (_, { id }) => {
+          await queryClient.invalidateQueries({ queryKey: ["service", id] });
+          await queryClient.invalidateQueries({ queryKey: ["services"] });
+          setScheduleToDelete(null);
+        },
+      }
+    );
+  }
+
+  function confirmDelete() {
+    if (!pendingDelete) return;
+
+    deleteOccurrence.mutate(
+      {
+        serviceId: pendingDelete.serviceId,
+        scheduleId: pendingDelete.scheduleId,
+        occurrenceId: pendingDelete.id,
+      },
+      {
+        onSuccess: () => setPendingDelete(null),
+      }
+    );
+  }
 
   const handlePublish = async () => {
     if (!selected) return;
@@ -180,13 +191,17 @@ export default function ServicesEditor(): JSX.Element {
     try {
       await publish.mutateAsync({ id: selected.id, publishedContent: payload });
       await queryClient.invalidateQueries({ queryKey: ["services"] });
+      await queryClient.invalidateQueries({
+        queryKey: ["service", selected.id],
+      });
     } catch (err) {
       console.error(err);
     }
   };
 
-  const handleDelete = async () => {
+  const handleDeleteService = async () => {
     if (!selected) return;
+
     try {
       if (!selected.id) throw new Error("Service ID is missing");
       if (
@@ -195,11 +210,27 @@ export default function ServicesEditor(): JSX.Element {
         )
       ) {
         await deleteService.mutateAsync(selected.id);
-        setSelected(null);
+        await queryClient.invalidateQueries({ queryKey: ["services"] });
+        setSelectedId(null);
       }
     } catch (err) {
       console.error(err);
     }
+  };
+
+  const handleServiceFormChange = (next: Service | null) => {
+    if (!next || !next.id) return;
+
+    queryClient.setQueryData<Service[] | undefined>(["services"], (prev) => {
+      if (!prev) return prev;
+
+      return prev.map((s) => (s.id === next.id ? { ...s, ...next } : s));
+    });
+
+    queryClient.setQueryData<Service | undefined>(
+      ["service", next.id],
+      (prev) => (prev ? { ...prev, ...next } : prev)
+    );
   };
 
   if (isLoading) {
@@ -229,7 +260,7 @@ export default function ServicesEditor(): JSX.Element {
             setCreateOpen(false);
             setDraft(null);
           }}
-          onSave={saveCreate}
+          onSave={saveDraft}
           isSaving={updateService.isPending}
         />
       )}
@@ -270,12 +301,11 @@ export default function ServicesEditor(): JSX.Element {
             const res = await createService.mutateAsync({ payload, id });
             const svc = { id: res.id ?? id, ...payload } as Service;
 
-            setSelected(svc);
+            setSelectedId(svc.id);
 
             return svc;
           } catch (err) {
             console.error(err);
-
             return null;
           }
         }}
@@ -285,8 +315,8 @@ export default function ServicesEditor(): JSX.Element {
         <ServiceList
           services={filteredServices as Service[] | undefined}
           cardTemplate={cardTemplate}
-          onSelect={onSelectService}
-          selectedId={selected?.id ?? null}
+          onSelect={(svc) => setSelectedId(svc.id)}
+          selectedId={selectedId}
         />
 
         <div
@@ -300,17 +330,19 @@ export default function ServicesEditor(): JSX.Element {
             images={images}
             publishing={publish.isPending}
             deleting={deleteService.isPending}
-            onChange={(s) => setSelected(s)}
+            onChange={handleServiceFormChange}
             onPublish={handlePublish}
-            onDelete={handleDelete}
+            onDelete={handleDeleteService}
           />
 
-          <Button onPress={startCreate}>Új időpont hozzáadása</Button>
+          <Button onPress={startCreate} color="primary">
+            Új időpont hozzáadása
+          </Button>
 
           <ScheduleList
             schedules={selected?.schedules ?? []}
-            onEdit={setEditing}
-            onDelete={setDeleting}
+            onEdit={startEdit}
+            onDelete={setScheduleToDelete}
           />
         </div>
       </div>

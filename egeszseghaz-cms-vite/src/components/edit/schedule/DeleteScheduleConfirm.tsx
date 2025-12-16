@@ -30,30 +30,33 @@ export function DeleteScheduleConfirm({
   return (
     <Modal isOpen={open} onClose={onCancel} size="sm">
       <ModalContent>
-        <ModalHeader className="text-base">Delete schedule?</ModalHeader>
+        <ModalHeader className="text-base">Biztos törölni akarod?</ModalHeader>
 
         <ModalBody>
-          <p className="text-sm">
-            You are about to delete the following schedule:
-          </p>
+          <p className="text-sm">Ez a művelet a következő ütemezést törli:</p>
 
           <p className="mt-2 text-sm font-medium">
             {formatScheduleSummary(schedule)}
           </p>
 
           <p className="mt-3 text-sm text-muted-foreground">
-            All future occurrences created by this schedule will be removed.
-            This action cannot be undone.
+            Ez a művelet nem visszavonható. Minden ehhez az ütemezéshez tartozó
+            időpont törlődni fog.
           </p>
         </ModalBody>
 
         <ModalFooter>
-          <Button variant="light" onPress={onCancel} isDisabled={isLoading}>
-            Cancel
+          <Button
+            variant="ghost"
+            color="secondary"
+            onPress={onCancel}
+            isDisabled={isLoading}
+          >
+            Mégse
           </Button>
 
           <Button color="danger" onPress={onConfirm} isLoading={isLoading}>
-            Delete schedule
+            Törlés
           </Button>
         </ModalFooter>
       </ModalContent>

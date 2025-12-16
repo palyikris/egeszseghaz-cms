@@ -2,7 +2,7 @@
 
 import { ServiceSchedule } from "@/types/services";
 
-const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const WEEKDAYS = ["VAS", "HÉT", "KEDD", "SZER", "CSÜT", "PÉN", "SZOM"];
 
 export function formatScheduleSummary(schedule: ServiceSchedule): string {
   const days = schedule.weekdays

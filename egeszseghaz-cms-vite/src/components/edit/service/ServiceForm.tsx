@@ -5,10 +5,11 @@ import { Select, SelectItem } from "@heroui/select";
 import { Button } from "@heroui/button";
 import CustomLoader from "@/components/loader";
 import type { Service } from "@/types/services";
+import { ImageInfo } from "@/lib/settings/media";
 
 type Props = {
   service: Service | null;
-  images: any[] | undefined;
+  images: ImageInfo[] | undefined;
   publishing: boolean;
   deleting: boolean;
   onChange: (s: Service) => void;
