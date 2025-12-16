@@ -48,7 +48,7 @@ export default function ImagesEditor() {
       )}
 
       {!isLoading && images && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-h-screen overflow-y-auto pb-8 my-12 px-2">
           {/* --- UPLOAD CARD --- */}
           <button
             className="
