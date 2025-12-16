@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.19",
+    "@fullcalendar/daygrid": "^6.1.19",
+    "@fullcalendar/react": "^6.1.19",
     "@heroui/avatar": "^2.2.22",
     "@heroui/button": "2.2.27",
     "@heroui/card": "^2.2.25",
@@ -42,6 +45,7 @@
     "@tailwindcss/postcss": "4.1.11",
     "@tailwindcss/vite": "4.1.11",
     "@tanstack/react-query": "^5.90.6",
+    "@types/fullcalendar": "^3.8.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.19",
@@ -78,6 +82,7 @@
     "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "5.2.0",
     "eslint-plugin-unused-imports": "4.1.4",
+    "fullcalendar": "^6.1.19",
     "globals": "16.0.0",
     "postcss": "8.5.6",
     "prettier": "3.5.3",
