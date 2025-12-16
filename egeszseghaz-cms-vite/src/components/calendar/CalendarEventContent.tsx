@@ -28,7 +28,7 @@ export function CalendarEventContent(arg: EventContentArg) {
 
       {coach && (
         <div className="text-[11px] opacity-80 truncate text-accent">
-          {coach}
+          {coach === "" ? "Nincs név" : coach}
         </div>
       )}
     </div>
