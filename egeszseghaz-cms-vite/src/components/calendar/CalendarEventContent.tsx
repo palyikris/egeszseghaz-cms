@@ -26,11 +26,9 @@ export function CalendarEventContent(arg: EventContentArg) {
           `${formatDateToHHMM(start)}-${formatDateToHHMM(end)}`}
       </div>
 
-      {coach && (
-        <div className="text-[11px] opacity-80 truncate text-accent">
-          {coach === "" ? "Nincs név" : coach}
-        </div>
-      )}
+      <div className="text-[11px] opacity-80 truncate text-accent">
+        {coach === "" ? "Nincs név" : coach}
+      </div>
     </div>
   );
 }
