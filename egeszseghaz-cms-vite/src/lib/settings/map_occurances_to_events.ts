@@ -1,43 +1,41 @@
 /* eslint-disable prettier/prettier */
+import { ThemePalette } from "@/palettes/palette";
 import { CalendarEvent } from "@/types/calendar";
 import { Service, ServiceOccurrence } from "@/types/services";
 
-function getServiceColor(service: Service): string {
-  // priority:
-  // 1) explicit seed (future-proof)
-  // 2) fallback hash from id
-  if ((service as any).colorSeed) {
-    return (service as any).colorSeed;
-  }
-
-  // deterministic fallback
-  const colors = [
-    "#8E715B", // primary
-    "#4BA6A3", // secondary
-    "#E6B655", // accent
-    "#7FC9C6",
-    "#BFA590",
-  ];
-
+function hashToIndex(id: string, mod: number) {
   let hash = 0;
 
-  for (let i = 0; i < service.id.length; i++) {
-    hash = service.id.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < id.length; i++) {
+    hash = id.charCodeAt(i) + ((hash << 5) - hash);
   }
 
-  return colors[Math.abs(hash) % colors.length];
+  return Math.abs(hash) % mod;
 }
 
 export function mapOccurrencesToEvents(
   occurrences: ServiceOccurrence[],
-  services: Service[]
+  services: Service[],
+  palette: ThemePalette
 ): CalendarEvent[] {
+  if (!palette) return [];
+
   const serviceMap = new Map(services.map((s) => [s.id, s]));
+
+  const slots = [
+    palette.light.primary,
+    palette.light.secondary,
+    palette.light.accent,
+    palette.light.secondaryLight ?? palette.light.secondary,
+    palette.light.primaryLight ?? palette.light.primary,
+  ];
 
   return occurrences.map((o) => {
     const service = serviceMap.get(o.serviceId);
 
-    const color = service ? getServiceColor(service) : undefined;
+    const slotIdx = hashToIndex(o.serviceId, slots.length);
+
+    const base = slots[slotIdx];
 
     return {
       id: o.occurrenceId,
@@ -47,8 +45,8 @@ export function mapOccurrencesToEvents(
       serviceId: o.serviceId,
       scheduleId: o.scheduleId,
 
-      backgroundColor: color,
-      borderColor: color,
+      backgroundColor: base,
+      borderColor: base,
 
       extendedProps: {
         coach: service?.name,

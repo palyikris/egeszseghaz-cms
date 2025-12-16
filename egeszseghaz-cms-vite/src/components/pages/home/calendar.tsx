@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import dayjs from "dayjs";
 import isoWeek from "dayjs/plugin/isoWeek";
@@ -12,23 +12,44 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import { fullCalendarBaseConfig } from "@/utils/fullCalendarConfig";
 import { CalendarEventContent } from "@/components/calendar/CalendarEventContent";
 import CustomLoader from "@/components/loader";
-
+import { usePalette } from "@/hooks/settings/usePalette";
+import { Button } from "@heroui/button";
+import { Service } from "@/types/services";
 
 dayjs.extend(isoWeek);
 
-export default function WeeklyServicesCalendar() {
+type WeeklyServicesCalendarProps = {
+  services: Service[];
+};
+
+export default function WeeklyServicesCalendar({
+  services,
+}: WeeklyServicesCalendarProps) {
   const navigate = useNavigate();
+
+  const [isSwitchingWeek, setIsSwitchingWeek] = useState(false);
 
   // anchor week = ISO Monday
   const [weekStartISO, setWeekStartISO] = useState(
     dayjs().startOf("isoWeek").format("YYYY-MM-DD")
   );
 
-  const { occurrences, isLoading, services } = useCalendarWeek(weekStartISO);
+  const { occurrences } = useCalendarWeek({
+    weekStartISO,
+    services,
+  });
+  const { data: fetchedPalette, isLoading: paletteLoading } = usePalette();
+
+  const palette = useMemo(() => {
+    if (paletteLoading || !fetchedPalette) return null;
+
+    return fetchedPalette;
+  }, [fetchedPalette, paletteLoading]);
 
   const events = useMemo(() => {
-    return mapOccurrencesToEvents(occurrences, services || []);
-  }, [occurrences]);
+    if (!palette) return [];
+    return mapOccurrencesToEvents(occurrences, services || [], palette);
+  }, [occurrences, services, palette]);
 
   // navigation bounds: ±4 weeks from current week
   const minWeek = dayjs().startOf("isoWeek").subtract(4, "week");
@@ -39,6 +60,7 @@ export default function WeeklyServicesCalendar() {
 
   function goPrevWeek() {
     if (!canGoPrev) return;
+    setIsSwitchingWeek(true);
     setWeekStartISO(
       dayjs(weekStartISO).subtract(1, "week").format("YYYY-MM-DD")
     );
@@ -46,39 +68,61 @@ export default function WeeklyServicesCalendar() {
 
   function goNextWeek() {
     if (!canGoNext) return;
+    setIsSwitchingWeek(true);
     setWeekStartISO(dayjs(weekStartISO).add(1, "week").format("YYYY-MM-DD"));
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsSwitchingWeek(false);
+    }, 200);
+  }, [weekStartISO]);
+
+  // Show a lightweight loader until palette is ready to avoid
+  // first-render null issues and empty calendar
+  if (paletteLoading || !palette) {
+    return (
+      <div className="w-full flex items-center justify-center py-6">
+        <CustomLoader />
+      </div>
+    );
   }
 
   return (
     <div className="w-full space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <button
-          onClick={goPrevWeek}
+        <Button
+          onPress={goPrevWeek}
           disabled={!canGoPrev}
           className="px-3 py-1 rounded border disabled:opacity-40"
+          variant="ghost"
+          color="secondary"
         >
           ← Előző hét
-        </button>
+        </Button>
 
         <div className="font-medium">
           {dayjs(weekStartISO).format("YYYY. MMM D.")} –{" "}
           {dayjs(weekStartISO).add(6, "day").format("MMM D.")}
         </div>
 
-        <button
-          onClick={goNextWeek}
+        <Button
+          onPress={goNextWeek}
           disabled={!canGoNext}
           className="px-3 py-1 rounded border disabled:opacity-40"
+          variant="ghost"
+          color="secondary"
         >
           Következő hét →
-        </button>
+        </Button>
       </div>
 
       {/* Calendar */}
       <div className="relative">
         <FullCalendar
           plugins={[timeGridPlugin]}
+          key={weekStartISO} // force rerender on week change
           {...fullCalendarBaseConfig}
           initialDate={weekStartISO}
           events={events}
@@ -113,8 +157,8 @@ export default function WeeklyServicesCalendar() {
           }}
         />
 
-        {isLoading && (
-          <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+        {isSwitchingWeek && (
+          <div className="absolute inset-0 bg-background flex items-center justify-center w-full h-full bg-opacity-70 z-100">
             <CustomLoader />
           </div>
         )}

@@ -18,6 +18,7 @@ import { EditSidebar } from "@/components/edit/EditSidebar";
 import { useServiceDetail } from "@/hooks/service/useServiceDetail";
 import ServiceDescription from "@/components/pages/service/description";
 import CustomDivider from "@/components/divider";
+import WeeklyServicesCalendar from "@/components/pages/home/calendar";
 
 export default function ServiceDetailPage() {
   const { serviceId } = useParams();
@@ -42,7 +43,15 @@ export default function ServiceDetailPage() {
 
       <ServiceDescription service={service!} />
 
-      {service && service.desc && <CustomDivider className="my-10" />}
+      {service && service.desc && (
+        <CustomDivider className="my-10" direction="up" />
+      )}
+
+      <div className="calendar-shell">
+        <WeeklyServicesCalendar services={service ? [service] : []} />
+      </div>
+
+      <CustomDivider className="my-10" />
 
       <EditableWrapper id="service-htmlblocks">
         <ServiceHtmlBlocks service={service!} />

@@ -52,8 +52,10 @@ export default function HomePage() {
         <HeroSection hero={hero} />
       </EditableWrapper>
 
+      <CustomDivider direction="down" className="mt-10 mb-12" />
+
       <div className="calendar-shell">
-        <WeeklyServicesCalendar />
+        <WeeklyServicesCalendar services={services || []} />
       </div>
 
       {announcement && announcement.isDisplayed ? (

@@ -16,13 +16,20 @@ export function CalendarEventContent(arg: EventContentArg) {
     return `${hours}:${minutes}`;
   }
 
-  console.log(title, coach);
 
   return (
     <div className="px-1 py-0.5 leading-tight">
-      <div className="text-xs font-medium truncate">{title.toUpperCase() + " | " + `${formatDateToHHMM(start)}-${formatDateToHHMM(end)}`}</div>
+      <div className="text-xs font-medium truncate">
+        {title.toUpperCase() +
+          " | " +
+          `${formatDateToHHMM(start)}-${formatDateToHHMM(end)}`}
+      </div>
 
-      {coach && <div className="text-[11px] opacity-80 truncate">{coach}</div>}
+      {coach && (
+        <div className="text-[11px] opacity-80 truncate text-accent">
+          {coach}
+        </div>
+      )}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function ServiceHtmlBlocks({ service }: { service: Service }) {
     >
       <div className="max-w-4xl mx-auto space-y-10">
         {blocks.map((b, i) => (
-          <>
+          <div key={b.id} className="flex flex-col gap-10">
             <BlurFade key={b.id} delay={0.1 * (i + 1)}>
               <div
                 className={cn(
@@ -45,7 +45,7 @@ export default function ServiceHtmlBlocks({ service }: { service: Service }) {
               </div>
             </BlurFade>
             <CustomDivider direction={i % 2 == 0 ? "up" : "down"} />
-          </>
+          </div>
         ))}
       </div>
     </section>

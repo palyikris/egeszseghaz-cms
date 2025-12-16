@@ -20,6 +20,8 @@ export interface Service {
   img: string;
   phone: string;
   schedules?: ServiceSchedule[];
+  colorSlot?: "primary" | "secondary" | "accent";
+  colorIndex?: number;
 }
 
 export type ScheduleFrequency = "weekly";

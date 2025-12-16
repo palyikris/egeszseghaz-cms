@@ -10,13 +10,15 @@ export const fullCalendarBaseConfig: CalendarOptions = {
   allDaySlot: false,
 
   // Time grid
-  slotMinTime: "08:00:00",
-  slotMaxTime: "20:00:00",
+  slotMinTime: "07:00:00",
+  slotMaxTime: "21:00:00",
   expandRows: true,
 
   // UX
   nowIndicator: true,
-  eventOverlap: true,
+  eventOverlap: false,
+  slotEventOverlap: false,
+
   eventDisplay: "block",
   height: "auto",
 
