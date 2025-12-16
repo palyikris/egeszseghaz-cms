@@ -299,7 +299,43 @@
   }
 }
 
-/* Add to globals if you want */
+.fc-weekend-closed {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(0,0,0,0.03),
+    rgba(0,0,0,0.03) 6px,
+    rgba(0,0,0,0.06) 6px,
+    rgba(0,0,0,0.06) 12px
+  );
+}
+
+.fc-event-main, .fc-timegrid-event-harness, .fc-event-start{
+  background-color: var(--primary);
+  border: var(--primary);
+  border-radius: 5px;
+}
+
+.dark .fc-weekend-closed {
+  background: repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.03),
+    rgba(255,255,255,0.03) 6px,
+    rgba(255,255,255,0.06) 6px,
+    rgba(255,255,255,0.06) 12px
+  );
+}
+
+.calendar-shell {
+  background: var(--surface, var(--background));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  margin: 2rem;
+}
+
+
+
 @keyframes fade-in {
   from { opacity: 0; }
   to { opacity: 1; }

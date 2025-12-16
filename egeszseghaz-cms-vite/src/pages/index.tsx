@@ -16,6 +16,7 @@ import { Announcement } from "@/components/banners/announcement";
 import { NewServiceSection } from "@/components/banners/new_service";
 import { useNewService } from "@/hooks/banner/useNewService";
 import { useAnnouncement } from "@/hooks/banner/useAnnouncement";
+import WeeklyServicesCalendar from "@/components/pages/home/calendar";
 
 export default function HomePage() {
   const { data: pageData, isLoading: pageLoading } = usePage("home");
@@ -38,7 +39,6 @@ export default function HomePage() {
   )
     return <CustomLoader />;
 
-
   return (
     <main className="bg-background-light text-text-primary flex flex-col min-h-screen justify-start">
       <EditToolbar />
@@ -51,6 +51,10 @@ export default function HomePage() {
       <EditableWrapper id="hero">
         <HeroSection hero={hero} />
       </EditableWrapper>
+
+      <div className="calendar-shell">
+        <WeeklyServicesCalendar />
+      </div>
 
       {announcement && announcement.isDisplayed ? (
         <Announcement data={announcement} />
