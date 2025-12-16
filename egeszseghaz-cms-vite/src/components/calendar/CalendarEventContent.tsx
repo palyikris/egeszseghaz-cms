@@ -13,12 +13,13 @@ export function CalendarEventContent(arg: EventContentArg) {
     if (!date) return "";
     const hours = date.getHours().toString().padStart(2, "0");
     const minutes = date.getMinutes().toString().padStart(2, "0");
+
     return `${hours}:${minutes}`;
   }
 
 
   return (
-    <div className="px-1 py-0.5 leading-tight">
+    <div className="px-1 py-0.5 leading-tight cursor-pointer">
       <div className="text-xs font-medium truncate">
         {title.toUpperCase() +
           " | " +

@@ -328,6 +328,7 @@
 .fc-timegrid-event{
   box-shadow: none;
   padding: 0 5px;
+  cursor: pointer;
 }
 
 
