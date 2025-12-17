@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-import { url } from "inspector";
 import {
   Home,
   Image as Img,
