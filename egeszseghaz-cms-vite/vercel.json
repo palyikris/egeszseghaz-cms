@@ -1,5 +1,9 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/(.*)", "destination": "/" },
+    {
+      "source": "/docs/:path*",
+      "destination": "https://egeszseghaz-docs.vercel.app/docs/:path*"
+    }
   ]
 }
