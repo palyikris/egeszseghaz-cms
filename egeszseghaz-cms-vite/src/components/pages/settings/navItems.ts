@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+import { url } from "inspector";
 import {
   Home,
   Image as Img,
@@ -6,6 +7,7 @@ import {
   Newspaper,
   MessageCircleWarning,
   Cog,
+  CircleQuestionMark,
 } from "lucide-react";
 
 export const items = [
@@ -24,4 +26,9 @@ export const items = [
   },
   { title: "Új szolgáltatás", url: "/settings#new_service", icon: Newspaper },
   { title: "Összes szolgáltatás", url: "/settings#services", icon: Newspaper },
+  {
+    title: "Dokumentáció",
+    url: "https://egeszseghaz-cms-docs.vercel.app",
+    icon: CircleQuestionMark,
+  },
 ];
