@@ -1,0 +1,59 @@
+/**
+ * Global styles for Egészségház CMS documentation
+ * Purpose: align docs styling with the application UI
+ * No hardcoded brand colors, only semantic tokens
+ */
+
+/* =========================
+   LIGHT MODE
+   ========================= */
+:root {
+  /* Brand / primary */
+  --ifm-color-primary: var(--app-color-primary, #8e715b);
+  --ifm-color-primary-dark: var(--app-color-primary-dark, #604a3a);
+  --ifm-color-primary-light: var(--app-color-primary-light, #bfa590);
+
+  /* Backgrounds */
+  --ifm-background-color: var(--app-color-background, #f8f5f1);
+  --ifm-background-surface-color: var(--app-color-surface, #ffffff);
+
+  /* Text */
+  --ifm-color-content: var(--app-color-text-primary, #2e2e2e);
+  --ifm-color-content-secondary: var(--app-color-text-secondary, #5c5c5c);
+
+  /* Borders & separators */
+  --ifm-color-emphasis-200: var(--app-color-border, #e2dad1);
+
+  /* Typography */
+  --ifm-font-family-base: system-ui, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+  --ifm-heading-font-family: inherit;
+
+  /* Code */
+  --ifm-code-font-size: 0.9rem;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.05);
+}
+
+/* =========================
+   DARK MODE
+   ========================= */
+[data-theme='dark'] {
+  /* Brand / primary */
+  --ifm-color-primary: var(--app-color-primary, #bfa590);
+  --ifm-color-primary-dark: var(--app-color-primary-dark, #8e715b);
+  --ifm-color-primary-light: var(--app-color-primary-light, #d8c2ad);
+
+  /* Backgrounds */
+  --ifm-background-color: var(--app-color-background-dark, #1c1c1c);
+  --ifm-background-surface-color: var(--app-color-surface-dark, #242424);
+
+  /* Text */
+  --ifm-color-content: var(--app-color-text-primary-dark, #f2f2f2);
+  --ifm-color-content-secondary: var(--app-color-text-secondary-dark, #bdbdbd);
+
+  /* Borders */
+  --ifm-color-emphasis-200: var(--app-color-border-dark, #2f2f2f);
+
+  /* Code */
+  --docusaurus-highlighted-code-line-bg: rgba(255, 255, 255, 0.08);
+}
