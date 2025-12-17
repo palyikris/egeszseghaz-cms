@@ -6,7 +6,7 @@ console.log("USING THIS CONFIG FILE");
 const config: Config = {
   title: "Egészségház – Dokumentáció",
   url: "https://egeszseghaz-cms.vercel.app",
-  baseUrl: "/docs",
+  baseUrl: "/",
 
   presets: [
     [
