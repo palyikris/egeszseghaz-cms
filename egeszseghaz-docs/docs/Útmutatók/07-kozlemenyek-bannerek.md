@@ -28,6 +28,36 @@ Egy promóciós banner egy új vagy kiemelt szolgáltatásról. Például:
 
 ---
 
+## Automatikus bannerek
+
+A rendszer bizonyos műveletekkor **automatikusan generál és publikál** bannereket:
+
+### Szolgáltatás törlése → Közlemény banner
+Ha **törölsz egy szolgáltatást**, a rendszer automatikusan létrehoz és publikál egy **Announcement (Közlemény) bannert**. Például:
+
+```
+⚠️ A "Jóga kezdő" szolgáltatás már nem elérhető
+```
+
+Ez a látogatókat automatikusan értesíti, hogy egy szolgáltatás már nem elérhető.
+
+### Új szolgáltatás hozzáadása → New Service banner
+Ha **új szolgáltatást adsz hozzá**, a rendszer automatikusan létrehoz és publikál egy **New Service bannert**. Például:
+
+```
+🎉 ÚJ SZOLGÁLTATÁS: Pilátesz órák most indulnak!
+[További információ]
+```
+
+Ez automatikusan kiemeli az új szolgáltatást a látogatóknak.
+
+### Fontos:
+- Ezek a bannerek **automatikusan publikálódnak** (azonnal láthatók)
+- Később **módosíthatod vagy kikapcsolhatod** őket a Beállításokban
+- A rendszer felülírja a meglévő bannereket.
+
+---
+
 ## Hol lehet a bannereket kezelni?
 
 ### Közlemény (Announcement):

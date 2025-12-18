@@ -9,8 +9,8 @@ Minden szolgáltatásnak van egy ütemezése - vagyis hogy mely napokon és mily
 ## Hol lehet beállítani az ütemezést?
 
 1. **Megy a "Beállítások" > "Összes szolgáltatás"-ra**
-2. **Válassz egy szolgáltatást az "Szerkesztés" gombra kattintva**
-3. **A megnyíló oldalon keresd meg az "Ütemezés" szekciót**
+2. **Válassz egy szolgáltatást és kattints rá**
+3. **A jobb panelen keresd meg az "Ütemezés" szekciót**
 
 ---
 
@@ -119,8 +119,8 @@ Vagy jelezzd az adminisztrátor felé, hogy szünet szükséges.
 
 ### Hogyan néz ki az ütemezés az oldalon?
 
-1. **A szolgáltatás részletes oldalán** egy **naptár widget** jelenik meg
-2. Ez mutatja az **összes jövőbeni órát** az adott szolgáltatáshoz
+1. **A szolgáltatás részletes oldalán** és a **főoldalon** egy **naptár widget** jelenik meg
+2. Ez mutatja az **összes órát (mostani hét +/- 4)** az adott szolgáltatáshoz
 3. A naptár **az aktuális héttől számítva** mutatja az órákat
 
 ### Látogató szemszögéből:
@@ -180,7 +180,6 @@ Vagy jelezzd az adminisztrátor felé, hogy szünet szükséges.
 
 ### "Az óra már elmúlt, de még mindig látszik"
 - Ez normális - a naptár az összes ütemezést mutatja
-- Az elmúlt órák "szürke" vagy "zárolva" jelenik meg
 
 ### "Túl sok ütemezés van"
 - Ez normális, ha sok időpontod van

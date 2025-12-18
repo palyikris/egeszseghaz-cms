@@ -1,3 +1,7 @@
+---
+sidebar_position: 0
+---
+
 # 📖 Egészségház CMS - Felhasználói Dokumentáció
 
 Üdvözlünk az **Egészségház CMS** felhasználói útmutatójában! 

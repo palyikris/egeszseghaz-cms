@@ -2,7 +2,7 @@
 
 ## Mit kell tudni?
 
-A "Szolgáltatások" az olyan tevékenységek, amelyeket az Egészségház kínál. Például: vízitness, jóga, masszázs stb. 
+A "Szolgáltatások" az olyan tevékenységek, amelyeket az Egészségház kínál. Például: jóga, masszázs stb. 
 
 Ebben az útmutatóban megtudhatod, hogyan adhatsz hozzá új szolgáltatást, hogyan módosíthatod a meglévőket, és hogyan szerkesztheted az ár- és ütemezési információkat.
 
@@ -23,16 +23,15 @@ Ebben az útmutatóban megtudhatod, hogyan adhatsz hozzá új szolgáltatást, h
 ### Lépések:
 
 1. **Megy a "Beállítások" > "Összes szolgáltatás"-ra** (lásd fent)
-2. **Kattints a "+ Új szolgáltatás" gombra** (zöld gomb felül)
+2. **Kattints a "+ Új szolgáltatás" gombra** (felül)
 3. **Töltsd ki az adatokat:**
-   - **Név:** Pl. "Vízitness" vagy "Jóga"
+   - **Név:** Pl. "Masszázs" vagy "Jóga"
    - **Leírás:** Rövid magyarázat, hogy mi ez a szolgáltatás (2-3 mondat)
    - **Oktató neve:** Ki vezeti az osztályt? (opcionális)
    - **Telefonszám:** Kapcsolattartási szám az információkért
    - **Kép:** Kattints az "Kép kiválasztása"-ra (egy már feltöltött képből válassz)
-   - **Szín:** Válassz egy a három lehetséges szín közül (elsődleges, másodlagos, kiemelés)
 
-4. **Kattints a "Közzététel" gombra** - Kész! Az új szolgáltatás most már látható az oldalon
+4. **Kattints a "Létrehozás" gombra** - Kész! Az új szolgáltatás most már látható az oldalon
 
 ---
 
@@ -41,10 +40,9 @@ Ebben az útmutatóban megtudhatod, hogyan adhatsz hozzá új szolgáltatást, h
 ### Meglévő szolgáltatás módosítása:
 
 1. **Megy a "Beállítások" > "Összes szolgáltatás"-ra**
-2. **Keresd meg a szolgáltatást a listában**
-3. **Kattints az "Szerkesztés" gombra** a szolgáltatás mellett
-4. **Módosítsd a szükséges információkat**
-5. **Kattints a "Közzététel" gombra**
+2. **Keresd meg a szolgáltatást a listában** és kattints rá
+3. **Módosítsd a szükséges információkat**
+4. **Kattints a "Közzététel" gombra**
 
 ### Mit lehet szerkeszteni?
 
@@ -88,7 +86,7 @@ Havonta            | 8000 HUF  | Korlátlan belépés 30 napig
 2. **Kattints az "Szerkesztés" gombra** a szolgáltatás mellett
 3. **A megnyíló oldalon keresd meg a "Képek" szekciót**
 4. **Kattints "+ Kép hozzáadása"**
-5. **Válassz egy feltöltött képet** (vagy előbb fel kell tölteni az "Képek" szekcióban)
+5. **Válassz egy feltöltött képet**
 6. **A kép hozzáadódik a galériához**
 
 ### Tippek:
@@ -111,12 +109,6 @@ Havonta            | 8000 HUF  | Korlátlan belépés 30 napig
    - Előfeltételek (pl. "nem szükséges korábbi tapasztalat")
    - Speciális információ
 
-**Példa:**
-```
-⚠️ Fontos: Hozz vizet az osztályra!
-Kezdőknek tökéletes. Nincs szükség korábbi tapasztalatra.
-```
-
 6. **Kattints a "Mentés" gombra**
 
 ---
@@ -132,8 +124,8 @@ Lásd: [Naptár és ütemezés](./05-naptar-oemezetes.md)
 ### Figyelem! Ez a művelet nem vonható vissza!
 
 1. **Megy a "Beállítások" > "Összes szolgáltatás"-ra**
-2. **Keresd meg a szolgáltatást**
-3. **Kattints a "Törlés" gombra**
+2. **Keresd meg a szolgáltatást** és kattints rá
+3. A jobb oldali panelen tekerj lejjebb és **kattints a "Törlés" gombra**
 4. **Erősítsd meg** - A szolgáltatás véglegesen törlődik
 
 ---
@@ -151,16 +143,11 @@ Lásd: [Naptár és ütemezés](./05-naptar-oemezetes.md)
 ## Problémamegoldás
 
 ### "A szolgáltatásom nem jelenik meg az oldalon"
-- Ellenőrizd, hogy **közzétételre** kattintottál-e
 - Frissítsd az oldalt (F5)
 
 ### "Az ár nem jelenik meg helyesen"
 - Ellenőrizd, hogy **mindkét mezőt kitöltötted** (név + ár)
 - Kattints a "Mentés" gombra
-
-### "A kép nem töltődik be"
-- Az előbb fel kell tölteni az "Képek" szakaszban
-- Akkor választhatsz ki a szolgáltatásnál
 
 ### "Nem tudom szerkeszteni"
 - Ellenőrizd, hogy **bejelentkezve** vagy-e

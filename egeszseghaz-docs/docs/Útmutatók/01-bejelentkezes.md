@@ -15,7 +15,7 @@ Ha szeretnél módosítani az oldal tartalmán, először be kell jelentkezned. 
 3. **Válassz egy Google fiókot** (ugyanaz, mint az email, amit a Gmail-hez használsz)
 4. **Hagyd jóvá** az engedélyeket
 5. Ha az email-ed engedélyezett, **sikeresen bejelentkeztél!**
-6. A gombot lecserélte egy **kék "E" gomb** és az **profilképed**
+6. A gombot lecserélte a **profilképed**.
 
 ### Mi történik, ha nincs jogosultságom?
 
@@ -30,13 +30,13 @@ Ha ezt az üzenetet látod: **"Nincs jogosultságod a belépéshez"**
 
 ### A szerkesztési mód bekapcsolása
 
-Miután bejelentkeztél, a jobb felső sarokban kék **"E" gombot** látsz. Ez az edit gomb.
+Miután bejelentkeztél, az **"E" billentyűvel** tudsz szerkesztő módba lépni.
 
-**Ha megnyomsz rá:**
+**Ha megnyomod:**
 - Az oldal szerkeszthető lesz
 - A felső részen megjelenik egy **szerkesztési eszköztár**
-- A jobb oldalon megjelenik egy **szerkesztési panel**
 - Az oldal szerkeszthető részei **villannak vagy kiemelkednek**
+- Ha rányomsz egy szerkeszthető részre, A jobb oldalon megjelenik egy **szerkesztési panel**.
 
 ---
 
@@ -44,7 +44,7 @@ Miután bejelentkeztél, a jobb felső sarokban kék **"E" gombot** látsz. Ez a
 
 ### Három dolog amit megtehetsz:
 
-1. **Piszkozat mentése** - Az előnézet megy el, de a weboldal nem változik
+1. **Piszkozat mentése** - Az előnézet megy el, de a weboldal nem változik. Ez az oldal újratöltése után törlődik.
 2. **Közzététel** - Az előnézet közzé válik, és az **összes látogató** látja az új verzióját
 3. **Szerkesztési mód kikapcsolása** - Az "E" gomb megnyomásával
 
@@ -56,7 +56,7 @@ Miután bejelentkeztél, a jobb felső sarokban kék **"E" gombot** látsz. Ez a
 
 ## Kijelentkezés
 
-**Kattints a profilképedre** a jobb felső sarokban, és válassz **"Kijelentkezés"**.
+**Kattints a profilképedre** a jobb felső sarokban.
 
 ---
 
@@ -65,8 +65,7 @@ Miután bejelentkeztél, a jobb felső sarokban kék **"E" gombot** látsz. Ez a
 ### "Nincs jogosultságom" hibaüzenet
 - **OK, ezúttal nem tudsz bejelentkezni** – Egy adminisztrátor felveheti az email-ed később
 
-### Nem látom a szerkesztési gombot
-- **Valószínűleg nem vagy bejelentkezve** – Frissítsd az oldalt (F5 vagy Ctrl+R), és próbálkozz újra
+---
 
 ### Kijelentkeztem véletlenül
 - **Kattints a "Bejelentkezés" gombra** – Kezdd előről

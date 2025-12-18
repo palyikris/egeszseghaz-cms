@@ -29,7 +29,6 @@ Az oldalon használt összes képet egy helyen lehet kezelni - feltöltni, elnev
    - Pl. "vízitness-1", "jóga-ok", "létesítmény-főépület"
    - Hasznos a később való kereséshez
 
-5. **Kattints a "Feltöltés" gombra** - Kész!
 
 ### Tippek:
 
@@ -53,8 +52,7 @@ Az oldalon használt összes képet egy helyen lehet kezelni - feltöltni, elnev
 
 1. **Megy a "Beállítások" > "Képek"-re**
 2. **A lista felül lehet, hogy van egy keresőmező** (ha elérhető)
-3. **Írj be szövegrészletet** - Pl. "vízitness" - a képek szűrődnek
-4. **A kép neve mellett van az URL** - ezt is másolhatod, ha kell
+3. **Írj be szövegrészletet** - Pl. "fitness" - a képek szűrődnek
 
 ---
 
@@ -76,7 +74,7 @@ Az oldalon használt összes képet egy helyen lehet kezelni - feltöltni, elnev
 1. **Megy a "Beállítások" > "Képek"-re**
 2. **Keresd meg a képet a listában**
 3. **Kattints a "Törlés" gombra** a kép mellett
-4. **Erősítsd meg** - A képet törlődik
+4. A kép törlődik
 
 ⚠️ **Figyelem:** Ha a képet valahol az oldalon használod, az nem jelenik meg többé!
 
@@ -115,7 +113,6 @@ Az oldal több helyen használ képeket:
 2. **Főoldal - Rólunk szekció:** Az "Rólunk" oldal képe
 3. **Szolgáltatások:** Mindegyik szolgáltatás indexképe
 4. **Szolgáltatás részletek:** A szolgáltatás képe és galéria
-5. **Értékelések:** Az ügyfelek fotói
 
 ---
 
@@ -138,7 +135,7 @@ Az oldal több helyen használ képeket:
 ### "Nem tudom törölni a képet"
 - Lehet, hogy **még használatban** van az oldalon valahol
 - Előbb módosítsd az adott szekciót más képre
-- Dann töröld a képet
+- Utána töröld a képet
 
 ### "A képek listája túl hosszú"
 - Ez normális, ha sok képed van

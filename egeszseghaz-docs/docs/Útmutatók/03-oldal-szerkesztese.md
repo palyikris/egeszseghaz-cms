@@ -10,16 +10,15 @@ Az oldalad főoldala több részből áll, mindegyik szerkeszthető. Ez az útmu
 
 ### Lépések:
 
-1. **Felül a jobb sarokban kattints az "E" gombra** (az edit gombra, kék szín)
-2. **Az oldal szerkeszthető módba vált**
-3. **Látni fogsz egy szerkesztési eszköztárat** felül és egy panelt jobbra
-4. **Mostmár kattinthatod az oldal részeit** a módosításhoz
+1. **Válts szerkesztő módba (E gomb)**
+2. **Látni fogsz egy szerkesztési eszköztárat** felül és egy panelt jobbra
+3. **Mostmár kattinthatod az oldal részeit** a módosításhoz
 
 ### Módosítások mentése:
 
-- **Piszkozat mentése** - Nem módosul az oldal, csak a saját verziódat mentetted el
+- **Piszkozat mentése** - Nem módosul az oldal, csak a saját verziódat mentetted el (szerkesztés után automatikus, elveszik az oldal újratöltése után)
 - **Közzététel** - Az összes látogató az új verzióját látja az oldalnak ⚠️
-- **Szerkesztés módból kilépés** - Az "E" gombra kattintva
+- **Szerkesztés módból kilépés** - Az "Esc" gomb vagy felül "Kilépés"
 
 ---
 
@@ -48,6 +47,7 @@ Az első nagy szekció az oldalon, nagy képpel és szöveggel.
 - **Kis szöveg:** A leírás alatta
 - **Kép:** Az oldal háttérképe
 - **Gombok:** A "Szolgáltatásainkat megtekinteni" típusú gombok
+- **Kapcsolat** A kapcsolat szekció tartalma és ikonjai.
 
 **Hogyan?**
 1. Kattints a "Főcím szekció"-ra
@@ -95,8 +95,7 @@ Az oldal középrészén van. Itt mesélhetsz az Egészségházról.
 Az oldal közepén található. Itt jelenik meg az összes szolgáltatás.
 
 **Mit lehet módosítani?**
-- **Cím:** Pl. "Szolgáltatásaink"
-- **Szín:** A szekció háttérszíne
+- **Semmit**
 
 **Megjegyzés:** Az egyes szolgáltatásokat a [Szolgáltatások kezelése](./02-szolgaltatasok-kezelese.md) útmutatóban szerkeszted!
 
@@ -107,7 +106,7 @@ Az oldal alján van. Ügyfélértékelések/visszajelzések.
 
 **Mit lehet módosítani?**
 - **Értékelések hozzáadása/módosítása**
-- **Ügyfél neve és fotója**
+- **Ügyfél neve**
 - **Értékelés szövege**
 - **Értékelés csillagjai** (1-5)
 
@@ -116,7 +115,6 @@ Az oldal alján van. Ügyfélértékelések/visszajelzések.
 2. Kattints "+ Új értékelés"
 3. Töltsd ki:
    - Név (ki ezt írta?)
-   - Fotó (mi a képe?)
    - Szöveg (mit írt?)
    - Csillagok (hány csillag?)
 4. Kattints "Mentés"-re
@@ -148,7 +146,6 @@ Az oldal legvége. Itt a kapcsolattartási adatok és menü linkjei.
 ### Szín választása:
 1. Kattints a szín gombra
 2. Válassz egy az elérhető színek közül
-3. Vagy írd be a saját szín kódot (ha tudod, pl. #FF5733)
 
 ### Kép kiválasztása:
 1. Kattints a "Kép kiválasztása" gombra
@@ -187,7 +184,7 @@ Az oldal legvége. Itt a kapcsolattartási adatok és menü linkjei.
 
 ### "Az oldal nem változott, miután közzétettem"
 - **Frissítsd az oldalt** (F5) a böngészőben
-- Ellenőrizd, hogy a **"Közzététel"** gombra kattintottál-e (nem csak "Piszkozat mentése")
+- Ellenőrizd, hogy a **"Közzététel"** gombra kattintottál-e (nem csak "magadnál")
 
 ### "Az új szövegem nem jelenik meg"
 - Győződj meg, hogy **"Közzététel"** gombra kattintottál

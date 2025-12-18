@@ -2,7 +2,7 @@
 
 ## Mit kell tudni?
 
-Az oldal kinézete az alkalmazott szín sémától függ. Ezt könnyedén megváltoztathatod a "Palettamenedzserből" - több szín séma közül választhatsz, vagy saját sémát készíthetsz.
+Az oldal kinézete az alkalmazott szín sémától függ. Ezt könnyedén megváltoztathatod a "Palettamenedzserből" - több szín séma közül választhatsz.
 
 ---
 
