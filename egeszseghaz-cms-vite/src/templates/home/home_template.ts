@@ -47,12 +47,12 @@ export const DefaultHomeTemplate: HomeSchema = {
       variant: "ghost",
     },
     contacts: {
-      phone: { number: "06 30 573 2212" },
+      phone: { number: "06 30 573 2212", icon: "phone" },
       social: {
         link: "https://www.facebook.com/egeszseghazfitness/?_rdr",
         text: "Facebook oldalunk",
       },
-      name: { text: "Kerekesné Tollár Anikó" },
+      name: { text: "Kerekesné Tollár Anikó", icon: "userCheck" },
     },
   },
   about: {
@@ -89,16 +89,19 @@ export const DefaultHomeTemplate: HomeSchema = {
         text: "Masszázs és terápiák",
         iconColor: "primary-dark",
         iconBgColor: "primary-light/20",
+        icon: "handHeart",
       },
       {
         text: "Képzett szakemberek",
         iconColor: "primary-dark",
         iconBgColor: "primary-light/20",
+        icon: "users",
       },
       {
         text: "Modern felszereltség",
         iconColor: "primary-dark",
         iconBgColor: "primary-light/20",
+        icon: "dumbbell",
       },
     ],
     primaryButton: {

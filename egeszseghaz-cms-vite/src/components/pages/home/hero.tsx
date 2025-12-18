@@ -9,6 +9,7 @@ import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";
 import { HeroSchema } from "@/templates/home/home_schema";
 import { useEditMode } from "@/context/edit/edit";
+import { ICON_MAP } from "@/utils/icons";
 
 interface HeroSectionProps {
   hero: HeroSchema | undefined;
@@ -138,19 +139,19 @@ export default function HeroSection({ hero }: HeroSectionProps) {
         <div className="w-full md:w-2/3 sm:w-5/6 bg-background-light rounded-lg p-1">
           <div className="flex items-center justify-between gap-4 bg-primary w-full rounded-sm">
             <div className="w-full md:w-1/3 flex items-center justify-center gap-4 p-4 text-background-light">
-              <svg
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
-                <path
-                  clipRule="evenodd"
-                  d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v.375c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V3h1.125c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 0 1 7.5 19.875V4.125Z"
-                  fillRule="evenodd"
-                />
-              </svg>
+              {(() => {
+                const IconComponent = isEditMode
+                  ? ICON_MAP[
+                      draft.hero?.contacts?.phone?.icon as keyof typeof ICON_MAP
+                    ]
+                  : ICON_MAP[
+                      hero.contacts?.phone?.icon as keyof typeof ICON_MAP
+                    ];
+
+                return IconComponent ? (
+                  <IconComponent className="size-5" />
+                ) : null;
+              })()}
 
               <span id="contact">
                 {isEditMode
@@ -181,18 +182,19 @@ export default function HeroSection({ hero }: HeroSectionProps) {
               </Link>
             </div>
             <div className="w-full md:w-1/3 items-center justify-center gap-4 p-4 text-background-light hidden sm:flex">
-              <svg
-                className="w-6 h-6"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  clipRule="evenodd"
-                  d="M7.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3.751 20.105a8.25 8.25 0 0 1 16.498 0 .75.75 0 0 1-.437.695A18.683 18.683 0 0 1 12 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 0 1-.437-.695Z"
-                  fillRule="evenodd"
-                />
-              </svg>
+              {(() => {
+                const IconComponent = isEditMode
+                  ? ICON_MAP[
+                      draft.hero?.contacts?.name?.icon as keyof typeof ICON_MAP
+                    ]
+                  : ICON_MAP[
+                      hero.contacts?.name?.icon as keyof typeof ICON_MAP
+                    ];
+
+                return IconComponent ? (
+                  <IconComponent className="size-5" />
+                ) : null;
+              })()}
 
               <span>
                 {hero.contacts?.name?.text || "Kerekesné Tollár Anikó"}

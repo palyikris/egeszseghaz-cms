@@ -4,46 +4,57 @@ import { Textarea } from "@heroui/input";
 import { Select, SelectItem } from "@heroui/select";
 
 import { useEditMode } from "@/context/edit/edit";
-import { AboutSchema } from "@/templates/home/home_schema";
+import { AboutFeature, AboutSchema } from "@/templates/home/home_schema";
 import { colorMap } from "@/types/edit";
 import { Button } from "@heroui/button";
 import { useImages } from "@/hooks/settings/useImages";
 import CustomLoader from "@/components/loader";
+import { ICON_MAP, ICON_LABELS_HU } from "@/utils/icons";
 
 export function AboutEditor() {
   const { draft, updateDraft } = useEditMode();
   const about: AboutSchema = draft.about || {};
 
-    const { data: images, isLoading: imagesLoading } = useImages();
-  
+  const { data: images, isLoading: imagesLoading } = useImages();
 
   const handleChange = (path: string, value: any) =>
     updateDraft(`about.${path}`, value);
 
   const addFeature = () => {
-    const next = [...(about.features || []), { text: "Új szolgáltatás", iconColor: "primary-dark", iconBgColor: "primary-light/20" }];
+    const next = [
+      ...(about.features || []),
+      {
+        text: "Új szolgáltatás",
+        iconColor: "primary-dark",
+        iconBgColor: "primary-light/20",
+        icon: "star",
+      },
+    ];
+
     handleChange("features", next);
   };
 
   const updateFeature = (idx: number, key: string, value: any) => {
     const next = [...(about.features || [])];
+
     next[idx] = { ...(next[idx] || {}), [key]: value };
     handleChange("features", next);
   };
 
   const removeFeature = (idx: number) => {
     const next = [...(about.features || [])];
+
     next.splice(idx, 1);
     handleChange("features", next);
   };
 
   if (imagesLoading) {
-      return (
-        <div className="p-4 space-y-4 text-sm relative">
-          <CustomLoader />
-        </div>
-      );
-    }
+    return (
+      <div className="p-4 space-y-4 text-sm relative">
+        <CustomLoader />
+      </div>
+    );
+  }
 
   return (
     <div className="p-4 space-y-4 text-sm relative">
@@ -140,7 +151,7 @@ export function AboutEditor() {
       <div>
         <h4 className="font-semibold">Jellemzők</h4>
         <div className="space-y-2 mt-2">
-          {(about.features || []).map((f: any, idx: number) => (
+          {(about.features || []).map((f: AboutFeature, idx: number) => (
             <div key={idx} className="p-2 border rounded-md">
               <Input
                 type="text"
@@ -148,7 +159,7 @@ export function AboutEditor() {
                 onChange={(e) => updateFeature(idx, "text", e.target.value)}
                 label={`Szolgáltatás ${idx + 1}`}
               />
-              <div className="grid grid-cols-2 gap-2 mt-2">
+              <div className="grid grid-cols-2 gap-2 my-2">
                 <Select
                   selectedKeys={[f.iconColor]}
                   endContent={
@@ -180,6 +191,42 @@ export function AboutEditor() {
                   ))}
                 </Select>
               </div>
+              <Select
+                selectedKeys={[f.icon]}
+                onSelectionChange={(e) => {
+                  updateFeature(idx, "icon", e.currentKey);
+                }}
+                endContent={
+                  <span className="px-2 py-1">
+                    {ICON_MAP[f.icon as keyof typeof ICON_MAP] &&
+                      (() => {
+                        const IconComponent =
+                          ICON_MAP[f.icon as keyof typeof ICON_MAP];
+                        return IconComponent ? (
+                          <IconComponent className="size-5" />
+                        ) : null;
+                      })()}
+                  </span>
+                }
+              >
+                {Object.keys(ICON_MAP).map((iconKey) => (
+                  <SelectItem
+                    key={iconKey}
+                    className="flex justify-start gap-4"
+                  >
+                    {ICON_LABELS_HU[iconKey as keyof typeof ICON_MAP]}
+                    {ICON_MAP[iconKey as keyof typeof ICON_MAP] &&
+                      (() => {
+                        const IconComponent =
+                          ICON_MAP[iconKey as keyof typeof ICON_MAP];
+
+                        return IconComponent ? (
+                          <IconComponent className="size-5 inline-block ml-2" />
+                        ) : null;
+                      })()}
+                  </SelectItem>
+                ))}
+              </Select>
               <div className="flex justify-end mt-2">
                 <Button
                   className="text-sm text-error w-full flex justify-center"

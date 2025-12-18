@@ -28,12 +28,18 @@ export interface HeroSchema {
     variant: string;
   };
   contacts: {
-    phone: { number: string };
+    phone: { number: string; icon: string };
     social: { link: string; text: string };
-    name: { text: string };
+    name: { text: string; icon: string };
   };
 }
 
+export type AboutFeature = {
+  text: string;
+  iconColor: string;
+  iconBgColor: string;
+  icon: string;
+};
 export interface AboutSchema {
   aboutImg: {
     url: string;
@@ -53,11 +59,7 @@ export interface AboutSchema {
   };
   heading: { textFirst: string; textSecond: string; color: string };
   description: { text: string; color: string };
-  features: {
-    text: string;
-    iconColor: string;
-    iconBgColor: string;
-  }[];
+  features: AboutFeature[];
   primaryButton: {
     isDisplayed: boolean;
     label: string;

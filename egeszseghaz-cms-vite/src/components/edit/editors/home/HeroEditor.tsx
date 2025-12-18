@@ -9,6 +9,7 @@ import { Select, SelectItem } from "@heroui/select";
 import { colorMap } from "@/types/edit";
 import { useImages } from "@/hooks/settings/useImages";
 import CustomLoader from "@/components/loader";
+import { ICON_LABELS_HU, ICON_MAP } from "@/utils/icons";
 
 export function HeroEditor() {
   const { draft, updateDraft } = useEditMode();
@@ -316,9 +317,32 @@ export function HeroEditor() {
             }
             label="Telefonszám"
           />
+          <Select
+            selectedKeys={[hero.contacts?.phone?.icon]}
+            label="Telefon ikon"
+            onSelectionChange={(e) => {
+              handleChange("contacts.phone.icon", e.currentKey);
+            }}
+            className="mt-2"
+          >
+            {Object.keys(ICON_MAP).map((iconKey) => (
+              <SelectItem key={iconKey} className="flex justify-start gap-4">
+                {ICON_LABELS_HU[iconKey as keyof typeof ICON_MAP]}
+                {ICON_MAP[iconKey as keyof typeof ICON_MAP] &&
+                  (() => {
+                    const IconComponent =
+                      ICON_MAP[iconKey as keyof typeof ICON_MAP];
+
+                    return IconComponent ? (
+                      <IconComponent className="size-5 inline-block ml-2" />
+                    ) : null;
+                  })()}
+              </SelectItem>
+            ))}
+          </Select>
         </div>
 
-        <div className="my-2">
+        <div className="my-8">
           <Input
             type="text"
             value={hero.contacts?.social?.link ?? ""}
@@ -347,6 +371,29 @@ export function HeroEditor() {
             onChange={(e) => handleChange("contacts.name.text", e.target.value)}
             label="Név"
           />
+          <Select
+            selectedKeys={[hero.contacts?.name?.icon]}
+            label="Név ikon"
+            onSelectionChange={(e) => {
+              handleChange("contacts.name.icon", e.currentKey);
+            }}
+            className="mt-2"
+          >
+            {Object.keys(ICON_MAP).map((iconKey) => (
+              <SelectItem key={iconKey} className="flex justify-start gap-4">
+                {ICON_LABELS_HU[iconKey as keyof typeof ICON_MAP]}
+                {ICON_MAP[iconKey as keyof typeof ICON_MAP] &&
+                  (() => {
+                    const IconComponent =
+                      ICON_MAP[iconKey as keyof typeof ICON_MAP];
+
+                    return IconComponent ? (
+                      <IconComponent className="size-5 inline-block ml-2" />
+                    ) : null;
+                  })()}
+              </SelectItem>
+            ))}
+          </Select>
         </div>
       </div>
     </div>
