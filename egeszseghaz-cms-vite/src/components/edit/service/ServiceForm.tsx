@@ -6,6 +6,7 @@ import { Button } from "@heroui/button";
 import CustomLoader from "@/components/loader";
 import type { Service } from "@/types/services";
 import { ImageInfo } from "@/lib/settings/media";
+import ColorPicker from "@/components/color-picker";
 
 type Props = {
   service: Service | null;
@@ -17,7 +18,15 @@ type Props = {
   onDelete: () => void;
 };
 
-export default function ServiceForm({ service, images, publishing, deleting, onChange, onPublish, onDelete }: Props) {
+export default function ServiceForm({
+  service,
+  images,
+  publishing,
+  deleting,
+  onChange,
+  onPublish,
+  onDelete,
+}: Props) {
   if (!service) return <div>Válassz egy szolgáltatást szerkesztésre</div>;
 
   if (publishing || deleting) {
@@ -89,6 +98,20 @@ export default function ServiceForm({ service, images, publishing, deleting, onC
           value={service.desc ?? ""}
           onChange={(e: any) => onChange({ ...service, desc: e.target.value })}
           label="Szolgáltatás leírása"
+        />
+      </div>
+
+      <div>
+        <ColorPicker
+          label="Szín a naptáron"
+          value={service.color ?? ""}
+          onChange={(e) => {
+            console.log(e);
+            onChange({
+              ...service,
+              color: e,
+            });
+          }}
         />
       </div>
 

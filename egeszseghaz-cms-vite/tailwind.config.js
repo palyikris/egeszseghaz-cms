@@ -18,7 +18,9 @@ export default {
         background: { light: '#F8F5F1', dark: '#1C1C1C' },
         text: { primary: '#2E2E2E', secondary: '#5C5C5C' },
         border: '#E2DAD1',
-        error: '#D35D5D',
+        error: {
+          DEFAULT: '#D35D5D'
+        },
         success: '#4BA674',
       },
       borderRadius: { xl: '1rem', '2xl': '1.25rem' },

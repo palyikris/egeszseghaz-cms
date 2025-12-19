@@ -35,7 +35,7 @@ export function mapOccurrencesToEvents(
 
     const slotIdx = hashToIndex(o.serviceId, slots.length);
 
-    const base = slots[slotIdx];
+    const base = service?.color ? service.color : slots[slotIdx];
 
     return {
       id: o.occurrenceId,

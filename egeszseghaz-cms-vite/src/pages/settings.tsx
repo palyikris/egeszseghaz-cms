@@ -3,7 +3,6 @@ import { Announcement } from "@/components/banners/announcement";
 import { NewServiceSection } from "@/components/banners/new_service";
 import AnnouncementEditor from "@/components/edit/editors/settings/AnnouncementEditor";
 import NewServiceEditor from "@/components/edit/editors/settings/NewServiceEditor";
-import ServicesEditor from "@/components/edit/editors/settings/ServicesEditor";
 import ImagesEditor from "@/components/edit/editors/settings/ImagesEditor";
 import { useAnnouncementEdit } from "@/context/edit/announcement";
 import { useNewServiceEdit } from "@/context/edit/newService";
@@ -14,6 +13,7 @@ import { NewServiceSchema } from "@/templates/new_service/new_service_schema";
 import { useLocation } from "react-router-dom";
 import PrebuiltPalettes from "@/components/edit/editors/settings/PrebuildPalettes";
 import SettingsGrid from "@/components/pages/settings/SettingsGrid";
+import ServicesEditor from "@/components/edit/editors/service/ServicesEditor";
 
 export default function SettingsPage() {
   const { hash } = useLocation();

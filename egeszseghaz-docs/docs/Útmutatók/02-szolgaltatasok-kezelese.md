@@ -51,6 +51,7 @@ Ebben az útmutatóban megtudhatod, hogyan adhatsz hozzá új szolgáltatást, h
 - Oktató neve
 - Telefonszám
 - Kép
+- Szín (a naptárokon való megjelenéshez)
 
 ---
 

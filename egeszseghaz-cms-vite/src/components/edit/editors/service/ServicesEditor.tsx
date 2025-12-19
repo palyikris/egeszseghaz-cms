@@ -25,8 +25,8 @@ import { useUpdateService } from "@/hooks/service/useUpdateService";
 import { ScheduleEditorModel } from "@/types/schedule_editor";
 import dayjs from "dayjs";
 import { mapEditorToSchedule } from "@/lib/settings/map_editor_to_schedule";
-import { ScheduleEditorModal } from "./ScheduleModal";
 import { mapScheduleToEditor } from "@/lib/settings/map_schedule_to_editor";
+import { ScheduleEditorModal } from "../settings/ScheduleModal";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -186,6 +186,7 @@ export default function ServicesEditor(): JSX.Element {
       img: selected.img,
       name: selected.name,
       phone: selected.phone,
+      color: selected.color,
     };
 
     try {

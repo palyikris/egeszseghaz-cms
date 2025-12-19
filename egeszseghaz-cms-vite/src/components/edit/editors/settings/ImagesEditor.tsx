@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import React, { useRef } from "react";
+import React, { useRef, useState, useMemo } from "react";
 import { Trash2, Upload } from "lucide-react";
 import { Button } from "@heroui/button";
 
@@ -7,6 +7,7 @@ import CustomLoader from "@/components/loader";
 import { useImages } from "@/hooks/settings/useImages";
 import { useUploadImage } from "@/hooks/settings/useUploadImage";
 import { useDeleteImage } from "@/hooks/settings/useDeleteImage";
+import ServiceSearch from "@/components/edit/service/ServiceSearch";
 
 export default function ImagesEditor() {
   const { data: images, isLoading } = useImages();
@@ -14,6 +15,16 @@ export default function ImagesEditor() {
   const remove = useDeleteImage();
 
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const filteredImages = useMemo(() => {
+    if (!images) return [];
+    if (!searchQuery.trim()) return images;
+
+    const query = searchQuery.toLowerCase();
+
+    return images.filter((img: any) => img.name?.toLowerCase().includes(query));
+  }, [images, searchQuery]);
 
   const chooseFile = () => inputRef.current?.click();
 
@@ -36,9 +47,10 @@ export default function ImagesEditor() {
   };
 
   return (
-    <div className="w-full mx-auto max-w-7xl">
+    <div className="w-full mx-auto max-w-7xl flex flex-col justify-start pt-50">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold">Képek</h2>
+        <ServiceSearch value={searchQuery} onChange={setSearchQuery} />
       </div>
 
       {isLoading && (
@@ -48,7 +60,7 @@ export default function ImagesEditor() {
       )}
 
       {!isLoading && images && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-h-screen overflow-y-auto pb-8 my-12 px-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 max-h-screen overflow-y-auto pb-8 my-12 px-2 mt-4">
           {/* --- UPLOAD CARD --- */}
           <button
             className="
@@ -78,7 +90,7 @@ export default function ImagesEditor() {
           </button>
 
           {/* --- EXISTING IMAGES --- */}
-          {images.map((img: any) => (
+          {filteredImages.map((img: any) => (
             <div
               key={img.name}
               className="

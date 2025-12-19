@@ -22,6 +22,7 @@ export interface Service {
   schedules?: ServiceSchedule[];
   colorSlot?: "primary" | "secondary" | "accent";
   colorIndex?: number;
+  color?: string;
 }
 
 export type ScheduleFrequency = "weekly";
