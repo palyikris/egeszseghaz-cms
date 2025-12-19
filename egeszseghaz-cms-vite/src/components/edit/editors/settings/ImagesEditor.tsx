@@ -8,6 +8,7 @@ import { useImages } from "@/hooks/settings/useImages";
 import { useUploadImage } from "@/hooks/settings/useUploadImage";
 import { useDeleteImage } from "@/hooks/settings/useDeleteImage";
 import ServiceSearch from "@/components/edit/service/ServiceSearch";
+import { DeleteImageModal } from "./DeleteImageModal";
 
 export default function ImagesEditor() {
   const { data: images, isLoading } = useImages();
@@ -16,6 +17,10 @@ export default function ImagesEditor() {
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [pendingDelete, setPendingDelete] = useState<{
+    name: string;
+    url: string;
+  } | null>(null);
 
   const filteredImages = useMemo(() => {
     if (!images) return [];
@@ -41,13 +46,27 @@ export default function ImagesEditor() {
   const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     handleFiles(e.target.files);
 
-  const handleDelete = async (name: string) => {
-    if (!confirm("Biztosan törlöd ezt a képet?")) return;
-    await remove.mutateAsync({ name });
+  const handleDelete = (name: string, url: string) => {
+    setPendingDelete({ name, url });
+  };
+
+  const confirmDelete = async () => {
+    if (!pendingDelete) return;
+    await remove.mutateAsync({ name: pendingDelete.name });
+    setPendingDelete(null);
   };
 
   return (
     <div className="w-full mx-auto max-w-7xl flex flex-col justify-start pt-50">
+      <DeleteImageModal
+        open={!!pendingDelete}
+        imageName={pendingDelete?.name ?? null}
+        imageUrl={pendingDelete?.url ?? null}
+        onCancel={() => setPendingDelete(null)}
+        onConfirm={confirmDelete}
+        isLoading={remove.isPending}
+      />
+
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold">Képek</h2>
         <ServiceSearch value={searchQuery} onChange={setSearchQuery} />
@@ -120,7 +139,7 @@ export default function ImagesEditor() {
                     color="danger"
                     variant="solid"
                     className="h-10 w-10 rounded-md p-0 backdrop-blur-md"
-                    onPress={() => handleDelete(img.name)}
+                    onPress={() => handleDelete(img.name, img.url)}
                   >
                     <Trash2 className="size-4 text-white" />
                   </Button>
