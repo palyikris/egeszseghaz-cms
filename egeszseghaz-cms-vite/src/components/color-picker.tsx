@@ -3,14 +3,12 @@ import { Button } from "@heroui/button";
 import { useId } from "react";
 
 type ColorPickerProps = {
-  label: string;
   value: string;
   onChange: (color: string) => void;
   disabled?: boolean;
 };
 
 export default function ColorPicker({
-  label,
   value,
   onChange,
   disabled = false,
@@ -19,11 +17,6 @@ export default function ColorPicker({
 
   return (
     <div className="flex flex-col gap-2">
-      {/* Label */}
-      <label htmlFor={id} className="text-sm font-medium text-foreground-muted">
-        {label}
-      </label>
-
       {/* Control */}
       <div
         className={[

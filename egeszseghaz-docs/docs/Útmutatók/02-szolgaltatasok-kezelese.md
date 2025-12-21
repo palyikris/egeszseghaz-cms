@@ -29,7 +29,7 @@ Ebben az útmutatóban megtudhatod, hogyan adhatsz hozzá új szolgáltatást, h
    - **Leírás:** Rövid magyarázat, hogy mi ez a szolgáltatás (2-3 mondat)
    - **Oktató neve:** Ki vezeti az osztályt? (opcionális)
    - **Telefonszám:** Kapcsolattartási szám az információkért
-   - **Kép:** Kattints az "Kép kiválasztása"-ra (egy már feltöltött képből válassz)
+   - **Kép:** Kattints az "Kép kiválasztása"-ra
 
 4. **Kattints a "Létrehozás" gombra** - Kész! Az új szolgáltatás most már látható az oldalon
 

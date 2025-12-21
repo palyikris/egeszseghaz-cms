@@ -16,9 +16,6 @@ import CreateServiceModal from "@/components/edit/CreateServiceModal";
 import ServiceList from "@/components/edit/service/ServiceList";
 import ServiceForm from "@/components/edit/service/ServiceForm";
 import ServiceSearch from "@/components/edit/service/ServiceSearch";
-import { useDeleteOccurrence } from "@/hooks/settings/useDeleteOccurance";
-import { CalendarEvent } from "@/types/calendar";
-import { DeleteOccurrenceConfirm } from "../../schedule/DeleteOccuranceConfirm";
 import { ScheduleList } from "../../schedule/ScheduleList";
 import { DeleteScheduleConfirm } from "../../schedule/DeleteScheduleConfirm";
 import { useUpdateService } from "@/hooks/service/useUpdateService";
@@ -27,6 +24,8 @@ import dayjs from "dayjs";
 import { mapEditorToSchedule } from "@/lib/settings/map_editor_to_schedule";
 import { mapScheduleToEditor } from "@/lib/settings/map_schedule_to_editor";
 import { ScheduleEditorModal } from "../settings/ScheduleModal";
+import AddScheduleExceptionModal from "../../schedule/AddExceptionModal";
+import { ExceptionList } from "../../schedule/ExceptionList";
 
 export default function ServicesEditor(): JSX.Element {
   const { data: services, isLoading } = useServices();
@@ -43,13 +42,10 @@ export default function ServicesEditor(): JSX.Element {
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const deleteOccurrence = useDeleteOccurrence();
-  const [pendingDelete, setPendingDelete] = useState<CalendarEvent | null>(
-    null
-  );
-
   const [createOpen, setCreateOpen] = useState(false);
   const [draft, setDraft] = useState<ScheduleEditorModel | null>(null);
+
+  const [exceptionModalOpen, setExceptionModalOpen] = useState(false);
 
   const [scheduleToDelete, setScheduleToDelete] =
     useState<ServiceSchedule | null>(null);
@@ -133,14 +129,6 @@ export default function ServicesEditor(): JSX.Element {
     );
   }
 
-  // function onDeleteEvent(event: CalendarEvent) {
-  //   deleteOccurrence.mutate({
-  //     serviceId: event.serviceId,
-  //     scheduleId: event.scheduleId,
-  //     occurrenceId: event.id,
-  //   });
-  // }
-
   function confirmDeleteSchedule() {
     if (!scheduleToDelete || !selected) return;
 
@@ -159,21 +147,6 @@ export default function ServicesEditor(): JSX.Element {
           await queryClient.invalidateQueries({ queryKey: ["services"] });
           setScheduleToDelete(null);
         },
-      }
-    );
-  }
-
-  function confirmDelete() {
-    if (!pendingDelete) return;
-
-    deleteOccurrence.mutate(
-      {
-        serviceId: pendingDelete.serviceId,
-        scheduleId: pendingDelete.scheduleId,
-        occurrenceId: pendingDelete.id,
-      },
-      {
-        onSuccess: () => setPendingDelete(null),
       }
     );
   }
@@ -266,19 +239,31 @@ export default function ServicesEditor(): JSX.Element {
         />
       )}
 
+      {selected && (
+        <AddScheduleExceptionModal
+          open={exceptionModalOpen}
+          service={selected}
+          isSaving={updateService.isPending}
+          onClose={() => setExceptionModalOpen(false)}
+          onSave={(updatedSchedules) => {
+            if (!selected) return;
+
+            updateService.mutate({
+              id: selected.id,
+              data: { ...selected, schedules: updatedSchedules },
+            });
+
+            setExceptionModalOpen(false);
+          }}
+        />
+      )}
+
       <DeleteScheduleConfirm
         open={!!scheduleToDelete}
         schedule={scheduleToDelete}
         onCancel={() => setScheduleToDelete(null)}
         onConfirm={confirmDeleteSchedule}
         isLoading={updateService.isPending}
-      />
-
-      <DeleteOccurrenceConfirm
-        open={!!pendingDelete}
-        onCancel={() => setPendingDelete(null)}
-        onConfirm={confirmDelete}
-        isLoading={deleteOccurrence.isPending}
       />
 
       <CreateServiceModal
@@ -338,14 +323,47 @@ export default function ServicesEditor(): JSX.Element {
 
           {selected && (
             <>
+              <hr />
               <Button onPress={startCreate} color="primary">
-                Új időpont hozzáadása
+                Új ütemterv hozzáadása
               </Button>
 
               <ScheduleList
                 schedules={selected?.schedules ?? []}
                 onEdit={startEdit}
                 onDelete={setScheduleToDelete}
+              />
+
+              <hr />
+
+              <Button
+                color="danger"
+                onPress={() => setExceptionModalOpen(true)}
+              >
+                Időpont törlése
+              </Button>
+
+              <ExceptionList
+                schedules={selected.schedules ?? []}
+                onDelete={(scheduleId, exception) => {
+                  if (!selected) return;
+
+                  const schedules = selected.schedules?.map((s) => {
+                    if (s.id !== scheduleId) return s;
+
+                    return {
+                      ...s,
+                      exceptions: (s.exceptions ?? []).filter(
+                        (e) => e.occurrenceId !== exception.occurrenceId
+                      ),
+                    };
+                  });
+
+                  updateService.mutate({
+                    id: selected.id,
+                    data: { ...selected, schedules },
+                  });
+                }}
               />
             </>
           )}

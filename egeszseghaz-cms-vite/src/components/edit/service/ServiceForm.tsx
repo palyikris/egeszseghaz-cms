@@ -103,7 +103,6 @@ export default function ServiceForm({
 
       <div>
         <ColorPicker
-          label="Szín a naptáron"
           value={service.color ?? ""}
           onChange={(e) => {
             console.log(e);
@@ -119,9 +118,8 @@ export default function ServiceForm({
         <Button className="w-full" color="primary" onPress={onPublish}>
           Közzététel
         </Button>
-        <hr className="my-4" />
         <Button
-          className="w-full"
+          className="w-full mt-4"
           color="danger"
           onPress={onDelete}
           variant="ghost"

@@ -30,6 +30,8 @@ export type ScheduleFrequency = "weekly";
 export type ScheduleException = {
   occurrenceId: string; // ISO datetime of the skipped occurrence
   type: "cancelled";
+  reason?: string;
+  createdAt?: string;
 };
 
 export type ServiceSchedule = {
@@ -52,3 +54,4 @@ export type ServiceOccurrence = {
   start: string; // ISO datetime
   end: string; // ISO datetime
 };
+
