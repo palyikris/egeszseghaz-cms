@@ -90,7 +90,7 @@ export default function WeeklyServicesCalendar({
   return (
     <div className="w-full space-y-4 overflow-x-auto">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between min-w-[800px]">
         <Button
           onPress={goPrevWeek}
           disabled={!canGoPrev}
