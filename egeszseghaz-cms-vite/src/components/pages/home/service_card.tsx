@@ -2,22 +2,26 @@
 import { Card, CardBody, CardFooter } from "@heroui/card";
 import { Button } from "@heroui/button";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Service } from "@/types/services";
 import { BlurFade } from "@/components/ui/blur-fade";
 import { resolveColor, cn } from "@/lib/utils";
 import { useNavigate } from "react-router-dom";
+import dayjs from "dayjs";
+import { getNextOccurrence } from "@/lib/calendar/get_next_occurance";
 
 export default function ServiceCard({
   service,
   i,
   cardTemplate,
   onPress,
+  showNextOccurrence,
 }: {
   service: Service;
   i: number;
   cardTemplate: any;
   onPress?: () => void;
+  showNextOccurrence?: boolean;
 }) {
   const navigate = useNavigate();
 
@@ -26,6 +30,9 @@ export default function ServiceCard({
   const headingHoverResolved = resolveColor(
     cardTemplate?.heading?.hoverColor,
     "text"
+  );
+  const [nextOccurrence, setNextOccurrence] = useState<dayjs.Dayjs | null>(
+    null
   );
 
   const hoverOverlayBgResolved = resolveColor(
@@ -39,6 +46,20 @@ export default function ServiceCard({
   );
 
   const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (showNextOccurrence) {
+      getNextOccurrence(service).then((occurrence) => {
+        console.log(
+          "Next occurrence for service",
+          service.id,
+          "is",
+          occurrence
+        );
+        setNextOccurrence(occurrence);
+      });
+    }
+  }, [service, showNextOccurrence]);
 
   return (
     <BlurFade inView delay={0.2} key={i}>
@@ -127,7 +148,7 @@ export default function ServiceCard({
           </CardBody>
 
           {/* Footer */}
-          <CardFooter className="px-5 pb-5 flex justify-between items-center">
+          <CardFooter className="px-5 pb-5 flex justify-center items-start flex-col-reverse gap-2">
             <Button
               variant={cardTemplate.button.variant as any}
               color={cardTemplate.button.color as any}
@@ -146,6 +167,15 @@ export default function ServiceCard({
                 }}
               />
             </Button>
+            {showNextOccurrence && (
+              <span className="text-sm text-text-secondary italic">
+                Következő alkalom:{" "}
+                <b>
+                  {nextOccurrence?.format("YYYY.MM.DD. HH:mm") ||
+                    "Nincs ütemezve"}
+                </b>
+              </span>
+            )}
           </CardFooter>
         </Card>
       </motion.div>

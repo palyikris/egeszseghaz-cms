@@ -53,6 +53,7 @@ export default function ServicesSection({
               service={service}
               i={i}
               cardTemplate={cardSource}
+              showNextOccurrence={true}
             />
           ))}
         </div>

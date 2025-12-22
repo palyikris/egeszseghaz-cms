@@ -23,7 +23,15 @@ export interface Service {
   colorSlot?: "primary" | "secondary" | "accent";
   colorIndex?: number;
   color?: string;
+  facts?: ServiceFacts;
 }
+
+export type ServiceFacts = {
+  durationMin?: number; // 30 | 45 | 50 | 60 etc.
+  format?: "egyéni" | "csoportos" | "online" | "helyszíni";
+  intensity?: "alacsony" | "közepes" | "magas";
+};
+
 
 export type ScheduleFrequency = "weekly";
 

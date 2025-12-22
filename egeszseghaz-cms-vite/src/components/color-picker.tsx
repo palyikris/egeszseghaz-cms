@@ -59,7 +59,7 @@ export default function ColorPicker({
             disabled && "pointer-events-none",
           ].join(" ")}
         >
-          Válassz színt
+          Válassz színt (naptár)
         </label>
 
         {/* Delete color button */}

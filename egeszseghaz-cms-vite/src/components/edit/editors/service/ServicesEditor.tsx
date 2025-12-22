@@ -292,6 +292,7 @@ export default function ServicesEditor(): JSX.Element {
             return svc;
           } catch (err) {
             console.error(err);
+
             return null;
           }
         }}

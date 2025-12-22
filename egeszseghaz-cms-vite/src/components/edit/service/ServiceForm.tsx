@@ -114,6 +114,65 @@ export default function ServiceForm({
         />
       </div>
 
+      <div>
+        <Input
+          id="service-duration"
+          type="number"
+          value={service.facts?.durationMin?.toString() || ""}
+          onChange={(e: any) =>
+            onChange({
+              ...service,
+              facts: {
+                ...service.facts,
+                durationMin: parseInt(e.target.value, 10),
+              },
+            })
+          }
+          label="Időtartam (perc)"
+        />
+      </div>
+
+      <div>
+        <Select
+          label="Formátum"
+          selectedKeys={[service.facts?.format || ""]}
+          onSelectionChange={(e: any) =>
+            onChange({
+              ...service,
+              facts: {
+                ...service.facts,
+                format: e.currentKey,
+              },
+            })
+          }
+        >
+          <SelectItem key="egyéni">Egyéni</SelectItem>
+          <SelectItem key="csoportos">Csoportos</SelectItem>
+          <SelectItem key="online">Online</SelectItem>
+          <SelectItem key="helyszíni">Helyszíni</SelectItem>
+        </Select>
+      </div>
+
+      <div>
+        <Select
+          label="Intenzitás"
+          selectedKeys={[service.facts?.intensity || ""]}
+          onSelectionChange={(e: any) =>
+            onChange({
+              ...service,
+              facts: {
+                ...service.facts,
+                intensity: e.currentKey,
+              },
+            })
+          }
+        >
+          <SelectItem key="alacsony">Alacsony</SelectItem>
+          <SelectItem key="közepes">Közepes</SelectItem>
+          <SelectItem key="magas">Magas</SelectItem>
+        </Select>
+      </div>
+
       <div className="pt-2">
         <Button className="w-full" color="primary" onPress={onPublish}>
           Közzététel
