@@ -11,6 +11,7 @@ export function usePublishService() {
   return useMutation<void, unknown, PublishVariables>({
     mutationKey: ["publish-service"],
     mutationFn: async ({ id, publishedContent }: PublishVariables) => {
+      console.log("Publishing service with ID:", publishedContent);
       await publishService(id, publishedContent);
     },
     onError: (error) => {

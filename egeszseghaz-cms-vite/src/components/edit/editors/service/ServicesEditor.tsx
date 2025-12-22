@@ -160,6 +160,7 @@ export default function ServicesEditor(): JSX.Element {
       name: selected.name,
       phone: selected.phone,
       color: selected.color,
+      facts: selected.facts,
     };
 
     try {
