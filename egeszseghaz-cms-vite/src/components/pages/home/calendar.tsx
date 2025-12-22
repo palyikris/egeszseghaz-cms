@@ -48,6 +48,7 @@ export default function WeeklyServicesCalendar({
 
   const events = useMemo(() => {
     if (!palette) return [];
+
     return mapOccurrencesToEvents(occurrences, services || [], palette);
   }, [occurrences, services, palette]);
 
@@ -78,8 +79,6 @@ export default function WeeklyServicesCalendar({
     }, 200);
   }, [weekStartISO]);
 
-  // Show a lightweight loader until palette is ready to avoid
-  // first-render null issues and empty calendar
   if (paletteLoading || !palette) {
     return (
       <div className="w-full flex items-center justify-center py-6">
@@ -89,7 +88,7 @@ export default function WeeklyServicesCalendar({
   }
 
   return (
-    <div className="w-full space-y-4">
+    <div className="w-full space-y-4 overflow-x-auto">
       {/* Header */}
       <div className="flex items-center justify-between">
         <Button
@@ -119,7 +118,7 @@ export default function WeeklyServicesCalendar({
       </div>
 
       {/* Calendar */}
-      <div className="relative">
+      <div className="relative min-w-[800px] scroll-auto">
         <FullCalendar
           plugins={[timeGridPlugin]}
           key={weekStartISO} // force rerender on week change
