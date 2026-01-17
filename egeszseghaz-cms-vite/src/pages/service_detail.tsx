@@ -19,12 +19,15 @@ import { useServiceDetail } from "@/hooks/service/useServiceDetail";
 import ServiceDescription from "@/components/pages/service/description";
 import CustomDivider from "@/components/divider";
 import WeeklyServicesCalendar from "@/components/pages/home/calendar";
+import { useState } from "react";
 
 export default function ServiceDetailPage() {
   const { serviceId } = useParams();
   const { data: service, isLoading } = useService({ serviceId: serviceId! });
   const { data: homeData, isLoading: homeLoading } = usePage("home");
   const { isLoading: serviceDetailLoading } = useServiceDetail();
+  const [isCalendarShownInServicePage, setIsCalendarShownInServicePage] =
+    useState(true);
 
   if (isLoading || homeLoading || serviceDetailLoading) {
     return <CustomLoader />;
@@ -47,11 +50,16 @@ export default function ServiceDetailPage() {
         <CustomDivider className="my-10" direction="up" />
       )}
 
-      <div className="calendar-shell">
-        <WeeklyServicesCalendar services={service ? [service] : []} />
-      </div>
+      {isCalendarShownInServicePage && (
+        <div className="calendar-shell">
+          <WeeklyServicesCalendar
+            services={service ? [service] : []}
+            setIsShownInServicePage={setIsCalendarShownInServicePage}
+          />
+        </div>
+      )}
 
-      <CustomDivider className="my-10" />
+      {isCalendarShownInServicePage && <CustomDivider className="my-10" />}
 
       <EditableWrapper id="service-htmlblocks">
         <ServiceHtmlBlocks service={service!} />

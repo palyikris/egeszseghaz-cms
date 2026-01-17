@@ -20,10 +20,12 @@ dayjs.extend(isoWeek);
 
 type WeeklyServicesCalendarProps = {
   services: Service[];
+  setIsShownInServicePage?: (shown: boolean) => void;
 };
 
 export default function WeeklyServicesCalendar({
   services,
+  setIsShownInServicePage,
 }: WeeklyServicesCalendarProps) {
   const navigate = useNavigate();
 
@@ -31,7 +33,7 @@ export default function WeeklyServicesCalendar({
 
   // anchor week = ISO Monday
   const [weekStartISO, setWeekStartISO] = useState(
-    dayjs().startOf("isoWeek").format("YYYY-MM-DD")
+    dayjs().startOf("isoWeek").format("YYYY-MM-DD"),
   );
 
   const { occurrences } = useCalendarWeek({
@@ -63,7 +65,7 @@ export default function WeeklyServicesCalendar({
     if (!canGoPrev) return;
     setIsSwitchingWeek(true);
     setWeekStartISO(
-      dayjs(weekStartISO).subtract(1, "week").format("YYYY-MM-DD")
+      dayjs(weekStartISO).subtract(1, "week").format("YYYY-MM-DD"),
     );
   }
 
@@ -85,6 +87,12 @@ export default function WeeklyServicesCalendar({
         <CustomLoader />
       </div>
     );
+  }
+
+  if (events.length === 0) {
+    setIsShownInServicePage?.(false);
+
+    return null;
   }
 
   return (
