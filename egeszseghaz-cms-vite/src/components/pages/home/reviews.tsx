@@ -36,7 +36,7 @@ export default function ReviewsSection({
         <h1
           className={cn(
             "text-4xl font-semibold mb-20 py-20 pt-4 lg:pt-20",
-            headingResolved.className
+            headingResolved.className,
           )}
           style={headingResolved.style}
           key={templateSource.heading?.text}
@@ -44,14 +44,14 @@ export default function ReviewsSection({
           {templateSource.heading?.text || "Mit mondtok rólunk?"}
         </h1>
       </BlurFade>
-      <SpinningText
+      {/* <SpinningText
         radius={templateSource.spinningText?.radius || 15}
         duration={templateSource.spinningText?.duration || 40}
         className={`right-1/6 top-1/4 absolute hidden lg:block text-${templateSource.spinningText?.color}`}
       >
         {templateSource.spinningText?.text ||
           "Pácienseink mondták - Nem mi találjuk ki - Gyere próbáld ki te is - "}
-      </SpinningText>
+      </SpinningText> */}
 
       <Marquee
         className="flex justify-center gap-8 [--duration:20s] max-w-[100%]"

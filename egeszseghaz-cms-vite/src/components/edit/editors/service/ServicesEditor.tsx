@@ -155,12 +155,12 @@ export default function ServicesEditor(): JSX.Element {
     if (!selected) return;
 
     const payload = {
-      desc: selected.desc,
-      img: selected.img,
-      name: selected.name,
-      phone: selected.phone,
-      color: selected.color,
-      facts: selected.facts,
+      desc: selected.desc ?? "",
+      img: selected.img ?? "",
+      name: selected.name ?? "",
+      phone: selected.phone ?? "",
+      color: selected.color ?? "",
+      facts: selected.facts ?? null,
     };
 
     try {
