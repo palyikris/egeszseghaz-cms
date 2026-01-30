@@ -16,10 +16,20 @@ export function useServices() {
 
       const snap = getDocs(ref);
 
-      return (await snap).docs.map((doc) => ({
+      const services = (await snap).docs.map((doc) => ({
         id: doc.id,
         ...(doc.data() as Omit<Service, "id">),
       }));
+
+      const sortedServices = services.sort((a, b) => {
+        if (a.id && b.id) {
+          return a.id.localeCompare(b.id);
+        }
+
+        return 0;
+      });
+
+      return sortedServices;
     },
   });
 }

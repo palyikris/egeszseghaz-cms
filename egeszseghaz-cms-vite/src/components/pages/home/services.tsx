@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
+import { useState } from "react";
 import { ScrollShadow } from "@heroui/scroll-shadow";
-
 
 import { Service } from "@/types/services";
 import { resolveColor, cn } from "@/lib/utils";
@@ -8,6 +8,7 @@ import { ServicesSchema } from "@/templates/home/home_schema";
 import { useEditMode } from "@/context/edit/edit";
 import { BlurFade } from "@/components/ui/blur-fade";
 import ServiceCard from "./service_card";
+import ServiceSearch from "@/components/edit/service/ServiceSearch";
 
 interface ServicesSectionProps {
   services: Service[];
@@ -19,6 +20,7 @@ export default function ServicesSection({
   servicesTemplate,
 }: ServicesSectionProps) {
   const { isEditMode, draft } = useEditMode();
+  const [searchValue, setSearchValue] = useState("");
 
   if (!servicesTemplate && !isEditMode) return null;
 
@@ -27,6 +29,15 @@ export default function ServicesSection({
     : servicesTemplate;
   const headingResolved = resolveColor(templateSource?.heading?.color, "text");
   const cardSource = isEditMode ? draft.services?.card : servicesTemplate?.card;
+
+  const filteredServices = services.filter((service) => {
+    const searchLower = searchValue.toLowerCase();
+
+    return (
+      service.name.toLowerCase().includes(searchLower) ||
+      service.desc?.toLowerCase().includes(searchLower)
+    );
+  });
 
   return (
     <section
@@ -37,7 +48,7 @@ export default function ServicesSection({
         <h1
           className={cn(
             "text-4xl sm:text-5xl font-semibold text-center mb-12",
-            headingResolved.className
+            headingResolved.className,
           )}
           style={headingResolved.style}
           key={templateSource.heading?.text || ""}
@@ -45,9 +56,12 @@ export default function ServicesSection({
           {templateSource?.heading?.text || "Szolgáltatásaink"}
         </h1>
       </BlurFade>
+      <div className="flex justify-center mb-8">
+        <ServiceSearch value={searchValue} onChange={setSearchValue} />
+      </div>
       <ScrollShadow className="w-full px-6 h-[800px] py-16">
         <div className="grid 2xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8">
-          {services.map((service, i) => (
+          {filteredServices.map((service, i) => (
             <ServiceCard
               key={i}
               service={service}

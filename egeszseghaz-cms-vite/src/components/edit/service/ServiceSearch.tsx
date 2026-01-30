@@ -13,7 +13,7 @@ export default function ServiceSearch({ value, onChange }: Props) {
       className="max-w-md"
       placeholder="Keresés név vagy leírás alapján..."
       type="text"
-      variant="bordered"
+      variant="faded"
       // eslint-disable-next-line no-console
       onClear={() => console.log("input cleared")}
       value={value}
@@ -23,7 +23,7 @@ export default function ServiceSearch({ value, onChange }: Props) {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill="currentColor"
+          fill="#8E715B"
           className="size-6"
         >
           <path
