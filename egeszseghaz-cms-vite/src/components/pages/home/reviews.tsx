@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
 import { Marquee } from "@/components/ui/marquee";
-import { SpinningText } from "@/components/ui/spinning-text";
 import { Review } from "@/types/reviews";
 import { Card } from "@heroui/card";
 
