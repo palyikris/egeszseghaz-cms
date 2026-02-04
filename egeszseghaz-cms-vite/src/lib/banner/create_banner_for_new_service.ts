@@ -26,7 +26,7 @@ export async function createBannerForNewService(service: Service) {
     },
     subtitle: {
       ...newServiceSchema.subtitle,
-      text: "Próbáld ki most!"
+      text: "Próbáld ki most!",
     },
     description: {
       ...newServiceSchema.description,
@@ -51,8 +51,8 @@ export async function createBannerForNewService(service: Service) {
     primaryButton: {
       ...newServiceSchema.primaryButton,
       label: "További információ",
-      href: `/services/${service.id}`,
-    }
+      href: `/service/${service.id}`,
+    },
   };
 
   console.log("Updated NewService schema:", updatedSchema);
