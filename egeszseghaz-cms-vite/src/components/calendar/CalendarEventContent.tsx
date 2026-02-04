@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import type { EventContentArg } from "@fullcalendar/core";
+import { Tooltip } from "@heroui/tooltip";
 
 export function CalendarEventContent(arg: EventContentArg) {
   const { event } = arg;
@@ -8,6 +9,7 @@ export function CalendarEventContent(arg: EventContentArg) {
   const coach = event.extendedProps?.coach;
   const start = event.start;
   const end = event.end;
+  const color = event.backgroundColor;
 
   const formatDateToHHMM = (date: Date | null): string => {
     if (!date) return "";
@@ -15,20 +17,25 @@ export function CalendarEventContent(arg: EventContentArg) {
     const minutes = date.getMinutes().toString().padStart(2, "0");
 
     return `${hours}:${minutes}`;
-  }
-
+  };
 
   return (
-    <div className="px-1 py-0.5 leading-tight cursor-pointer">
-      <div className="text-xs font-medium truncate">
-        {title.toUpperCase() +
-          " | " +
-          `${formatDateToHHMM(start)}-${formatDateToHHMM(end)}`}
-      </div>
+    <Tooltip
+      content={title.charAt(0).toUpperCase() + title.slice(1)}
+      placement="top"
+      showArrow
+    >
+      <div className="px-1 py-0.5 leading-tight cursor-pointer">
+        <div className="text-xs font-medium truncate">
+          {title.toUpperCase() +
+            " | " +
+            `${formatDateToHHMM(start)}-${formatDateToHHMM(end)}`}
+        </div>
 
-      <div className="text-[11px] opacity-80 truncate text-accent">
-        {coach === "" ? "Nincs név" : coach}
+        <div className="text-[11px] opacity-80 truncate text-accent">
+          {coach === "" ? "Nincs név" : coach}
+        </div>
       </div>
-    </div>
+    </Tooltip>
   );
 }
