@@ -9,7 +9,6 @@ export function CalendarEventContent(arg: EventContentArg) {
   const coach = event.extendedProps?.coach;
   const start = event.start;
   const end = event.end;
-  const color = event.backgroundColor;
 
   const formatDateToHHMM = (date: Date | null): string => {
     if (!date) return "";

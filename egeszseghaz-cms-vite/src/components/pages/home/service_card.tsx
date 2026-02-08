@@ -111,7 +111,7 @@ export default function ServiceCard({
             <h3
               className={cn(
                 "text-2xl font-semibold mb-2 transition-colors",
-                headingResolved.className
+                headingResolved.className,
               )}
               style={{
                 ...(headingResolved.style || {}),
@@ -119,7 +119,7 @@ export default function ServiceCard({
               }}
             >
               {service.id.charAt(0).toUpperCase() +
-                service.id.slice(1, 20).toLowerCase() +
+                service.id.slice(1, 20) +
                 (service.id.length > 20 ? "..." : "")}
             </h3>
 

@@ -46,6 +46,7 @@ export default function Footer({ footer }: FooterProps) {
   return (
     <footer
       className={`py-16 px-8 md:px-20 relative bg-${templateSource.bgColor.from} text-${templateSource.textColor}`}
+      id="footer"
     >
       {/* Subtle background glow */}
       <div
@@ -61,7 +62,7 @@ export default function Footer({ footer }: FooterProps) {
           <h4
             className={cn(
               "text-2xl font-bold mb-2",
-              logoTitleResolved.className
+              logoTitleResolved.className,
             )}
             style={logoTitleResolved.style}
           >
@@ -79,7 +80,7 @@ export default function Footer({ footer }: FooterProps) {
           <h5
             className={cn(
               "text-lg font-semibold mb-3",
-              linksTitleResolved.className
+              linksTitleResolved.className,
             )}
             style={linksTitleResolved.style}
           >
@@ -104,7 +105,7 @@ export default function Footer({ footer }: FooterProps) {
           <h5
             className={cn(
               "text-lg font-semibold mb-3",
-              contactTitleResolved.className
+              contactTitleResolved.className,
             )}
             style={contactTitleResolved.style}
           >
@@ -166,7 +167,7 @@ export default function Footer({ footer }: FooterProps) {
           <h5
             className={cn(
               "text-lg font-semibold mb-3",
-              openingTitleResolved.className
+              openingTitleResolved.className,
             )}
             style={openingTitleResolved.style}
           >
